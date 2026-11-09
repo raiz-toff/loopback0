@@ -11,8 +11,10 @@ Spotted a mistake on a page? Use the **Report an issue** link at the bottom of i
 
 ## Credits
 
-- **[Chánh Đại](https://github.com/ncdai)**: the portfolio design comes from his [chanhdai.com](https://github.com/ncdai/chanhdai.com) template (MIT).
-- **[Fuma Nama](https://github.com/fuma-nama)**: the docs and blog run on [Fumadocs](https://github.com/fuma-nama/fumadocs) and started from its template (MIT).
+<p>
+  <a href="https://github.com/ncdai/chanhdai.com"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/credit-chanhdai-dark.png"><img alt="Portfolio design based on chanhdai.com by Chánh Đại (MIT)" src=".github/assets/credit-chanhdai-light.png" width="49%"></picture></a>
+  <a href="https://github.com/fuma-nama/fumadocs"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/credit-fumadocs-dark.png"><img alt="Docs and blog built with Fumadocs by Fuma Nama (MIT)" src=".github/assets/credit-fumadocs-light.png" width="49%"></picture></a>
+</p>
 
 ## License
 

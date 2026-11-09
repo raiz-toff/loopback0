@@ -1,0 +1,50 @@
+<!doctype html>
+<!-- README credit cards. Render each at 632x88, DPR 2, transparent bg:
+     credits.html#chanhdai-light | #chanhdai-dark | #fumadocs-light | #fumadocs-dark
+     chanhdai.com's mark, wordmark and avatar are NOT used: his TRADEMARK.md
+     excludes them from the MIT grant and allows plain-text credit only. -->
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=block" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--fg:#18181b;--muted:#71717a;--line:#e4e4e7}
+:root[data-theme=dark]{--bg:#09090b;--fg:#fafafa;--muted:#a1a1aa;--line:#27272a}
+html,body{margin:0;background:transparent}
+.card{box-sizing:border-box;width:632px;height:88px;background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  display:grid;grid-template-columns:88px 1fr auto;grid-template-rows:1fr 3px}
+.tile{display:grid;place-items:center;border-right:1px solid var(--line);
+  background-image:repeating-linear-gradient(135deg,transparent 0 7px,var(--line) 7px 8px)}
+.tile span{display:grid;place-items:center;width:46px;height:46px;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--fg)}
+.tile img{width:30px;height:30px}
+.tile svg{width:22px;height:22px}
+.txt{display:flex;flex-direction:column;justify-content:center;padding:0 22px;gap:3px}
+.k{font:500 11px/1 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.n{font:600 21px/1.15 Geist,sans-serif;letter-spacing:-.03em;color:var(--fg)}
+.d{font:400 13.5px/1.2 Geist,sans-serif;color:var(--muted)}
+.lic{display:flex;align-items:center;padding:0 22px;font:500 12px/1 "Geist Mono",monospace;color:var(--muted);gap:8px}
+.lic b{border:1px solid var(--line);border-radius:6px;padding:5px 7px;font-weight:500;color:var(--fg)}
+.bar{grid-column:1 / -1}
+.chanhdai .bar{background:var(--line)}
+.fumadocs .bar{background:linear-gradient(90deg,#000 0%,#6b6b6b 55%,#fff 100%)}
+:root[data-theme=dark] .fumadocs .bar{background:linear-gradient(90deg,#fff 0%,#6b6b6b 55%,#000 100%)}
+</style></head>
+<body>
+<div class="card" id="card">
+  <div class="tile"><span id="icon"></span></div>
+  <div class="txt"><div class="k" id="k"></div><div class="n" id="n"></div><div class="d" id="d"></div></div>
+  <div class="lic"><b>MIT</b>↗</div>
+  <div class="bar"></div>
+</div>
+<script>
+const [who, theme] = location.hash.slice(1).split('-');
+if (theme === 'dark') document.documentElement.dataset.theme = 'dark';
+const fork = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/></svg>';
+const data = {
+  chanhdai: { k: 'Portfolio design based on', n: 'chanhdai.com', d: 'by Chánh Đại', icon: fork },
+  fumadocs: { k: 'Docs & blog built with', n: 'Fumadocs', d: 'by Fuma Nama',
+    icon: '<img src="https://raw.githubusercontent.com/fuma-nama/fumadocs/dev/apps/docs/app/icon.png" alt="">' },
+}[who];
+document.getElementById('card').classList.add(who);
+for (const id of ['k','n','d']) document.getElementById(id).textContent = data[id];
+document.getElementById('icon').innerHTML = data.icon;
+</script>
+</body></html>
