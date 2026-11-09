@@ -75,7 +75,7 @@ export function getNavGroups(): NavGroup[] {
   return [
     {
       id: 'docs',
-      label: 'Docs',
+      label: 'Labs',
       href: '/docs',
       items: sections,
       aside: recentLabs.length ? { label: 'Recent labs', items: recentLabs } : undefined,

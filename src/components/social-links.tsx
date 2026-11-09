@@ -3,7 +3,6 @@ import { Panel, PanelContent } from "./panel";
 import ShareMenu from "./share-menu";
 import SoundLink from "./sound-link";
 import Tooltip from "./tooltip";
-import { HandwrittenArrow, HandwrittenNote } from "./handwritten-note";
 import {
   AwardIcon,
   GitHubIcon,
@@ -54,13 +53,6 @@ export default function SocialLinks() {
         </Tooltip>
       </PanelContent>
 
-      <HandwrittenNote
-        className="-top-4 right-full mr-4 hidden w-28 flex-col items-end lg:flex"
-        aria-hidden
-      >
-        <span className="-rotate-6 whitespace-nowrap">social links</span>
-        <HandwrittenArrow className="size-7 translate-x-3 -scale-x-100 -rotate-6" />
-      </HandwrittenNote>
     </Panel>
   );
 }

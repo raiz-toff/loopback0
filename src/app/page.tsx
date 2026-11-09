@@ -40,7 +40,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
       />
-      <SiteHeader hasSectionNav />
+      <SiteHeader />
       <SectionNav />
       <PublishBottomNav sections={{ label: "Sections", spy: true, items: HOME_SECTIONS }} />
       <main className="max-w-screen overflow-x-clip px-2">

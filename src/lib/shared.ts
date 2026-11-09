@@ -1,4 +1,4 @@
-export const appName = 'Docs';
+export const appName = 'Labs';
 export const docsRoute = '/docs';
 export const docsImageRoute = '/og/docs';
 export const docsContentRoute = '/llms.mdx/docs';

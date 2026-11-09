@@ -19,6 +19,8 @@ const eslintConfig = defineConfig([
     // Obsidian vault config and personal files (both gitignored):
     "content/.obsidian/**",
     "private/**",
+    // Claude Code worktrees and state (gitignored); each worktree has its own node_modules and .next:
+    ".claude/**",
   ]),
 ]);
 

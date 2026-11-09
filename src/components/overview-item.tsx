@@ -17,7 +17,7 @@ export function Item({
   children: React.ReactNode;
 }) {
   return (
-    <div className="group flex items-center gap-4 font-mono text-sm">
+    <div className="group flex items-center gap-4 text-sm">
       <IconBox>{icon}</IconBox>
       <div className="text-balance">{children}</div>
     </div>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { certInterfaces, type Issuer } from "@/data/profile";
-import { Panel, PanelHeader, PanelTitle, PanelTitleSup } from "./panel";
+import { Panel, PanelHeader, PanelTitle } from "./panel";
 import {
   ArrowUpRightIcon,
   ChevronDownIcon,
@@ -118,7 +118,6 @@ export default function Certifications() {
       <PanelHeader>
         <PanelTitle>
           Certifications
-          <PanelTitleSup>({certInterfaces.length})</PanelTitleSup>
         </PanelTitle>
       </PanelHeader>
 

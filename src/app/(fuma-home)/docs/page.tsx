@@ -81,13 +81,13 @@ export default function DocsIndexPage() {
           {/* copy */}
           <div>
             <h1 className="text-balance text-4xl font-semibold tracking-tight text-fd-foreground sm:text-5xl">
-              Documentation
+              Labs
             </h1>
             <p className="mt-4 max-w-md text-pretty text-[15px] leading-relaxed text-fd-muted-foreground">
               Network topologies, device configurations, and lab runbooks.
             </p>
             <p className="mt-6 font-mono text-[11px] tracking-wide text-fd-muted-foreground/80">
-              {totalDocs} docs published
+              {totalDocs} pages published
             </p>
           </div>
 

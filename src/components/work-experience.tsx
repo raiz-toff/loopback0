@@ -172,6 +172,10 @@ function CompanyItem({ company }: { company: ExperienceCompany }) {
 function PositionItem({ position }: { position: ExperiencePosition }) {
   const hasNotes = position.notes.length > 0;
   const [open, setOpen] = useState(position.expanded ?? false);
+  // Two bullets carry the role; the rest is a tap away (and on the resume).
+  const [showAll, setShowAll] = useState(false);
+  const visibleNotes = showAll ? position.notes : position.notes.slice(0, 2);
+  const hiddenNotes = position.notes.length - visibleNotes.length;
   const Icon = KIND_ICON[position.kind];
   const duration = formatDuration(position.period);
 
@@ -226,7 +230,7 @@ function PositionItem({ position }: { position: ExperiencePosition }) {
       >
         <div className="overflow-hidden">
           <ul className="space-y-1.5 pt-2 pl-9">
-            {position.notes.map((note, ni) => (
+            {visibleNotes.map((note, ni) => (
               <li
                 key={ni}
                 className="text-sm leading-relaxed text-muted-foreground before:mr-2 before:text-foreground/30 before:content-['—']"
@@ -234,6 +238,17 @@ function PositionItem({ position }: { position: ExperiencePosition }) {
                 {note}
               </li>
             ))}
+            {hiddenNotes > 0 && (
+              <li>
+                <button
+                  type="button"
+                  onClick={() => setShowAll(true)}
+                  className="cursor-pointer text-xs font-medium text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-foreground"
+                >
+                  {hiddenNotes} more
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       </div>
@@ -242,7 +257,7 @@ function PositionItem({ position }: { position: ExperiencePosition }) {
         <ul className="flex flex-wrap gap-1.5 pt-3 pl-9">
           {position.skills.map((skill) => (
             <li key={skill}>
-              <span className="inline-flex items-center rounded-md border bg-muted/50 px-1.5 py-0.5 font-mono text-xs text-muted-foreground">
+              <span className="inline-flex items-center rounded-md border bg-muted/50 px-1.5 py-0.5 text-xs text-muted-foreground">
                 {skill}
               </span>
             </li>

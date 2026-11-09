@@ -24,7 +24,7 @@ export default function FlipSentences({
     <div className={className}>
       <div
         key={index}
-        className="flip-item text-shine font-mono text-sm text-balance text-muted-foreground flex items-center gap-1.5"
+        className="flip-item text-shine text-sm text-balance text-muted-foreground flex items-center gap-1.5"
       >
         {sentences[index]}
       </div>

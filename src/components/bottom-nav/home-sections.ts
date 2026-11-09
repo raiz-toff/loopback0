@@ -7,6 +7,6 @@ export const HOME_SECTIONS: BottomNavLink[] = [
   { label: "Experience", href: "/#experience" },
   { label: "Certifications", href: "/#certs" },
   { label: "Blog", href: "/#blog" },
-  { label: "Lab Log", href: "/#lab-log" },
+  { label: "Labs", href: "/#lab-log" },
   { label: "Projects", href: "/#projects" },
 ];

@@ -1,5 +1,5 @@
 import { projects } from "@/data/profile";
-import { Panel, PanelHeader, PanelTitle, PanelTitleSup } from "./panel";
+import { Panel, PanelHeader, PanelTitle } from "./panel";
 import { PackageIcon } from "./icons";
 
 export default function Projects() {
@@ -7,8 +7,7 @@ export default function Projects() {
     <Panel id="projects">
       <PanelHeader>
         <PanelTitle>
-          Open Source
-          <PanelTitleSup>({projects.length})</PanelTitleSup>
+          Projects
         </PanelTitle>
       </PanelHeader>
 

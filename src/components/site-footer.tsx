@@ -81,7 +81,7 @@ export default function SiteFooter() {
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-muted-foreground/70">lab notes:</span>
+                <span className="text-muted-foreground/70">labs:</span>
                 <a
                   href={links.labs}
                   className="text-foreground underline decoration-muted-foreground/40 decoration-1 underline-offset-4 transition-colors hover:decoration-foreground"

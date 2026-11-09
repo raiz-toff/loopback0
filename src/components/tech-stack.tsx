@@ -1,5 +1,5 @@
 import { techStack } from "@/data/profile";
-import { Panel, PanelContent, PanelHeader, PanelTitle, PanelTitleSup } from "./panel";
+import { Panel, PanelContent, PanelHeader, PanelTitle } from "./panel";
 
 const GROUPS: { label: string; index: string; names: string[] }[] = [
   {
@@ -37,7 +37,6 @@ export default function TechStack() {
       <PanelHeader>
         <PanelTitle>
           Stack
-          <PanelTitleSup>({techStack.length})</PanelTitleSup>
         </PanelTitle>
       </PanelHeader>
       <PanelContent className="p-0">

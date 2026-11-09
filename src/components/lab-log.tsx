@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { labLog, links } from "@/data/profile";
-import { Panel, PanelHeader, PanelTitle, PanelTitleSup } from "./panel";
+import { Panel, PanelHeader, PanelTitle } from "./panel";
 import { ArrowUpRightIcon } from "./icons";
 
 export default function LabLog() {
@@ -10,8 +10,7 @@ export default function LabLog() {
     <Panel id="lab-log" className="bg-tech-pattern">
       <PanelHeader>
         <PanelTitle>
-          Lab Log
-          <PanelTitleSup>({entries.length})</PanelTitleSup>
+          Labs
         </PanelTitle>
       </PanelHeader>
 
@@ -64,7 +63,7 @@ export default function LabLog() {
         className="screen-line-top diagonal-stripes group flex w-full items-center justify-center py-3.5 transition-all duration-200 hover:brightness-125"
       >
         <span className="flex items-center gap-2 rounded-md border border-line bg-background/90 px-3 py-1.5 font-mono text-xs text-muted-foreground shadow-xs backdrop-blur-xs transition-all duration-200 group-hover:border-border group-hover:bg-background group-hover:text-foreground group-hover:shadow-sm">
-          <span>all lab notes</span>
+          <span>all labs</span>
           <span className="text-muted-foreground/40 transition-transform group-hover:translate-x-0.5">→</span>
           <span className="font-semibold text-foreground">/docs</span>
         </span>

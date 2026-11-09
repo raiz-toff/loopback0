@@ -13,11 +13,7 @@ export const identity = {
   phoneB64: "KzE0Mzc2NjUzMzkw",
   flipSentences: [
     "Depot diagnostics by day. Enterprise labs by night.",
-    "Network & systems technician. Labs every day.",
-    "CCNA · CCST certified.",
-    "It's always DNS.",
-    "Broke it, fixed it, wrote it down.",
-    "Rides bikes. Fixes them too.",
+    "CCNA · CCST certified · Toronto.",
   ],
   // Short teaser for the homepage panel. The full narrative lives at /story.
   aboutTeaser:

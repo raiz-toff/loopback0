@@ -1,5 +1,5 @@
 import { experience } from "@/data/profile";
-import { Panel, PanelHeader, PanelTitle, PanelTitleSup } from "./panel";
+import { Panel, PanelHeader, PanelTitle } from "./panel";
 import { WorkExperience } from "./work-experience";
 
 export default function Experiences() {
@@ -8,7 +8,6 @@ export default function Experiences() {
       <PanelHeader>
         <PanelTitle>
           Experience
-          <PanelTitleSup>({experience.length})</PanelTitleSup>
         </PanelTitle>
       </PanelHeader>
 

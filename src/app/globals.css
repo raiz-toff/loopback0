@@ -299,22 +299,22 @@
   }
 }
 
-/* ── greeting icon, one-shot in + a small idle loop per time of day ── */
+/* ── greeting icon: one-shot entrance, then still ── */
 .greeting-pop {
   animation: menu-pop 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .greeting-icon-sun {
   transform-origin: center;
-  animation: greeting-sun-spin 12s linear infinite;
+  animation: greeting-sun-spin 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1;
 }
 
 .greeting-icon-sunset {
-  animation: greeting-sunset-bob 2.6s ease-in-out infinite;
+  animation: greeting-sunset-bob 2.6s ease-in-out 1;
 }
 
 .greeting-icon-moon {
-  animation: greeting-moon-drift 3.6s ease-in-out infinite;
+  animation: greeting-moon-drift 3.6s ease-in-out 1;
 }
 
 @keyframes greeting-sun-spin {

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { blog, postDate } from "@/lib/blog";
-import { Panel, PanelHeader, PanelTitle, PanelTitleSup, Separator } from "./panel";
+import { Panel, PanelHeader, PanelTitle, Separator } from "./panel";
 import { ArrowUpRightIcon } from "./icons";
 
 // Blog posts flagged `featured: true` in frontmatter, surfaced on the homepage.
@@ -63,8 +63,7 @@ export default function FeaturedPosts() {
       <Panel id="blog" className="bg-tech-pattern">
         <PanelHeader>
           <PanelTitle>
-            Featured Writing
-            <PanelTitleSup>({posts.length})</PanelTitleSup>
+            Blog
           </PanelTitle>
         </PanelHeader>
 

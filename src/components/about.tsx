@@ -21,7 +21,7 @@ export default function About({ className }: { className?: string } = {}) {
             Hardware triage technician at Geek Squad City by day; home-lab builder configuring and breaking routing topologies across Proxmox, EVE-NG, and Cisco CML by night.
           </li>
           <li className="pl-1">
-            Drilled 300+ hands-on network lab simulations into CLI muscle memory, documented in my lab notes at{" "}
+            Drilled 300+ hands-on network lab simulations into CLI muscle memory, documented in my labs at{" "}
             <Link
               href="/docs"
               className="font-medium underline decoration-border underline-offset-3 transition-colors hover:text-foreground hover:decoration-foreground"

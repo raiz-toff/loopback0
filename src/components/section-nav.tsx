@@ -14,7 +14,7 @@ const SECTIONS: LineNavItem[] = [
   { title: "Experience", href: "#experience" },
   { title: "Certs", href: "#certs" },
   { title: "Blog", href: "#blog" },
-  { title: "Lab Log", href: "#lab-log" },
+  { title: "Labs", href: "#lab-log" },
   { title: "Projects", href: "#projects" },
 ];
 

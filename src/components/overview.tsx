@@ -48,7 +48,7 @@ export default function Overview() {
               className="flex items-center font-medium text-foreground transition-colors" 
               href="/docs"
             >
-              Docs & Labs
+              Labs
               <span className="ml-1 text-muted-foreground transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden="true">→</span>
             </Link>
 
