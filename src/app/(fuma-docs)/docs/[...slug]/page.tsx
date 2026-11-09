@@ -15,6 +15,7 @@ import type { ReactNode } from 'react';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { githubFileUrl, githubIssueUrl } from '@/lib/shared';
 import { Topology } from '@/components/docs/topology';
+import { Lightbox } from 'fumadocs-ui/components/image-zoom';
 import { findNeighbour } from 'fumadocs-core/page-tree';
 import { PublishBottomNav, type BottomNavAction, type BottomNavLink } from '@/components/bottom-nav/context';
 
@@ -62,12 +63,14 @@ export default async function Page(props: PageProps<'/docs/[...slug]'>) {
       </div>
       <DocsBody>
         {topology ? <Topology src={topology} title={`${page.data.title} — Topology`} /> : null}
+        <Lightbox>
         <MDX
           components={getMDXComponents({
             // this allows you to link to other pages with relative file paths
             a: createRelativeLink(source, page),
           })}
         />
+        </Lightbox>
       </DocsBody>
       <div className="mt-8 flex flex-row items-center gap-2 border-t pt-6">
         <EditOnGitHub href={githubFileUrl(`content/docs/${page.path}`, 'edit')} />

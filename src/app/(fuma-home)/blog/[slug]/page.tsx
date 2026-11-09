@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { blog, postDate, readingMinutes } from '@/lib/blog';
 import { getMDXComponents } from '@/components/docs/mdx';
+import { Lightbox } from 'fumadocs-ui/components/image-zoom';
 import { author, githubFileUrl, githubIssueUrl, siteUrl } from '@/lib/shared';
 import SiteFooter from '@/components/site-footer';
 import { PublishBottomNav } from '@/components/bottom-nav/context';
@@ -110,7 +111,9 @@ export default async function BlogPostPage(props: {
         </p>
 
         <article className="prose mt-8">
-          <MDX components={getMDXComponents()} />
+          <Lightbox>
+            <MDX components={getMDXComponents()} />
+          </Lightbox>
         </article>
 
         <p className="mt-12 flex flex-wrap gap-x-5 gap-y-2 border-t border-fd-border pt-6 font-mono text-[11.5px] uppercase tracking-[0.14em] text-fd-muted-foreground">
