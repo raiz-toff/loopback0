@@ -1,7 +1,4 @@
----
-title: Data reference
-description: Every field of a network figure, its type and its effect.
----
+# Data reference
 
 Types live in `src/components/figures/types.ts`. Coordinates are viewBox units.
 

@@ -1,11 +1,6 @@
----
-title: Make a network figure
-description: Create an animated, step-through figure that shows a protocol at work, then add it to a lab or post.
----
+# Make a network figure
 
 A network figure proves one sentence by showing the traffic. Packets move along cables, the console types the verification command, and every step has a caption.
-
-<NetFigure id="dhcp-dora" />
 
 The figure above is one data file: `src/figures/dhcp-dora.ts`. The kit in `src/components/figures/` draws and animates it. A demo of every part is at [/figures](/figures).
 
@@ -122,6 +117,6 @@ Write three to six steps. Each step is one moment of the explanation.
 
 ## Related
 
-- [Data reference](/docs/skills/net-figure/reference): every field a figure accepts.
-- [Design decisions](/docs/skills/net-figure/design-decisions): why the kit works this way.
+- [Data reference](reference.md): every field a figure accepts.
+- [Design decisions](design-decisions.md): why the kit works this way.
 - Skill file: `.claude/skills/net-figure/SKILL.md`.

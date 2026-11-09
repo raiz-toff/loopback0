@@ -9,6 +9,11 @@ A figure proves ONE sentence by showing the network doing it. It is a data file 
 `src/figures/`, rendered by `<NetFigure id="…" />` (`src/components/figures/`).
 Live demo of every part: `/figures`.
 
+Supporting files in this folder (not published on the site):
+- `guide.md`: step-by-step process for making a figure by hand or with an agent.
+- `reference.md`: every data field and its effect.
+- `design-decisions.md`: why the kit works this way, and the improvement backlog.
+
 ## 1. Find the claim first
 
 - Write the title as one sentence a reader can check: "STP blocks one port so a loop

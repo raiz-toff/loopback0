@@ -1,7 +1,4 @@
----
-title: Design decisions
-description: Why the network figure kit works the way it does, and what to improve next.
----
+# Design decisions
 
 ## Title
 
