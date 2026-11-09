@@ -12,7 +12,7 @@ Spotted a mistake on a page? Use the **Report an issue** link at the bottom of i
 ## Credits
 
 <p>
-  <a href="https://github.com/ncdai/chanhdai.com"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/credit-chanhdai-dark.png"><img alt="Portfolio design based on chanhdai.com by Chánh Đại (MIT)" src=".github/assets/credit-chanhdai-light.png" width="49%"></picture></a>
+  <a href="https://github.com/ncdai/chanhdai.com"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/credit-chanhdai-v2-dark.png"><img alt="Portfolio design based on chanhdai.com by Chánh Đại (MIT)" src=".github/assets/credit-chanhdai-v2-light.png" width="49%"></picture></a>
   <a href="https://github.com/fuma-nama/fumadocs"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/credit-fumadocs-dark.png"><img alt="Docs and blog built with Fumadocs by Fuma Nama (MIT)" src=".github/assets/credit-fumadocs-light.png" width="49%"></picture></a>
 </p>
 
