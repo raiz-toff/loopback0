@@ -1,7 +1,9 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-dark.png">
-  <img alt="loopback0: source for rajkumarneupane.com" src=".github/assets/banner-light.png">
-</picture>
+<p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-dark.png">
+    <img alt="loopback0: source for rajkumarneupane.com" src=".github/assets/banner-light.png">
+  </picture>
+</p>
 
 Source for **[rajkumarneupane.com](https://rajkumarneupane.com)**: the portfolio, lab notes, and blog of Rajkumar Neupane, a CCNA and CCST certified network support technician in Toronto.
 
