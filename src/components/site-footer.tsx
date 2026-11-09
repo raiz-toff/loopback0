@@ -3,6 +3,8 @@ import { identity, links } from "@/data/profile";
 import { ProtectedEmail } from "./protected-contact";
 import { ResumeDownloadButton } from "./resume-download-button";
 import Tooltip from "@/components/tooltip";
+import RNMark from "@/components/rn-mark";
+import { HandwrittenArrow, HandwrittenNote } from "@/components/handwritten-note";
 import {
   ArrowUpRightIcon,
   GitHubIcon,
@@ -110,7 +112,10 @@ export default function SiteFooter() {
         {/* Bottom Bar */}
         <div className="screen-line-top grid grid-cols-1 items-center gap-2 px-4 py-3 font-mono text-xs text-muted-foreground/70 sm:grid-cols-3">
           <div className="hidden sm:block" />
-          <span className="text-center">© 2026 rajkumar neupane</span>
+          <span className="inline-flex items-center justify-center gap-2 text-center">
+            <RNMark className="h-3 w-auto" />
+            © 2026 rajkumar neupane
+          </span>
           <div className="flex items-center justify-center gap-3 sm:justify-end">
             <Tooltip label="GitHub · raiz-toff" side="top" align="center">
             <a
@@ -118,7 +123,7 @@ export default function SiteFooter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground transition-colors hover:text-[#A9520F] dark:hover:text-[#E8843A]"
             >
               <GitHubIcon className="size-4" />
             </a>
@@ -129,7 +134,7 @@ export default function SiteFooter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground transition-colors hover:text-[#2B5799] dark:hover:text-[#6E97D8]"
             >
               <LinkedInIcon className="size-4" />
             </a>
@@ -140,7 +145,7 @@ export default function SiteFooter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X (Twitter)"
-              className="text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground transition-colors hover:text-[#2E7D46] dark:hover:text-[#4FA36A]"
             >
               <XBrandIcon className="size-4" />
             </a>
@@ -150,8 +155,12 @@ export default function SiteFooter() {
       </div>
 
       {/* Large Fluid Gradient Name Graphic at Footer End */}
-      <div className="screen-line-top aspect-[2550/560] w-full text-foreground">
+      <div className="screen-line-top relative aspect-[2550/560] w-full text-foreground">
         <FluidGradientText />
+        <HandwrittenNote className="top-1 right-3 flex items-end text-base sm:top-2 sm:right-6 sm:text-lg" aria-hidden>
+          <span className="mb-1.5 -rotate-3 whitespace-nowrap">that&apos;s my name in Nepali</span>
+          <HandwrittenArrow className="size-6 translate-y-2 sm:size-7" />
+        </HandwrittenNote>
       </div>
     </footer>
   );

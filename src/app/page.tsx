@@ -16,6 +16,7 @@ import { PublishBottomNav } from "@/components/bottom-nav/context";
 import { HOME_SECTIONS } from "@/components/bottom-nav/home-sections";
 import { identity, links } from "@/data/profile";
 import { author, siteDescription, siteUrl } from "@/lib/shared";
+import { ConductorStripe } from "@/components/conductor-stripe";
 
 // Person schema for the front page: name, role, location and the profiles
 // that corroborate it. Blog posts carry their own Article JSON-LD.
@@ -74,6 +75,13 @@ export default function Home() {
           <Projects />
         </div>
       </main>
+      {/* Brand signature: the T568B conductor stripe above the footer.
+          Homepage-only for now; moves into SiteFooter to show site-wide. */}
+      <div className="max-w-screen overflow-x-clip px-2">
+        <div className="mx-auto border-x border-line md:max-w-3xl">
+          <ConductorStripe />
+        </div>
+      </div>
       <SiteFooter />
     </div>
   );

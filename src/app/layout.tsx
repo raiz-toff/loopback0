@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Caveat, Geist, Geist_Mono, Noto_Sans_Devanagari } from "next/font/google";
+import { Caveat, Geist, Geist_Mono } from "next/font/google";
 import { Provider } from "@/components/docs/provider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -28,14 +28,6 @@ const caveat = Caveat({
   preload: false,
 });
 
-// Devanagari face for the राजकुमार logotype in the footer (Helvetica has no
-// Devanagari glyphs). The logotype only renders bold, so ship just 700.
-const notoDevanagari = Noto_Sans_Devanagari({
-  variable: "--font-devanagari",
-  subsets: ["devanagari"],
-  weight: ["700"],
-  preload: false,
-});
 
 const description = siteDescription;
 
@@ -94,7 +86,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${notoDevanagari.variable} ${caveat.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${caveat.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

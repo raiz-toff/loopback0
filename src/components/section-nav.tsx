@@ -7,15 +7,18 @@ import { LineNav, type LineNavItem } from "./line-nav";
 // Hrefs must match the `id`s rendered by the homepage panels. "#top" is the page
 // wrapper, so the first region covers everything above About (profile header,
 // overview, socials, contributions).
+// Eight sections, eight conductors: each line takes its T568B pin colour in
+// order (white-orange, orange, white-green, blue, white-blue, green,
+// white-brown, brown). "White" wires are the colour banded with cream.
 const SECTIONS: LineNavItem[] = [
-  { title: "Intro", href: "#top" },
-  { title: "About", href: "#about" },
-  { title: "Stack", href: "#stack" },
-  { title: "Experience", href: "#experience" },
-  { title: "Certs", href: "#certs" },
-  { title: "Blog", href: "#blog" },
-  { title: "Labs", href: "#lab-log" },
-  { title: "Projects", href: "#projects" },
+  { title: "Intro", href: "#top", color: "#D9711F", striped: true },
+  { title: "About", href: "#about", color: "#D9711F" },
+  { title: "Stack", href: "#stack", color: "#2E7D46", striped: true },
+  { title: "Experience", href: "#experience", color: "#2B5799" },
+  { title: "Certs", href: "#certs", color: "#2B5799", striped: true },
+  { title: "Blog", href: "#blog", color: "#2E7D46" },
+  { title: "Labs", href: "#lab-log", color: "#63452E", striped: true },
+  { title: "Projects", href: "#projects", color: "#63452E" },
 ];
 
 const LAST = SECTIONS.length - 1;

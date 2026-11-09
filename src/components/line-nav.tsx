@@ -18,6 +18,10 @@ import { cn } from "@/lib/cn";
 export type LineNavItem = {
   title: string;
   href: string;
+  /** Line colour (brand conductor). Default: the foreground colour. */
+  color?: string;
+  /** Band the line with cream, like the white wire of a twisted pair. */
+  striped?: boolean;
 };
 
 export type LineNavProps = {
@@ -81,6 +85,8 @@ export function LineNav({
             ref={isActive ? activeItemRef : undefined}
             title={item.title}
             href={item.href}
+            color={item.color}
+            striped={item.striped}
             active={isActive}
             intensity={intensities?.[item.href] ?? (isActive ? 1 : 0)}
             isLast={index === items.length - 1}
@@ -98,6 +104,8 @@ const LineNavEntry = memo(function LineNavEntry({
   ref,
   title,
   href,
+  color,
+  striped = false,
   active = false,
   intensity,
   isLast = false,
@@ -106,6 +114,8 @@ const LineNavEntry = memo(function LineNavEntry({
   ref?: React.Ref<HTMLAnchorElement>;
   title: string;
   href: string;
+  color?: string;
+  striped?: boolean;
   active?: boolean;
   intensity: number;
   isLast?: boolean;
@@ -133,10 +143,24 @@ const LineNavEntry = memo(function LineNavEntry({
       >
         <span
           className={cn(
-            "block h-px shrink-0 bg-foreground",
-            "w-[calc(1.5rem+1rem*var(--line-t))] opacity-[calc(0.2+0.8*var(--line-t))]",
-            "transition-[width,opacity] duration-200 ease-out motion-reduce:transition-none"
+            "block shrink-0",
+            // Coloured lines rest stronger (dark pair colours vanish at 20%) and
+            // are lifted in dark mode so brown and green stay visible.
+            color
+              ? "h-[calc(1px+1px*var(--line-t))] rounded-full opacity-[calc(0.4+0.6*var(--line-t))] dark:brightness-[1.7]"
+              : "h-px bg-foreground opacity-[calc(0.2+0.8*var(--line-t))]",
+            "w-[calc(1.5rem+1rem*var(--line-t))]",
+            "transition-[width,height,opacity] duration-200 ease-out motion-reduce:transition-none"
           )}
+          style={
+            color
+              ? {
+                  background: striped
+                    ? `repeating-linear-gradient(90deg, ${color} 0 6px, #F1EBDE 6px 9px)`
+                    : color,
+                }
+              : undefined
+          }
         />
 
         <span
