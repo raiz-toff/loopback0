@@ -17,6 +17,7 @@ import {
 } from "@/components/apple-carousel";
 import { ImageWithSkeleton } from "./image-with-skeleton";
 import type { GalleryImage, GalleryPost } from "@/data/gallery";
+import Tooltip from "@/components/tooltip";
 
 export type LightboxState = {
   post: GalleryPost;
@@ -119,6 +120,7 @@ export function GalleryLightbox({
           <span className="rounded-full bg-white/10 px-2 sm:px-2.5 py-0.5 sm:py-1 font-mono text-[11px] sm:text-xs text-white/80 border border-white/10 backdrop-blur-md">
             {currentIndex + 1} / {state.post.images.length}
           </span>
+          <Tooltip label="Close" shortcut="Esc" side="bottom" align="end">
           <button
             type="button"
             onClick={handleClose}
@@ -138,6 +140,7 @@ export function GalleryLightbox({
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
+          </Tooltip>
         </div>
       </div>
 

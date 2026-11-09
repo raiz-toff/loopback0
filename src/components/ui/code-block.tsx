@@ -5,6 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { CheckIcon, CopyIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
+import Tooltip from "@/components/tooltip";
 
 // shadcn/ui code-block (Base UI flavour) on this site's tokens. The MDX
 // integration in docs/mdx-code-block.tsx supplies Shiki-highlighted children;
@@ -103,13 +104,13 @@ function CodeBlockCopyButton({
 
   return (
     <>
+      <Tooltip label={copied ? "Copied" : "Copy code"} side="bottom" align="end">
       <Button
         data-slot="code-block-copy-button"
         data-copied={copied || undefined}
         variant={variant}
         size={size}
         aria-label={copied ? "Copied" : "Copy code"}
-        title={copied ? "Copied" : "Copy code"}
         className={cn(copied && "text-emerald-600 dark:text-emerald-400", className)}
         onClick={(event) => {
           onClick?.(event);
@@ -123,6 +124,7 @@ function CodeBlockCopyButton({
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </Button>
+      </Tooltip>
       <span aria-live="polite" className="sr-only">
         {copied ? "Copied" : ""}
       </span>

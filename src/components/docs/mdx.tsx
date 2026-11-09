@@ -1,5 +1,5 @@
-import defaultMdxComponents from 'fumadocs-ui/mdx';
-import { ImageZoom } from 'fumadocs-ui/components/image-zoom';
+import defaultMdxComponents from '@fumadocs/base-ui/mdx';
+import { ImageZoom } from '@fumadocs/base-ui/components/image-zoom';
 import type { MDXComponents } from 'mdx/types';
 import type React from 'react';
 import {

@@ -2,6 +2,7 @@ import { FluidGradientText } from "@/components/fluid-gradient-text";
 import { identity, links } from "@/data/profile";
 import { ProtectedEmail } from "./protected-contact";
 import { ResumeDownloadButton } from "./resume-download-button";
+import Tooltip from "@/components/tooltip";
 import {
   ArrowUpRightIcon,
   GitHubIcon,
@@ -111,6 +112,7 @@ export default function SiteFooter() {
           <div className="hidden sm:block" />
           <span className="text-center">© 2026 rajkumar neupane</span>
           <div className="flex items-center justify-center gap-3 sm:justify-end">
+            <Tooltip label="GitHub · raiz-toff" side="top" align="center">
             <a
               href={links.github}
               target="_blank"
@@ -120,6 +122,8 @@ export default function SiteFooter() {
             >
               <GitHubIcon className="size-4" />
             </a>
+            </Tooltip>
+            <Tooltip label="LinkedIn · rjneupane" side="top" align="center">
             <a
               href={links.linkedin}
               target="_blank"
@@ -129,6 +133,8 @@ export default function SiteFooter() {
             >
               <LinkedInIcon className="size-4" />
             </a>
+            </Tooltip>
+            <Tooltip label="X" side="top" align="end">
             <a
               href="https://x.com"
               target="_blank"
@@ -138,6 +144,7 @@ export default function SiteFooter() {
             >
               <XBrandIcon className="size-4" />
             </a>
+            </Tooltip>
           </div>
         </div>
       </div>

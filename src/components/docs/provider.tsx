@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { RootProvider } from 'fumadocs-ui/provider/next';
+import { RootProvider } from '@fumadocs/base-ui/provider/next';
 
 // The portfolio's ⌘K is taken by its command menu, so docs search answers to
 // "/" instead (ignored while typing in a field). Lives in a client module

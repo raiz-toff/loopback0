@@ -1,79 +1,31 @@
 import type { ReactNode } from 'react';
 import { source } from '@/lib/source';
-import { DocsLayout } from 'fumadocs-ui/layouts/docs';
+// Spacious on desktop (inset page panel beside the sidebar), Flux on phones
+// (minimal, bottom navigation panel). The viewport decides on the client and
+// follows resizes; the user agent only seeds the first server render.
+import { DocsLayoutSwitch, DocsVariantProvider } from '@/components/docs/docs-variant';
+import { getDocsVariant } from '@/lib/docs-variant';
 import { baseOptions } from '@/lib/layout.shared';
 import { SectionTheme } from '@/components/docs/section-theme';
 import { LabsBackground } from '@/components/docs/labs-background';
 
-import { getLayoutTabs, type LayoutTab } from 'fumadocs-ui/layouts/shared';
-import { Feather } from 'lucide-react';
+import { getSiteTabs } from '@/lib/site-tabs';
 
-// Per-section accent colours for the sidebar switcher (Labs, Projects, CCNA Labs, Blog),
-// like the coloured section icons on the Fumadocs docs site.
-const TAB_COLORS: Record<string, string> = {
-  '/docs/labs': '#f59e0b', // amber / gold
-  '/docs/projects': '#3b82f6', // blue
-  '/docs/ccna-labs': '#06b6d4', // cyan
-  '/blog': '#a855f7', // violet
-};
-
-export default function Layout({ children }: { children: ReactNode }) {
+export default async function Layout({ children }: { children: ReactNode }) {
   const tree = source.getPageTree();
+  const initialVariant = await getDocsVariant();
 
-  const docTabs = getLayoutTabs(tree, {
-    transform(option) {
-      if (option.unlisted) return null;
-      const color = TAB_COLORS[option.url];
-      if (!color) return option;
-      return {
-        ...option,
-        icon: (
-          <div
-            className="size-full rounded-md border p-1 [&_svg]:size-full"
-            style={{
-              color,
-              backgroundColor: `${color}1a`,
-              borderColor: `${color}33`,
-            }}
-          >
-            {option.icon}
-          </div>
-        ),
-      };
-    },
-  });
-
-  const blogTab: LayoutTab = {
-    url: '/blog',
-    title: 'Blog',
-    description: 'Field notes and technical writeups',
-    icon: (
-      <div
-        className="size-full rounded-md border p-1 [&_svg]:size-full"
-        style={{
-          color: '#a855f7',
-          backgroundColor: '#a855f71a',
-          borderColor: '#a855f733',
-        }}
-      >
-        <Feather />
-      </div>
-    ),
-  };
-
-  const base = baseOptions();
+  const base = baseOptions({ links: false });
 
   return (
     <div className="contents" data-fd-zone>
       <LabsBackground />
-      <DocsLayout
-        tree={tree}
-        {...base}
-        tabs={[...docTabs, blogTab]}
-      >
-        <SectionTheme />
-        {children}
-      </DocsLayout>
+      <DocsVariantProvider initial={initialVariant}>
+        <DocsLayoutSwitch tree={tree} {...base} tabs={getSiteTabs()}>
+          <SectionTheme />
+          {children}
+        </DocsLayoutSwitch>
+      </DocsVariantProvider>
     </div>
   );
 }

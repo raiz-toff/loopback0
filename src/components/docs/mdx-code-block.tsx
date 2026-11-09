@@ -5,6 +5,7 @@ import { Children, isValidElement } from "react";
 import { DownloadIcon, FileCodeIcon, WrapTextIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
+import Tooltip from "@/components/tooltip";
 import {
   CodeBlock,
   CodeBlockActions,
@@ -93,26 +94,23 @@ export function MdxCodeBlock({
           <span className="truncate">{title ?? lang ?? "Code"}</span>
         </CodeBlockTitle>
         <CodeBlockActions>
-          <Button
-            variant="ghost"
-            size="icon-xs"
-            aria-label="Toggle line wrap"
-            title="Wrap lines"
-            aria-pressed={wrap}
-            className="aria-pressed:bg-muted aria-pressed:text-foreground"
-            onClick={() => setWrap((v) => !v)}
-          >
-            <WrapTextIcon />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon-xs"
-            aria-label="Download code"
-            title="Download"
-            onClick={() => download(readText(), filename)}
-          >
-            <DownloadIcon />
-          </Button>
+          <Tooltip label={wrap ? "Unwrap lines" : "Wrap lines"} side="bottom" align="end">
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              aria-label="Toggle line wrap"
+              aria-pressed={wrap}
+              className="aria-pressed:bg-muted aria-pressed:text-foreground"
+              onClick={() => setWrap((v) => !v)}
+            >
+              <WrapTextIcon />
+            </Button>
+          </Tooltip>
+          <Tooltip label="Download" side="bottom" align="end">
+            <Button variant="ghost" size="icon-xs" aria-label="Download code" onClick={() => download(readText(), filename)}>
+              <DownloadIcon />
+            </Button>
+          </Tooltip>
           <CodeBlockCopyButton value={readText} />
         </CodeBlockActions>
       </CodeBlockHeader>

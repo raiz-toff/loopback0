@@ -1,6 +1,6 @@
 import type { ComponentType, ReactNode, SVGProps } from 'react';
-import { Card, Cards } from 'fumadocs-ui/components/card';
-import { Steps } from 'fumadocs-ui/components/steps';
+import { Card, Cards } from '@fumadocs/base-ui/components/card';
+import { Steps } from '@fumadocs/base-ui/components/steps';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/cn';
 

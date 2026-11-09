@@ -6,6 +6,7 @@ import { playCopySuccessSound } from "@/lib/soundcn/sound-engine";
 import { haptic } from "@/lib/haptic";
 import { CheckIcon, CopyIcon } from "@/components/icons";
 import { cn } from "@/lib/cn";
+import Tooltip from "@/components/tooltip";
 
 export function decodeB64(b64: string): string {
   try {
@@ -89,11 +90,11 @@ export function ProtectedPhone({
       </a>
 
       {showCopy && (
+        <Tooltip label={copied ? "Copied" : "Copy"} side="top">
         <button
           type="button"
           onClick={handleCopy}
           aria-label={copied ? "Copied phone number" : "Copy phone number"}
-          title={copied ? "Copied!" : "Copy to clipboard"}
           className={cn(
             "inline-flex size-5 shrink-0 items-center justify-center rounded transition-all",
             "text-muted-foreground/60 hover:bg-muted hover:text-foreground active:scale-95",
@@ -107,6 +108,7 @@ export function ProtectedPhone({
             <CopyIcon className="size-3.5" />
           )}
         </button>
+        </Tooltip>
       )}
     </span>
   );
@@ -181,11 +183,11 @@ export function ProtectedEmail({
       </a>
 
       {showCopy && (
+        <Tooltip label={copied ? "Copied" : "Copy"} side="top">
         <button
           type="button"
           onClick={handleCopy}
           aria-label={copied ? "Copied email address" : "Copy email address"}
-          title={copied ? "Copied!" : "Copy to clipboard"}
           className={cn(
             "inline-flex size-5 shrink-0 items-center justify-center rounded transition-all",
             "text-muted-foreground/60 hover:bg-muted hover:text-foreground active:scale-95",
@@ -199,6 +201,7 @@ export function ProtectedEmail({
             <CopyIcon className="size-3.5" />
           )}
         </button>
+        </Tooltip>
       )}
     </span>
   );

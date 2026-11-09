@@ -1,6 +1,8 @@
 @import "tailwindcss";
-@import "fumadocs-ui/css/black.css";
-@import "fumadocs-ui/css/preset.css";
+/* Spacious layout styles are not bundled in the preset (Flux's are). */
+@import "@fumadocs/base-ui/css/generated/spacious.css";
+@import "@fumadocs/base-ui/css/black.css";
+@import "@fumadocs/base-ui/css/preset.css";
 
 /*
   Design system adapted from chanhdai.com (MIT, © Chánh Đại).

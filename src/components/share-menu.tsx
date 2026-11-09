@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useClickSound } from "@/hooks/use-click-sound";
 import { haptic } from "@/lib/haptic";
 import { PillIcon, PillLabel, pillClass } from "./pill";
+import Tooltip from "@/components/tooltip";
 import {
   EllipsisIcon,
   LinkChainIcon,
@@ -85,6 +86,7 @@ export default function ShareMenu({
 
   return (
     <div ref={rootRef} className="relative">
+      <Tooltip label="Share this page" side="top" className={iconOnly ? undefined : "contents"}>
       <button
         type="button"
         aria-label="Share this page"
@@ -99,6 +101,7 @@ export default function ShareMenu({
         <ShareIcon className="size-4 shrink-0" />
         {!iconOnly && !triggerClassName && <PillLabel>Share</PillLabel>}
       </button>
+      </Tooltip>
 
       {isOpen && (
         <div

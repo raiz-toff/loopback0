@@ -7,32 +7,15 @@ import {
   EditOnGitHub,
   MarkdownCopyButton,
   ViewOptionsPopover,
-} from 'fumadocs-ui/layouts/docs/page';
+} from '@/components/docs/docs-variant';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/components/docs/mdx';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { createRelativeLink } from 'fumadocs-ui/mdx';
+import { createRelativeLink } from '@fumadocs/base-ui/mdx';
 import { githubFileUrl, githubIssueUrl } from '@/lib/shared';
 import { Topology } from '@/components/docs/topology';
-import { Lightbox } from 'fumadocs-ui/components/image-zoom';
-import { findNeighbour } from 'fumadocs-core/page-tree';
-import { PublishBottomNav, type BottomNavAction, type BottomNavLink } from '@/components/bottom-nav/context';
-
-type FrontmatterLink = { name?: string; url?: string };
-
-function toNavLink(item: { name: ReactNode; url: string } | undefined): BottomNavLink | undefined {
-  if (!item) return undefined;
-  return { label: typeof item.name === 'string' ? item.name : 'Page', href: item.url };
-}
-
-function primaryAction(links: unknown): BottomNavAction | undefined {
-  const first = Array.isArray(links) ? (links[0] as FrontmatterLink | undefined) : undefined;
-  if (!first?.url || !first.name) return undefined;
-  const isFile = /\.(ya?ml|pkt|zip|pdf|json|txt)$/i.test(first.url);
-  return { kind: 'link', label: first.name, href: first.url, icon: isFile ? 'download' : 'external' };
-}
-
+import { Lightbox } from '@fumadocs/base-ui/components/image-zoom';
 export default async function Page(props: PageProps<'/docs/[...slug]'>) {
   const params = await props.params;
   const page = source.getPage(params.slug);
@@ -41,17 +24,9 @@ export default async function Page(props: PageProps<'/docs/[...slug]'>) {
   const MDX = page.data.body;
   const markdownUrl = getPageMarkdownUrl(page).url;
   const topology = page.data.topology;
-  const neighbours = findNeighbour(source.pageTree, page.url);
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
-      <PublishBottomNav
-        toc={page.data.toc}
-        prev={toNavLink(neighbours.previous)}
-        next={toNavLink(neighbours.next)}
-        primary={primaryAction(page.data.links)}
-        showSearch={false}
-      />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
       <div className="flex flex-row gap-2 items-center border-b pb-6">

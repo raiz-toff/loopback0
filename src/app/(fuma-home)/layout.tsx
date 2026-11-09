@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { HomeLayout } from 'fumadocs-ui/layouts/home';
+import { SiteHomeLayout } from '@/components/docs/site-home-layout';
 import { baseOptions } from '@/lib/layout.shared';
 
 // Fumadocs top-nav chrome for the docs map (/docs) and the blog. The
@@ -8,7 +8,7 @@ import { baseOptions } from '@/lib/layout.shared';
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="contents" data-fd-zone>
-      <HomeLayout {...baseOptions()}>{children}</HomeLayout>
+      <SiteHomeLayout {...baseOptions()}>{children}</SiteHomeLayout>
     </div>
   );
 }

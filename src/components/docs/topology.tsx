@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ArrowRight, Maximize2, Minimize2, ExternalLink, Waypoints } from 'lucide-react';
 import { GitHubIcon } from '@/components/icons';
 import { cn } from '@/lib/cn';
+import Tooltip from '@/components/tooltip';
 
 // One switch for the "Curious how this diagram was made?" Marrow note.
 // false: only pages with `marrowNote: true` in frontmatter show it.
@@ -94,23 +95,27 @@ export function Topology({
           Interactive
         </span>
         <div className="ml-auto flex items-center gap-1">
-          <button
-            type="button"
-            onClick={() => setFullscreen((v) => !v)}
-            aria-label={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
-            className="inline-flex size-7 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-          >
-            {fullscreen ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />}
-          </button>
-          <a
-            href={src}
-            target="_blank"
-            rel="noreferrer noopener"
-            aria-label="Open topology in a new tab"
-            className="inline-flex size-7 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-          >
-            <ExternalLink className="size-4" />
-          </a>
+          <Tooltip label={fullscreen ? 'Exit fullscreen' : 'Fullscreen'} side="bottom" align="end">
+            <button
+              type="button"
+              onClick={() => setFullscreen((v) => !v)}
+              aria-label={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+              className="inline-flex size-7 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
+            >
+              {fullscreen ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />}
+            </button>
+          </Tooltip>
+          <Tooltip label="Open in a new tab" side="bottom" align="end">
+            <a
+              href={src}
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Open topology in a new tab"
+              className="inline-flex size-7 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
+            >
+              <ExternalLink className="size-4" />
+            </a>
+          </Tooltip>
         </div>
       </div>
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { certInterfaces, type Issuer } from "@/data/profile";
 import { Panel, PanelHeader, PanelTitle } from "./panel";
+import Tooltip from "@/components/tooltip";
 import {
   ArrowUpRightIcon,
   ChevronDownIcon,
@@ -182,15 +183,17 @@ export default function Certifications() {
                       />
                     </button>
                     {cert.href && (
-                      <a
-                        href={cert.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`View ${cert.desc} credential`}
-                        className="shrink-0 p-4 pl-0 text-muted-foreground transition-colors hover:text-foreground"
-                      >
-                        <ArrowUpRightIcon className="size-4" />
-                      </a>
+                      <Tooltip label="View credential" side="top" align="end">
+                        <a
+                          href={cert.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`View ${cert.desc} credential`}
+                          className="shrink-0 p-4 pl-0 text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          <ArrowUpRightIcon className="size-4" />
+                        </a>
+                      </Tooltip>
                     )}
                   </div>
                 </div>

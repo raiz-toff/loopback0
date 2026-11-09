@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowRightIcon } from "lucide-react";
 import type { NavGroup, NavLink } from "@/lib/nav-data";
 import { cn } from "@/lib/cn";
@@ -27,12 +28,21 @@ export default function SiteNavMenu({
   links: { href: string; label: string; emphasis?: boolean }[];
   className?: string;
 }) {
+  const router = useRouter();
   return (
     <NavigationMenu className={className} align="end">
       <NavigationMenuList className="gap-0.5">
         {groups.map((group) => (
           <NavigationMenuItem key={group.id}>
-            <NavigationMenuTrigger>{group.label}</NavigationMenuTrigger>
+            {/* Hover previews the group; a mouse click on the label goes to its
+                hub. Keyboard activation (detail === 0) keeps opening the menu. */}
+            <NavigationMenuTrigger
+              onClick={(event) => {
+                if (event.detail > 0) router.push(group.href);
+              }}
+            >
+              {group.label}
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <GroupPanel group={group} />
             </NavigationMenuContent>

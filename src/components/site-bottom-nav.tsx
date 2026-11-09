@@ -28,7 +28,9 @@ export default function SiteBottomNav({ groups }: { groups?: NavGroup[] }) {
   const showSearch = config?.showSearch ?? !inFumadocsZone;
   const primary = config?.primary;
 
-  if (hidden) return null;
+  // Docs pages run Flux on phones (own bottom panel) and blog posts carry
+  // fumadocs' floating TOC panel; this bar would sit on top of either.
+  if (hidden || pathname.startsWith("/docs") || pathname.startsWith("/blog")) return null;
 
   return (
     <aside
