@@ -16,6 +16,8 @@ html,body{margin:0;background:transparent}
 .tile span{display:grid;place-items:center;width:46px;height:46px;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--fg)}
 .tile img{width:30px;height:30px}
 .tile svg{width:26px;height:26px;display:block}
+.tile span.pending{border-style:dashed;border-color:var(--muted);color:var(--muted)}
+.tile span.pending svg{width:22px;height:22px}
 .txt{display:flex;flex-direction:column;justify-content:center;padding:0 22px;gap:3px}
 .k{font:500 11px/1 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .n{font:600 21px/1.15 Geist,sans-serif;letter-spacing:-.03em;color:var(--fg)}
@@ -37,14 +39,16 @@ html,body{margin:0;background:transparent}
 <script>
 const [who, theme] = location.hash.slice(1).split('-');
 if (theme === 'dark') document.documentElement.dataset.theme = 'dark';
-const layout = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 9h18"/><path d="M9 21V9"/><path d="M13 13h4"/><path d="M13 17h2"/></svg>';
+// Placeholder until Chánh Đại approves use of his mark (asked; see TRADEMARK.md).
+const pending = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12"/><path d="M6 21h12"/><path d="M7 3v3.5a5 5 0 0 0 2.2 4.1L12 12l2.8-1.4A5 5 0 0 0 17 6.5V3"/><path d="M7 21v-3.5a5 5 0 0 1 2.2-4.1L12 12l2.8 1.4a5 5 0 0 1 2.2 4.1V21"/></svg>';
 const data = {
-  chanhdai: { k: 'Portfolio design based on', n: 'chanhdai.com', d: 'by Chánh Đại', icon: layout },
+  chanhdai: { k: 'Portfolio design based on', n: 'chanhdai.com', d: 'by Chánh Đại', icon: pending, pending: true },
   fumadocs: { k: 'Docs & blog built with', n: 'Fumadocs', d: 'by Fuma Nama',
     icon: '<img src="https://raw.githubusercontent.com/fuma-nama/fumadocs/dev/apps/docs/app/icon.png" alt="">' },
 }[who];
 document.getElementById('card').classList.add(who);
 for (const id of ['k','n','d']) document.getElementById(id).textContent = data[id];
 document.getElementById('icon').innerHTML = data.icon;
+if (data.pending) document.getElementById('icon').classList.add('pending');
 </script>
 </body></html>
