@@ -164,6 +164,9 @@ const customFrontmatter = pageSchema.extend({
   topology: z.string().nullish(),
   // Show the "Curious how this diagram was made?" Marrow note under the topology.
   marrowNote: z.boolean().nullish(),
+  // Unfinished page: a hazard-framed notice at the top. `true` uses the default
+  // message; a string replaces it.
+  construction: z.union([z.boolean(), z.string()]).nullish(),
   timeline: z
     .array(
       z.object({

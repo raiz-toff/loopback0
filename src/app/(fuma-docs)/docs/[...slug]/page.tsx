@@ -15,6 +15,7 @@ import type { ReactNode } from 'react';
 import { createRelativeLink } from '@fumadocs/base-ui/mdx';
 import { githubFileUrl, githubIssueUrl } from '@/lib/shared';
 import { Topology } from '@/components/docs/topology';
+import { CautionFrame } from '@/components/docs/hazard';
 import { Lightbox } from '@fumadocs/base-ui/components/image-zoom';
 export default async function Page(props: PageProps<'/docs/[...slug]'>) {
   const params = await props.params;
@@ -37,6 +38,13 @@ export default async function Page(props: PageProps<'/docs/[...slug]'>) {
         />
       </div>
       <DocsBody>
+        {page.data.construction ? (
+          <CautionFrame title="This section is being built.">
+            {typeof page.data.construction === 'string'
+              ? page.data.construction
+              : 'Labs land here as they are written. Check back soon.'}
+          </CautionFrame>
+        ) : null}
         {topology ? (
           <Topology
             src={topology}

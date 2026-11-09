@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FlaskConical, Boxes, Network, Feather, ArrowUpRight } from 'lucide-react';
+import { CornerTape } from './hazard';
 
 // Landing-page hero: the documentation drawn as a network topology. The RN
 // core routes to one device chassis per section over right-angle PCB traces
@@ -23,6 +24,8 @@ export type Segment = {
   iface: string;
   blurb: string;
   status: 'up' | 'admin-down';
+  /** Section still being built: hazard tape across the card's corner. */
+  construction?: boolean;
   icon: 'flask' | 'boxes' | 'network' | 'feather';
 };
 
@@ -60,6 +63,7 @@ function Chassis({
 
   const body = (
     <>
+      {seg.construction ? <CornerTape text="BUILDING" /> : null}
       {/* connector pin where the trace meets the chassis */}
       <span
         aria-hidden
@@ -97,7 +101,7 @@ function Chassis({
       </span>
 
       {/* status + count, show ip int brief style */}
-      <span className="flex shrink-0 flex-col items-end gap-1">
+      <span className={`flex shrink-0 flex-col items-end gap-1 ${seg.construction ? 'mr-6' : ''}`}>
         <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-fd-muted-foreground">
           <span
             aria-hidden

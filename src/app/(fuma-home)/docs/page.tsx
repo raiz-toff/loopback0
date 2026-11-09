@@ -67,6 +67,7 @@ export default function DocsIndexPage() {
       iface: 'gi0/3',
       blurb: 'Cisco 200-301 lab notes',
       status: count('ccna-labs') > 0 ? 'up' : 'admin-down',
+      construction: true,
       icon: 'network',
     },
   ];

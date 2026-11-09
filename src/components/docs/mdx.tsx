@@ -12,6 +12,7 @@ import {
 import { Mermaid } from './mermaid';
 import { Topology } from './topology';
 import { NetFigure } from '@/components/figures/net-figure';
+import { CcnaCoverage, CcnaDomains } from './ccna-progress';
 import { CcnaBlueprint, ModuleBlueprint } from './ccna-blueprint';
 import { CcnaTopology } from './ccna-topology';
 import { DeviceLink } from './device-link';
@@ -34,6 +35,8 @@ export function getMDXComponents(components?: MDXComponents) {
     Mermaid,
     Topology,
     NetFigure,
+    CcnaCoverage,
+    CcnaDomains,
     CcnaBlueprint,
     ModuleBlueprint,
     CcnaTopology,
