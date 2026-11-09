@@ -7,7 +7,7 @@ import {
   EditOnGitHub,
   MarkdownCopyButton,
   ViewOptionsPopover,
-} from 'fumadocs-ui/layouts/notebook/page';
+} from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/components/docs/mdx';
 import type { Metadata } from 'next';

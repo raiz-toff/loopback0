@@ -1,8 +1,6 @@
 import type { ReactNode } from 'react';
 import { source } from '@/lib/source';
-// Notebook layout (fumadocs-ui 16.18): top navbar with the section tabs in it,
-// a collapsible sidebar, and the TOC in a right rail.
-import { DocsLayout } from 'fumadocs-ui/layouts/notebook';
+import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import { baseOptions } from '@/lib/layout.shared';
 import { SectionTheme } from '@/components/docs/section-theme';
 import { LabsBackground } from '@/components/docs/labs-background';
@@ -71,8 +69,6 @@ export default function Layout({ children }: { children: ReactNode }) {
       <DocsLayout
         tree={tree}
         {...base}
-        nav={{ ...base.nav, mode: 'top' }}
-        tabMode="navbar"
         tabs={[...docTabs, blogTab]}
       >
         <SectionTheme />
