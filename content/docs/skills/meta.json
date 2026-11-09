@@ -1,0 +1,7 @@
+{
+  "title": "Skills",
+  "description": "Agent skills and the kits they build with",
+  "icon": "Sparkles",
+  "root": true,
+  "pages": ["index", "net-figure"]
+}

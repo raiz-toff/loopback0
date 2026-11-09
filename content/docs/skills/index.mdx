@@ -1,0 +1,23 @@
+---
+title: Skills
+description: Claude Code skills that build parts of this site, and the kits they use.
+---
+
+A skill is a set of written instructions that a coding agent loads when a task matches it. Skills in this repository live in `.claude/skills/`, one folder each, with a `SKILL.md` file.
+
+Each skill here has a kit behind it: components that do the drawing and animation, so the skill only writes data. This section documents both.
+
+## Available skills
+
+| Skill | What it makes | Kit |
+| --- | --- | --- |
+| [`net-figure`](/docs/skills/net-figure) | Animated, step-through network figures for labs and posts | `src/components/figures/` |
+
+## Use a skill
+
+1. Open Claude Code in the repository.
+2. Describe the result, for example: `make a figure that shows how ARP finds a MAC address`.
+3. The agent loads the matching skill and follows its steps.
+4. Review the result in the browser before you commit.
+
+> **Note:** A skill is a guide, not a guarantee. Check every protocol detail in a figure before you publish it.

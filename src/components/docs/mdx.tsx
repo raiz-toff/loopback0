@@ -1,5 +1,5 @@
-import defaultMdxComponents from 'fumadocs-ui/mdx';
-import { ImageZoom } from 'fumadocs-ui/components/image-zoom';
+import defaultMdxComponents from '@fumadocs/base-ui/mdx';
+import { ImageZoom } from '@fumadocs/base-ui/components/image-zoom';
 import type { MDXComponents } from 'mdx/types';
 import type React from 'react';
 import {
@@ -11,6 +11,7 @@ import {
 } from './starlight-compat';
 import { Mermaid } from './mermaid';
 import { Topology } from './topology';
+import { NetFigure } from '@/components/figures/net-figure';
 import { CcnaBlueprint, ModuleBlueprint } from './ccna-blueprint';
 import { CcnaTopology } from './ccna-topology';
 import { DeviceLink } from './device-link';
@@ -32,6 +33,7 @@ export function getMDXComponents(components?: MDXComponents) {
     Steps: StarlightSteps,
     Mermaid,
     Topology,
+    NetFigure,
     CcnaBlueprint,
     ModuleBlueprint,
     CcnaTopology,

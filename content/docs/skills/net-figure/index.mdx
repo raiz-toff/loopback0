@@ -1,0 +1,127 @@
+---
+title: Make a network figure
+description: Create an animated, step-through figure that shows a protocol at work, then add it to a lab or post.
+---
+
+A network figure proves one sentence by showing the traffic. Packets move along cables, the console types the verification command, and every step has a caption.
+
+<NetFigure id="dhcp-dora" />
+
+The figure above is one data file: `src/figures/dhcp-dora.ts`. The kit in `src/components/figures/` draws and animates it. A demo of every part is at [/figures](/figures).
+
+## Prerequisites
+
+- The repository cloned, with `npm install` complete.
+- The dev server running: `npm run dev`.
+- For the agent path: Claude Code, opened in the repository root.
+
+## Make a figure with the agent
+
+1. Start Claude Code in the repository root.
+2. Describe the mechanism, not the picture. Example: `make a figure that shows how ARP finds a MAC address`.
+3. Wait for the agent to load the `net-figure` skill. It writes the claim, devices, cables and steps.
+4. Read each caption. Correct any protocol detail that is wrong.
+5. Open the page that uses the figure. Step through every step once.
+
+## Make a figure by hand
+
+### 1. Write the claim
+
+1. Write the title as one sentence that a reader can check.
+2. Use a claim, not a topic. Write `STP blocks one port so a loop cannot melt the network.`, not `Spanning Tree`.
+3. Split the figure in two if the claim needs the word "and".
+
+### 2. Create the file
+
+1. Copy `src/figures/dhcp-dora.ts` to `src/figures/<id>.ts`.
+2. Set `id`, `kicker` and `title`.
+3. Set `size` to `[640, 200]` for one row of devices. Use `[640, 300]` for two rows.
+
+### 3. Place the devices
+
+1. Add one entry to `devices` for each device.
+2. Use the real hostname as `id`, for example `R1` or `SW1`.
+3. Keep devices at least 150 units apart horizontally and 120 vertically.
+4. Keep every device at least 70 units from the edges.
+5. Set `note` to the one fact that changes during the story, for example an IP address.
+6. Set `labelTop: true` on a device that has a cable entering from below.
+
+```ts
+devices: [
+  { id: 'PC1', kind: 'pc', x: 90, y: 80, note: 'no IP' },
+  { id: 'SW1', kind: 'switch', x: 320, y: 80 },
+  { id: 'R1', kind: 'router', x: 550, y: 80, note: 'DHCP server' },
+],
+```
+
+### 4. Connect the cables
+
+1. Add one entry to `links` for each cable.
+2. Set `aPort` and `bPort` to the real interface names, for example `g0/1`.
+3. Give neighbouring cables different colours: `orange`, `green`, `blue` or `brown`.
+4. Set `striped: true` for the white-banded conductor of a pair.
+5. Set `route: 'vh'` on a cable from a lower device. The cable then enters the upper device from the side.
+
+```ts
+links: [
+  { a: 'PC1', b: 'SW1', aPort: 'eth0', bPort: 'g0/1', color: 'blue' },
+  { a: 'SW1', b: 'R1', aPort: 'g0/2', bPort: 'g0/0', color: 'orange', striped: true },
+],
+```
+
+### 5. Write the steps
+
+Write three to six steps. Each step is one moment of the explanation.
+
+1. Write `caption` as one sentence of 20 words or fewer. Say why, not only what.
+2. Add `packets` for the traffic in that step. List the devices each packet visits, in order.
+3. Use the protocol's own name as the packet `label`, for example `DISCOVER` or `BPDU`.
+4. Use the same colour for the same message type in one figure.
+5. Add `cli` with the command that verifies the step. Trim the output to the lines that prove it.
+6. Add `table` for state that builds up, such as a MAC table. List new rows in `fresh`.
+7. Add `ports` to block or shut a port, for example `{ 'SW3:g0/2': 'blocking' }`.
+
+```ts
+{
+  caption: 'R1 confirms with an ACK. PC1 now has 10.0.10.21/24 and a default gateway.',
+  packets: [{ path: ['R1', 'SW1', 'PC1'], label: 'ACK', color: 'brown' }],
+  notes: { PC1: '10.0.10.21/24' },
+  cli: {
+    device: 'R1',
+    cmd: 'show ip dhcp binding',
+    out: ['IP address    Hardware address', '10.0.10.21    0050.79a6.0c21'],
+  },
+},
+```
+
+`notes`, `ports`, `cli` and `table` stay in place for later steps. Set them only in the step where they change.
+
+### 6. Check the protocol
+
+1. Compare each step with the real protocol behaviour.
+2. Check broadcast against unicast, which port blocks, and what the switch floods.
+3. Match console output to real Cisco IOS format. Do not invent fields.
+4. Remove any detail from a caption that the figure simplifies.
+
+### 7. Register and embed
+
+1. Import the figure in `src/figures/index.ts` and add it to the `figures` map.
+2. Add the figure to an MDX page, after the paragraph that states the claim:
+
+```mdx
+<NetFigure id="dhcp-dora" />
+```
+
+### 8. Verify
+
+1. Run `npx tsc --noEmit`. Fix all type errors.
+2. Open the page in the browser.
+3. Click **Next** through every step. Check each caption, packet and console output.
+4. Open **Text version** and read the captions without the figure.
+5. Switch to dark mode and check the figure again.
+
+## Related
+
+- [Data reference](/docs/skills/net-figure/reference): every field a figure accepts.
+- [Design decisions](/docs/skills/net-figure/design-decisions): why the kit works this way.
+- Skill file: `.claude/skills/net-figure/SKILL.md`.

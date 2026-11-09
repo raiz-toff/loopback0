@@ -129,6 +129,18 @@ export default function RootLayout({
                   }
                 };
               }
+              // Plain-HTTP origins (LAN dev) also lack ClipboardItem, which
+              // Fumadocs' "Copy Markdown" uses. Copy its text/plain part as text.
+              if (typeof window !== 'undefined' && typeof window.ClipboardItem === 'undefined') {
+                window.ClipboardItem = function(items) { this.items = items; };
+                navigator.clipboard.write = function(entries) {
+                  var item = entries && entries[0] && entries[0].items;
+                  if (!item || !item['text/plain']) return Promise.reject(new Error('Nothing to copy'));
+                  return Promise.resolve(item['text/plain']).then(function(v) {
+                    return typeof v === 'string' ? v : v.text();
+                  }).then(function(text) { return navigator.clipboard.writeText(text); });
+                };
+              }
             `,
           }}
         />
