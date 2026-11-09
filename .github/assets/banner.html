@@ -1,43 +1,40 @@
 <!doctype html>
+<!-- README header. Render: chrome --headless=new --force-device-scale-factor=2
+     --default-background-color=00000000 --window-size=1280,112
+     --screenshot=banner-slim-<theme>.png "file://.../banner.html#<theme>" -->
 <html><head><meta charset="utf-8">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=block" rel="stylesheet">
 <style>
-:root{--bg:#ffffff;--fg:#18181b;--muted:#71717a;--line:#e4e4e7;--dash:#d4d4d8;--prompt:#a1a1aa}
-:root[data-theme=dark]{--bg:#09090b;--fg:#fafafa;--muted:#a1a1aa;--line:#27272a;--dash:#3f3f46;--prompt:#71717a}
+:root{--bg:#ffffff;--fg:#18181b;--muted:#71717a;--line:#e4e4e7;--prompt:#a1a1aa}
+:root[data-theme=dark]{--bg:#09090b;--fg:#fafafa;--muted:#a1a1aa;--line:#27272a;--prompt:#71717a}
 html,body{margin:0;background:transparent}
-.card{box-sizing:border-box;width:1280px;height:216px;background:var(--bg);border:1px solid var(--line);border-radius:20px;overflow:hidden;
-  display:grid;grid-template-columns:216px 1fr;grid-template-rows:1fr 5px;position:relative}
+.card{box-sizing:border-box;width:1280px;height:112px;background:var(--bg);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  display:grid;grid-template-columns:112px 1fr auto;grid-template-rows:1fr 4px}
 .mark{display:grid;place-items:center;border-right:1px solid var(--line);
-  background-image:repeating-linear-gradient(135deg,transparent 0 9px,var(--line) 9px 10px)}
-.mark .tile{background:var(--bg);padding:18px 20px;border:1px solid var(--line);border-radius:12px}
-.mark svg{display:block;width:104px;height:auto}
-.body{display:flex;flex-direction:column;justify-content:space-between;padding:26px 48px 22px}
-h1{margin:0;font:600 52px/1 Geist,sans-serif;letter-spacing:-0.045em;color:var(--fg)}
-.sub{margin-top:8px;font:400 18px/1.3 Geist,sans-serif;color:var(--muted);letter-spacing:-0.01em}
+  background-image:repeating-linear-gradient(135deg,transparent 0 7px,var(--line) 7px 8px)}
+.mark .tile{background:var(--bg);padding:9px 10px;border:1px solid var(--line);border-radius:10px}
+.mark svg{display:block;width:52px;height:auto}
+.title{display:flex;flex-direction:column;justify-content:center;padding:0 32px}
+h1{margin:0;font:600 38px/1 Geist,sans-serif;letter-spacing:-0.04em;color:var(--fg)}
+.sub{margin-top:8px;font:400 16px/1.2 Geist,sans-serif;color:var(--muted)}
 .sub b{font-weight:500;color:var(--fg)}
-.term{border-top:1px dashed var(--dash);padding-top:12px;display:flex;justify-content:space-between;align-items:flex-end;
-  font:400 15px/1.6 "Geist Mono",monospace;color:var(--muted)}
-.cli{display:flex;flex-direction:column}
-.term .p{color:var(--prompt)}
-.up{display:inline-flex;align-items:center;gap:12px;color:var(--fg)}
-.dot{width:9px;height:9px;border-radius:50%;background:#2E7D46;box-shadow:0 0 0 4px color-mix(in oklab,#2E7D46 22%,transparent)}
-.tags{letter-spacing:0.08em;text-transform:uppercase;font-size:13px;white-space:nowrap}
+.cli{display:flex;flex-direction:column;justify-content:center;align-items:flex-end;padding:0 32px;
+  font:400 14px/1.7 "Geist Mono",monospace;color:var(--muted)}
+.cli .p{color:var(--prompt)}
+.up{display:inline-flex;align-items:center;gap:10px;color:var(--fg)}
+.dot{width:8px;height:8px;border-radius:50%;background:#2E7D46;box-shadow:0 0 0 3px color-mix(in oklab,#2E7D46 22%,transparent)}
 .strip{grid-column:1 / -1;display:grid;grid-template-columns:repeat(8,1fr)}
-.strip i{display:block}
 .s{background:repeating-linear-gradient(90deg,var(--c) 0 22px,#F1EBDE 22px 34px)}
 </style></head>
 <body><div class="card">
   <div class="mark"><div class="tile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 584 400"><clipPath id="clg0"><polygon points="0,0 64,0 64,400 0,400"/></clipPath><g clip-path="url(#clg0)"><polygon points="0,0 64,0 64,400 0,400" fill="#F1EBDE"/><polygon points="-32,106 96,106 96,148 -32,148" fill="#D9711F"/><polygon points="-32,190 96,190 96,232 -32,232" fill="#D9711F"/><polygon points="-32,274 96,274 96,316 -32,316" fill="#D9711F"/><polygon points="-32,358 96,358 96,400 -32,400" fill="#D9711F"/></g><polygon points="0,0 64,0 64,400 0,400" fill="none" stroke="#18181b" stroke-opacity="0.2" stroke-width="3.5"/><clipPath id="clg1"><polygon points="192,0 256,0 256,232 192,232"/></clipPath><g clip-path="url(#clg1)"><polygon points="192,0 256,0 256,232 192,232" fill="#F1EBDE"/><polygon points="160,64 288,64 288,98.67 160,98.67" fill="#2E7D46"/><polygon points="160,133.33 288,133.33 288,168 160,168" fill="#2E7D46"/></g><polygon points="192,0 256,0 256,232 192,232" fill="none" stroke="#18181b" stroke-opacity="0.2" stroke-width="3.5"/><clipPath id="clg2"><polygon points="76.07,208 147.93,208 245.93,400 174.07,400"/></clipPath><g clip-path="url(#clg2)"><polygon points="76.07,208 147.93,208 245.93,400 174.07,400" fill="#F1EBDE"/><polygon points="87.68,301.13 201.69,242.94 223.46,285.59 109.45,343.78" fill="#2B5799"/><polygon points="131.22,386.44 245.23,328.25 267,370.9 153,429.1" fill="#2B5799"/></g><polygon points="76.07,208 147.93,208 245.93,400 174.07,400" fill="none" stroke="#18181b" stroke-opacity="0.2" stroke-width="3.5"/><polygon points="0,0 256,0 256,64 0,64" fill="#D9711F"/><polygon points="0,168 256,168 256,232 0,232" fill="#2B5799"/><polygon points="328,0 392,0 392,400 328,400" fill="#2E7D46"/><polygon points="520,0 584,0 584,400 520,400" fill="#63452E"/><clipPath id="clg7"><polygon points="347.88,0 416.12,0 564.12,400 495.88,400"/></clipPath><g clip-path="url(#clg7)"><polygon points="347.88,0 416.12,0 564.12,400 495.88,400" fill="#F1EBDE"/><polygon points="321.98,22.21 442.02,-22.21 458.47,22.24 338.42,66.65" fill="#63452E"/><polygon points="354.87,111.1 474.91,66.68 491.36,111.12 371.31,155.54" fill="#63452E"/><polygon points="387.75,199.99 507.8,155.57 524.25,200.01 404.2,244.43" fill="#63452E"/><polygon points="420.64,288.88 540.69,244.46 557.13,288.9 437.09,333.32" fill="#63452E"/><polygon points="453.53,377.76 573.58,333.35 590.02,377.79 469.98,422.21" fill="#63452E"/></g><polygon points="347.88,0 416.12,0 564.12,400 495.88,400" fill="none" stroke="#18181b" stroke-opacity="0.2" stroke-width="3.5"/></svg></div></div>
-  <div class="body">
-    <div>
-      <h1>loopback0</h1>
-      <div class="sub">Source for <b>rajkumarneupane.com</b> &nbsp;·&nbsp; portfolio, lab notes and blog</div>
-    </div>
-    <div class="term">
-      <span class="cli"><span><span class="p">rn#</span> show interfaces loopback0</span><span class="up">Loopback0 is up, line protocol is up<span class="dot"></span></span></span>
-      <span class="tags">CCNA · CCST · Toronto</span>
-    </div>
+  <div class="title">
+    <h1>loopback0</h1>
+    <div class="sub">Source for <b>rajkumarneupane.com</b> · portfolio, lab notes and blog</div>
+  </div>
+  <div class="cli">
+    <span><span class="p">rn#</span> show interfaces loopback0</span>
+    <span class="up">Loopback0 is up, line protocol is up<span class="dot"></span></span>
   </div>
   <div class="strip">
     <i class="s" style="--c:#D9711F"></i><i style="background:#D9711F"></i>

@@ -1,7 +1,7 @@
 <p>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-dark.png">
-    <img alt="loopback0: source for rajkumarneupane.com" src=".github/assets/banner-light.png">
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-slim-dark.png">
+    <img alt="loopback0: source for rajkumarneupane.com" src=".github/assets/banner-slim-light.png">
   </picture>
 </p>
 
