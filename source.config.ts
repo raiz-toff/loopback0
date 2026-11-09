@@ -162,6 +162,8 @@ const customFrontmatter = pageSchema.extend({
   date: z.union([z.string(), z.date()]).nullish(),
   // diagrams / misc
   topology: z.string().nullish(),
+  // Show the "Curious how this diagram was made?" Marrow note under the topology.
+  marrowNote: z.boolean().nullish(),
   timeline: z
     .array(
       z.object({

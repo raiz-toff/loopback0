@@ -2,8 +2,17 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTheme } from 'next-themes';
-import { Maximize2, Minimize2, ExternalLink, Waypoints } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Maximize2, Minimize2, ExternalLink, Waypoints } from 'lucide-react';
+import { GitHubIcon } from '@/components/icons';
 import { cn } from '@/lib/cn';
+
+// One switch for the "Curious how this diagram was made?" Marrow note.
+// false: only pages with `marrowNote: true` in frontmatter show it.
+// true:  every Marrow diagram (under /projects/network-map/) shows it,
+//        frontmatter topologies and inline <Topology /> alike.
+// Opt out: `marrowNote: false` in frontmatter, or madeWithMarrow={false} inline.
+const MARROW_NOTE_ON_ALL_DIAGRAMS = true;
 
 // Interactive network topology embed. The diagrams are self-contained HTML
 // files under /public/projects/network-map/, referenced by the `topology`
@@ -12,11 +21,16 @@ export function Topology({
   src,
   title = 'Interactive Topology',
   height = 560,
+  madeWithMarrow,
 }: {
   src: string;
   title?: string;
   height?: number;
+  /** Footer linking to Marrow. Unset: follows MARROW_NOTE_ON_ALL_DIAGRAMS. */
+  madeWithMarrow?: boolean;
 }) {
+  const showMarrowNote =
+    madeWithMarrow ?? (MARROW_NOTE_ON_ALL_DIAGRAMS && src.startsWith('/projects/network-map/'));
   const [fullscreen, setFullscreen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const frameRef = useRef<HTMLIFrameElement>(null);
@@ -119,6 +133,28 @@ export function Topology({
           style={{ height: fullscreen ? '100%' : height }}
         />
       </div>
+
+      {showMarrowNote && (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-fd-border bg-fd-muted/40 px-3 py-2 text-xs text-fd-muted-foreground">
+          <span>Curious how this diagram was made?</span>
+          <Link
+            href="/docs/projects/marrow"
+            className="group inline-flex items-center gap-1 font-medium text-fd-foreground underline-offset-4 hover:underline"
+          >
+            It&apos;s compiled from YAML with Marrow
+            <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
+          </Link>
+          <a
+            href="https://github.com/raiz-toff/Marrow"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="ml-auto inline-flex items-center gap-1.5 transition-colors hover:text-fd-foreground"
+          >
+            <GitHubIcon className="size-3.5" aria-hidden />
+            Source
+          </a>
+        </div>
+      )}
     </figure>
   );
 }

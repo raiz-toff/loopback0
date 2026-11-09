@@ -61,7 +61,13 @@ export default async function Page(props: PageProps<'/docs/[...slug]'>) {
         />
       </div>
       <DocsBody>
-        {topology ? <Topology src={topology} title={`${page.data.title} — Topology`} /> : null}
+        {topology ? (
+          <Topology
+            src={topology}
+            title={`${page.data.title} — Topology`}
+            madeWithMarrow={page.data.marrowNote ?? undefined}
+          />
+        ) : null}
         <MDX
           components={getMDXComponents({
             // this allows you to link to other pages with relative file paths
