@@ -1,5 +1,7 @@
 import defaultMdxComponents from 'fumadocs-ui/mdx';
+import { ImageZoom } from 'fumadocs-ui/components/image-zoom';
 import type { MDXComponents } from 'mdx/types';
+import type React from 'react';
 import {
   StarlightCard,
   StarlightLinkCard,
@@ -18,6 +20,8 @@ import { MdxCodeBlock } from './mdx-code-block';
 export function getMDXComponents(components?: MDXComponents) {
   return {
     ...defaultMdxComponents,
+    // Every content image opens in the Lightbox viewer (fumadocs-ui 16.18).
+    img: (props) => <ImageZoom {...(props as React.ComponentProps<typeof ImageZoom>)} />,
     // Fenced code: shadcn-style block with title, wrap, download and copy.
     pre: MdxCodeBlock,
     // Starlight compatibility: content authored for the old site keeps working.
