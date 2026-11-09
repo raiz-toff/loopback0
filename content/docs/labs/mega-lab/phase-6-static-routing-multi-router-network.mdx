@@ -1,0 +1,68 @@
+---
+sidebar:
+  order: 6
+title: Phase 6 Static Routing (Multi-Router Network)
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 6
+---
+## Lab objectives
+
+Build a multi-site network using static routes. Review routing table entries. Apply basic routing logic.
+
+## Configuration steps
+
+1. Add two Cisco 2911 routers (`R2` and `R3`) to the topology. Connect them in series.
+2. Connect `Gig0/1` on `R1` to `Gig0/0` on `R2`. Connect `Gig0/1` on `R2` to `Gig0/0` on `R3`.
+3. Deploy a new LAN behind `R3` using a switch and `PC4`. Use the `192.168.30.0/24` network.
+4. Configure the IP addressing for the point-to-point links.
+   - Assign `172.16.0.1/30` to `R1`. Assign `172.16.0.2/30` to `R2`.
+   - Assign `172.16.0.5/30` to `R2`. Assign `172.16.0.6/30` to `R3`.
+5. Configure the `R3` LAN. Assign `192.168.30.10/24` to `PC4`. Set the default gateway to `192.168.30.1`.
+6. Configure static routes on `R1` for the `R3` LAN.
+
+   ```bash
+   ip route 192.168.30.0 255.255.255.0 172.16.0.2
+   ```
+
+7. Configure static routes on `R2` for the `R1` VLAN networks and the `R3` LAN.
+
+   ```bash
+   ip route 192.168.10.0 255.255.255.0 172.16.0.1
+   ip route 192.168.20.0 255.255.255.0 172.16.0.1
+   ip route 192.168.30.0 255.255.255.0 172.16.0.6
+   ```
+
+8. Configure static routes on `R3` for the `R1` VLAN networks.
+
+   ```bash
+   ip route 192.168.10.0 255.255.255.0 172.16.0.5
+   ip route 192.168.20.0 255.255.255.0 172.16.0.5
+   ```
+
+9. Verify the routing tables on all routers. Ensure the static routes labeled `S` are present.
+
+   ```bash
+   show ip route
+   ```
+
+10. Test network connectivity. Ping `PC4` from a PC in `VLAN 10`.
+11. Run a traceroute from the PC to verify the packet hops.
+12. Simulate a routing error by configuring an incorrect next-hop IP on `R2`. Observe the resulting ping failure. Correct the next-hop IP to restore connectivity.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase6.pkt` for future reference.
+

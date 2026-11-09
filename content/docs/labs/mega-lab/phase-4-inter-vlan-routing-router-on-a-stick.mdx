@@ -1,0 +1,69 @@
+---
+sidebar:
+  order: 4
+title: Phase 4 Inter-VLAN Routing (Router-on-a-Stick)
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 4
+---
+## Lab objectives
+
+Enable communication between VLANs using a router. Configure `R1` as a router-on-a-stick. Configure an 802.1Q trunk on one physical link to carry multiple VLANs. Create subinterfaces on `R1` for each VLAN and assign IP gateways.
+
+## Configuration steps
+
+1. Connect `Gig0/0` on `R1` to `Fa0/23` on `SW1`.
+2. Configure `Fa0/23` on `SW1` as a trunk. Allow `VLAN 10` and `VLAN 20`.
+
+   ```bash
+   interface Fa0/23
+    switchport mode trunk
+    switchport trunk allowed vlan 10,20
+   ```
+
+3. Configure subinterfaces on `R1`. Remove the IP address from the main `Gig0/0` interface.
+
+   ```bash
+   interface GigabitEthernet0/0.10
+    encapsulation dot1Q 10
+    ip address 192.168.10.1 255.255.255.0
+    exit
+   interface GigabitEthernet0/0.20
+    encapsulation dot1Q 20
+    ip address 192.168.20.1 255.255.255.0
+   ```
+
+4. Ensure `Fa0/23` on `SW1` and the subinterfaces on `R1` use matching native VLAN configurations.
+5. Update the default gateways on the PCs. Set the `VLAN 10` PC gateway to `192.168.10.1`. Set the `VLAN 20` PC gateway to `192.168.20.1`.
+6. Test connectivity. Ping `PC1` from `PC0`. Verify the ping succeeds via `R1`.
+7. View the routing table on `R1`. Confirm routes to `192.168.10.0/24` and `192.168.20.0/24` exist.
+
+   ```bash
+   show ip route
+   ```
+
+8. View the ARP table on `R1`. Verify the MAC addresses of the PCs populate the table.
+
+   ```bash
+   show arp
+   ```
+
+9. View the ARP table on each PC. Verify the `R1` subinterface MAC address populates the table.
+10. Troubleshoot ping failures. Verify the allowed VLANs on the trunk. Verify each PC IP and gateway.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase4.pkt` for future reference.
+

@@ -1,0 +1,78 @@
+---
+sidebar:
+  order: 5
+title: Phase 5  Spanning Tree (RSTP) and EtherChannel
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 5
+---
+## Lab objectives
+
+Configure redundancy without network loops. Configure Spanning Tree Protocol (Rapid PVST+) to block redundant links and elect a root bridge. Bundle multiple physical links into one logical EtherChannel link using LACP. Configure STP enhancements including PortFast.
+
+## Configuration steps
+
+1. Add a third Cisco 2960 switch (`Switch3`).
+2. Connect `Switch3` to `SW1` and `SW2` to form a loop.
+3. Verify Rapid PVST+ status on `SW1`.
+
+   ```bash
+   show spanning-tree vlan 10
+   ```
+
+4. Identify the root bridge. Verify that one of the redundant ports enters the Blocking state.
+5. Change the root bridge priority on `SW1` to `4096`. Ensure `SW1` becomes the root bridge.
+
+   ```bash
+   spanning-tree vlan 10 priority 4096
+   ```
+
+6. Verify the Spanning Tree status again. Confirm `SW1` ports are in the Designated state.
+7. Enable PortFast on all edge access ports connecting to PCs.
+
+   ```bash
+   spanning-tree portfast
+   ```
+
+8. Verify PortFast status on the specific edge interfaces.
+9. Configure an EtherChannel port-channel between `SW1` and `SW2`.
+
+   ```bash
+   interface range Fa0/1-2
+    switchport mode trunk
+    channel-group 1 mode active
+   ```
+
+10. Apply the identical EtherChannel configuration to the corresponding ports on `SW2`.
+11. Verify the EtherChannel summary. Confirm the LACP bundle is active.
+
+    ```bash
+    show etherchannel summary
+    ```
+
+12. Verify the logical port-channel interface.
+
+    ```bash
+    show interface Port-channel 1
+    ```
+
+13. Test network connectivity. Ping between PCs to ensure all VLANs pass traffic.
+14. Disable one physical link in the EtherChannel bundle. Confirm the logical channel stays up. Verify traffic continues to flow.
+15. Set mismatched native VLANs on the EtherChannel ports. Observe the channel failure. Reconfigure matching native VLANs to resolve the error.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase5.pkt` for future reference.
+

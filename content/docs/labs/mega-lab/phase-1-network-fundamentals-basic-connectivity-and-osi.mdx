@@ -1,0 +1,51 @@
+---
+sidebar:
+  order: 1
+title: Phase 1 Network Fundamentals – Basic Connectivity and OSI
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 1
+sticker: emoji//26fa
+---
+## Lab objectives
+
+Review basic LAN setup, OSI layers, MAC addressing, and IP addressing. Identify Ethernet cabling types. Execute commands including `ipconfig`, `ping`, `arp -a`, and `show interfaces`.
+
+## Configuration steps
+
+1. Connect two PCs to a Cisco 2960 switch. Use straight-through copper cables from the PC NIC to the switch access ports.
+2. Implement the IP plan using the `10.0.0.0/24` network. Assign `10.0.0.10/24` to `PC1`. Assign `10.0.0.11/24` to `PC2`. Do not configure a default gateway.
+3. Configure the IPv4 address and subnet mask on each PC via **Desktop > IP Configuration**.
+4. Verify the IP configuration on each PC.
+
+   ```bash
+   ipconfig
+   ```
+
+5. Verify connectivity. Ping `10.0.0.11` from `PC1`. Ping `10.0.0.10` from `PC2`.
+6. Verify ARP resolution at Layer 2. Ensure the MAC address of the destination PC populates the ARP table.
+
+   ```bash
+   arp -a
+   ```
+
+7. Enable **Simulation mode** in Packet Tracer. Execute the ping command again.
+8. Observe the ARP broadcast, the ARP reply, and the ICMP echo packets.
+9. Disconnect one cable. Verify that the ping fails. Reconnect the cable.
+10. Change one port to a mismatched duplex or speed setting. Observe the resulting errors.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase1.pkt` for future reference.

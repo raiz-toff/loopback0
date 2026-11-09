@@ -1,0 +1,181 @@
+---
+title: "Lab 1.1: Device Hardening and Secure Remote Access"
+description: "Configure initial device security, console access, local credentials, and SSHv2 on Cisco IOS."
+date: 2026-10-14
+draft: false
+featured: false
+sidebar:
+  order: 1
+tags:
+  - CCNA
+  - Cisco IOS
+  - SSH
+  - Security
+  - Fundamentals
+categories:
+  - Networking
+  - Lab
+tech_stack:
+  - Cisco IOS
+  - Packet Tracer
+status: active
+---
+
+## Lab objectives
+
+- Configure hostnames and privileged EXEC passwords.
+- Configure legal warning banners on login.
+- Secure console and VTY lines with timeout limits.
+- Generate RSA keys and enable SSHv2.
+- Test remote access from a management workstation.
+
+## Topology
+
+The topology models a direct point-to-point management access segment. A management workstation (`Admin-PC`) connects directly to `Switch-1` over an access link:
+
+<DeviceLink
+  from={{ name: "Admin-PC", role: "host", port: "NIC", ip: "192.168.1.50", status: "up", icon: "/icons/cisco/pc.svg" }}
+  to={{ name: "Switch-1", role: "switch", port: "Gi0/1", ip: "192.168.1.2", status: "up", icon: "/icons/cisco/workgroup-switch.svg" }}
+  cable={{ mode: "access", speed: "1G", status: "up", animated: true, label: "VLAN 1" }}
+  variant="card"
+/>
+
+
+## Addressing table
+
+| Device | Interface | IP Address | Subnet Mask | Default Gateway |
+| :--- | :--- | :--- | :--- | :--- |
+| `Switch-1` | `Vlan1` | `192.168.1.2` | `255.255.255.0` | `192.168.1.1` |
+| `Admin-PC` | `NIC` | `192.168.1.50` | `255.255.255.0` | `192.168.1.1` |
+
+---
+
+## Task 1: Configure basic system settings
+
+Access the CLI of `Switch-1` through the console connection.
+
+1. Enter privileged EXEC mode.
+2. Enter global configuration mode.
+3. Configure the device hostname as `SW1`.
+4. Configure an encrypted privileged EXEC password.
+5. Encrypt all plain text passwords in the configuration.
+6. Configure a login banner to warn unauthorized users.
+
+```bash
+enable
+configure terminal
+hostname SW1
+enable secret Cisco12345!
+service password-encryption
+banner motd # AUTHORIZED ACCESS ONLY. VIOLATORS WILL BE PROSECUTED. #
+```
+
+---
+
+## Task 2: Harden console and terminal lines
+
+Configure the console port to prevent brute-force attacks and session hijacking.
+
+1. Enter console line configuration mode.
+2. Configure a local console password.
+3. Enable password checking at login.
+4. Set an inactivity timeout of 5 minutes.
+5. Enable synchronous logging to prevent output interruptions.
+
+```bash
+line console 0
+ password ConsolePass123!
+ login
+ exec-timeout 5 0
+ logging synchronous
+exit
+```
+
+---
+
+## Task 3: Configure secure management interface (SVI)
+
+Configure `Vlan1` to enable IP reachability for management traffic.
+
+1. Enter interface configuration mode for `Vlan1`.
+2. Assign the IP address `192.168.1.2` with subnet mask `255.255.255.0`.
+3. Activate the interface.
+4. Set the default gateway to `192.168.1.1`.
+
+```bash
+interface Vlan1
+ ip address 192.168.1.2 255.255.255.0
+ no shutdown
+exit
+ip default-gateway 192.168.1.1
+```
+
+---
+
+## Task 4: Configure SSHv2 and local authentication
+
+Disable insecure Telnet access and force SSHv2 encryption.
+
+1. Configure the IP domain name as `lab.local`.
+2. Create a local administrator account with privilege level 15.
+3. Generate RSA cryptographic keys with a 2048-bit modulus.
+4. Set the SSH version to 2.
+5. Configure lines `vty 0 15` to require SSH and local login credentials.
+6. Set the VTY inactivity timeout to 5 minutes.
+
+```bash
+ip domain-name lab.local
+username admin privilege 15 secret AdminSSH2026!
+crypto key generate rsa modulus 2048
+ip ssh version 2
+
+line vty 0 15
+ transport input ssh
+ login local
+ exec-timeout 5 0
+ logging synchronous
+exit
+```
+
+---
+
+## Task 5: Verify configurations and test connectivity
+
+1. Save the running configuration to the startup configuration.
+2. Open the command prompt on `Admin-PC`.
+3. Test network layer reachability with a ping command.
+4. Initiate an SSH session to `192.168.1.2`.
+5. Authenticate with username `admin` and password `AdminSSH2026!`.
+
+```text
+PC> ping 192.168.1.2
+Pinging 192.168.1.2 with 32 bytes of data:
+Reply from 192.168.1.2: bytes=32 time<1ms TTL=255
+Reply from 192.168.1.2: bytes=32 time<1ms TTL=255
+
+PC> ssh -l admin 192.168.1.2
+Open SSH to 192.168.1.2
+Password: 
+SW1#
+```
+
+---
+
+## Task 6: Verification checklist
+
+Run the following commands on `SW1` to verify configuration integrity:
+
+```bash
+show ip interface brief
+show ip ssh
+show line vty 0 15
+show running-config | section line
+```
+
+Validate expected output for SSH:
+
+```text
+SW1# show ip ssh
+SSH Enabled - version 2.0
+Authentication timeout: 120 secs; Authentication retries: 3
+```

@@ -1,0 +1,79 @@
+---
+sidebar:
+  order: 7
+sticker: emoji//1f530
+title: Phase 7 Dynamic Routing – RIP
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 7
+---
+## Lab objectives
+
+Configure RIP v2 on the routers to automate route exchange. Verify dynamic routing behavior and read routing table entries.
+
+## Configuration steps
+
+1. Enable RIP v2 routing on `R1`. Add the directly connected networks. Disable auto-summary.
+
+   ```bash
+   router rip
+   version 2
+   no auto-summary
+   network 192.168.10.0
+   network 192.168.20.0
+   network 172.16.0.0
+   ```
+
+2. Enable RIP v2 routing on `R2`. Add the directly connected networks. Disable auto-summary.
+
+   ```bash
+   router rip
+   version 2
+   no auto-summary
+   network 172.16.0.0
+   ```
+
+3. Enable RIP v2 routing on `R3`. Add the directly connected networks. Disable auto-summary.
+
+   ```bash
+   router rip
+   version 2
+   no auto-summary
+   network 192.168.30.0
+   network 172.16.0.0
+   ```
+
+4. Verify the RIP routing protocols. View the learned routes in the RIP database.
+
+   ```bash
+   show ip protocols
+   show ip rip database
+   ```
+
+5. View the routing tables. Ensure the learned RIP routes are marked with `R`.
+
+   ```bash
+   show ip route
+   ```
+
+6. Wait for RIP convergence. Ping between all PCs across all VLANs. Verify connectivity without static routes.
+7. Troubleshoot missing RIP routes. Verify the network statements match the connected interfaces.
+8. Disable the `R2` to `R3` link. Observe the routes age out of the routing table.
+9. Re-enable the link. Observe the RIP protocol re-advertise the routes.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase7.pkt` for future reference.
+

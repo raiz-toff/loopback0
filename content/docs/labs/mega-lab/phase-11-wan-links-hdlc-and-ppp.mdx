@@ -1,0 +1,87 @@
+---
+sidebar:
+  order: 11
+sticker: emoji//1f530
+title: Phase 11 WAN Links (HDLC and PPP)
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 11
+---
+## Lab objectives
+
+Configure point-to-point WAN links between routers. Compare Cisco HDLC and PPP encapsulations. Configure PPP authentication using CHAP.
+
+## Configuration steps
+
+1. Connect `Serial0/0` on `R2` to `Serial0/1` on `R3` using a DCE cable.
+2. Configure the clock rate on the DCE side (`R2`).
+
+   ```bash
+   clock rate 64000
+   ```
+
+3. Verify the default HDLC encapsulation. Check the interface status.
+
+   ```bash
+   show interfaces Serial0/0
+   ```
+
+4. Ping across the `R2` to `R3` link to verify connectivity.
+5. Change the encapsulation protocol to PPP on both routers.
+
+   ```bash
+   interface Serial0/0
+    encapsulation ppp
+   ```
+
+6. Verify the PPP encapsulation status. Wait for both routers to negotiate.
+
+   ```bash
+   show interfaces Serial0/0
+   ```
+
+7. Configure CHAP authentication on `R2`.
+
+   ```bash
+   username R3 password cisco123
+   interface Serial0/0
+    ppp chap hostname R2
+    ppp chap password cisco123
+   ```
+
+8. Configure CHAP authentication on `R3`.
+
+   ```bash
+   username R2 password cisco123
+   interface Serial0/1
+    ppp chap hostname R3
+    ppp chap password cisco123
+   ```
+
+9. Enable the serial link. Verify the CHAP handshake and authentication.
+
+   ```bash
+   show ppp all
+   debug ppp authentication
+   ```
+
+10. Verify connectivity. Ping between `R2` and `R3`. Verify routing and interface status.
+11. Enter an incorrect CHAP password on one router. Observe the LCP failure. Correct the password to fix.
+12. Revert the configuration to HDLC. Observe the encapsulation default behavior.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase11.pkt` for future reference.
+

@@ -1,0 +1,46 @@
+{
+  "name": "rn-portfolio-tmp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run",
+    "types:check": "fumadocs-mdx && next typegen && tsc --noEmit",
+    "ccna:live": "node scripts/toggle-ccna-drafts.mjs live",
+    "ccna:draft": "node scripts/toggle-ccna-drafts.mjs draft",
+    "ccna:toggle": "node scripts/toggle-ccna-drafts.mjs toggle",
+    "ccna:status": "node scripts/toggle-ccna-drafts.mjs status",
+    "postinstall": "fumadocs-mdx",
+    "images:optimize": "node scripts/optimize-images.mjs"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.9.0",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.1.0",
+    "class-variance-authority": "^0.7.1",
+    "cnfast": "^0.0.8",
+    "fumadocs-core": "16.10.7",
+    "fumadocs-mdx": "15.0.13",
+    "fumadocs-ui": "16.10.7",
+    "lucide-react": "^1.21.0",
+    "mermaid": "^11.16.0",
+    "next": "16.2.10",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.1.10"
+  }
+}

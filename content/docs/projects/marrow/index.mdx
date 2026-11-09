@@ -1,0 +1,110 @@
+---
+title: Marrow
+description: A declarative network topology compiler that builds interactive, self-contained HTML diagrams and vector components from YAML.
+sidebar:
+  order: 0
+---
+
+**Marrow** is an open-source network topology compiler. It translates declarative YAML architecture specifications into interactive, self-contained HTML files and standalone vector SVGs without requiring manual coordinate positioning.
+
+<div class="not-content" style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.25rem 0 2rem;">
+  <LinkButton href="https://marrowdiagram.vercel.app" icon="external" size="medium">Live Documentation</LinkButton>
+  <LinkButton href="https://github.com/raiz-toff/Marrow" variant="secondary" icon="github" size="medium">Source Repository</LinkButton>
+  <LinkButton href="/blog/marrow" variant="secondary" icon="right-arrow" size="medium">Read the Design Post</LinkButton>
+</div>
+
+---
+
+## Interactive topology preview
+
+The topology below is an embedded Marrow compilation of an enterprise home lab. It is compiled directly from a YAML definition and runs entirely client-side with full pan, zoom, device search, and inspector support:
+
+<Topology src="/projects/network-map/my-homelab.html" title="Interactive Marrow Topology Preview" />
+
+---
+
+## Declarative topology compilation
+
+Traditional network documentation relies either on manual drag-and-drop drafting tools or general-purpose diagram engines. Manual tools degrade quickly as networks evolve, while general DSLs output non-interactive static images lacking vendor networking semantics.
+
+Marrow separates the structural declaration from the spatial rendering:
+
+* **Tiers & Zones:** Devices declare their architectural role (`core`, `distribution`, `access`, `endpoint`) and logical zone rather than pixel coordinates.
+* **Automated Layout:** The compiler uses the Eclipse Layout Kernel (`elkjs`) and orthogonal wire routing (`libavoid-js`) to generate collision-free layouts.
+* **Network-Aware Semantics:** First-class support for interface endpoints, IP addresses, VLAN tags, trunking, port channels (LAG), and encapsulation types.
+* **Self-Contained Output:** Compiles to zero-dependency standalone HTML documents that work completely offline.
+
+---
+
+## Core architecture
+
+Marrow is engineered as a monorepo containing modular TypeScript packages:
+
+```text
+tools/Marrow/packages/
+├── cli          # Command-line interface (build, validate, export, serve)
+├── schema       # Zod schemas and validation diagnostics
+├── model        # Normalized in-memory graph representation
+├── layout       # elkjs and libavoid-js automated routing engine
+├── render-svg   # Headless vector and icon sprite generation
+├── runtime      # Client-side pan, zoom, search, and inspector engine
+├── site         # Responsive viewer shell and export compiler
+└── ui           # Composable React and shadcn component registry
+```
+
+---
+
+## Key capabilities
+
+* **Dual Output Modes:** Build full interactive canvas studios (`marrow build`) or emit standalone, tight-bounding-box SVGs (`marrow export --format svg`) for inline documentation.
+* **Vendor Icon Packs:** Integrated vector iconography for Cisco, Juniper, Fortinet, and generic enterprise infrastructure.
+* **Device Inspector:** Click any node to inspect configured interfaces, IP assignments, connected neighbors, and full Cisco IOS configuration scripts.
+* **Marrow UI Registry:** A `shadcn`-compatible component library providing `<MarrowEmbed />`, `<CableBadge />`, and documentation primitives for Next.js and MDX sites.
+* **Geometry Linter:** Built-in validation catching overlapping nodes, disconnected edge terminals, and unroutable paths prior to artifact generation.
+
+---
+
+## Authoring syntax example
+
+Topologies are written as concise YAML files:
+
+```yaml
+marrow: 2
+name: Device Hardening Lab
+theme: dark
+
+devices:
+  - id: admin-pc
+    name: Admin PC
+    icon: cisco/endpoints/pc
+    tier: endpoint
+    interfaces:
+      - name: FastEthernet0
+        ip: 192.168.1.50/24
+
+  - id: sw-1
+    name: Switch-1 (Cisco Catalyst 2960)
+    icon: cisco/switches/workgroup-switch
+    tier: access
+    interfaces:
+      - name: GigabitEthernet0/0/1
+        ip: 192.168.1.2/24
+
+links:
+  - from: admin-pc:FastEthernet0
+    to: sw-1:GigabitEthernet0/0/1
+    kind: copper
+    speed: 1G
+    mode: access
+    status: up
+```
+
+---
+
+## Project links & resources
+
+<div class="not-content" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem;">
+  <LinkButton href="https://marrowdiagram.vercel.app" icon="external" size="large">Documentation Site</LinkButton>
+  <LinkButton href="https://github.com/raiz-toff/Marrow" variant="secondary" icon="github" size="large">GitHub (raiz-toff/Marrow)</LinkButton>
+  <LinkButton href="/blog/marrow" variant="secondary" icon="right-arrow" size="large">Technical Retrospective</LinkButton>
+</div>

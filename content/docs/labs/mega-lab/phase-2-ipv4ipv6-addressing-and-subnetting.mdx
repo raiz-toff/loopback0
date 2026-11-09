@@ -1,0 +1,59 @@
+---
+sidebar:
+  order: 2
+sticker: emoji//1f530
+title: Phase 2 IPv4,IPv6 Addressing and Subnetting
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+weight: 2
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+---
+## Lab objectives
+
+Review IP addressing schemes, subnetting, VLSM, and IPv6 basics. Practice dividing networks into subnets. Configure static IPv6 addresses. Enable IPv6 routing.
+
+## Configuration steps
+
+1. Add a Cisco 2911 router (`R1`). Add a second Cisco 2960 switch (`Switch2`) with two PCs.
+2. Connect `R1` to both switches using different interfaces.
+3. Create two LANs. Assign `192.168.10.0/24` to `Switch1` PCs. Assign `192.168.20.0/24` to `Switch2` PCs.
+4. On `R1`, assign `192.168.10.1/24` to `Gig0/0`. Assign `192.168.20.1/24` to `Gig0/1`.
+5. Configure `PC0` and `PC1` with `192.168.10.10/24` and `192.168.10.11/24`. Set their default gateway to `192.168.10.1`.
+6. Configure `PC2` with `192.168.20.10/24`. Set its default gateway to `192.168.20.1`.
+7. Divide the `192.168.10.0/24` network into two `/25` subnets. Redeploy the addresses using the new subnets.
+8. Enable IPv6 routing on `R1`. Configure IPv6 addresses on the interfaces.
+
+   ```bash
+   ipv6 unicast-routing
+   interface gigabitEthernet0/0
+    ipv6 address 2001:db8:10:0::1/64
+    exit
+   interface gigabitEthernet0/1
+    ipv6 address 2001:db8:20:0::1/64
+   ```
+
+9. Configure IPv6 addresses on the PCs. Assign `2001:db8:10:0::10/64` to `PC0`.
+10. Ping `2001:db8:10:0::1` from `PC0` to verify connectivity to the router.
+11. Ping `192.168.20.10` from `PC0`. Verify that the ping fails.
+12. Verify the IPv6 interfaces on `R1`. Ensure the interfaces are up.
+
+    ```bash
+    show ipv6 interface brief
+    ```
+
+13. Remove the `ipv6 unicast-routing` command from `R1`. Observe the connectivity failure. Reapply the command.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase2.pkt` for future reference.

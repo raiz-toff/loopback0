@@ -1,0 +1,45 @@
+---
+title: "Where It All Started: Fixing Dead Motherboards in Kathmandu"
+date: 2024-01-01
+description: "Before networking certifications and Canadian winters, my start in IT was an 8-to-10-month chip-level repair course in Kathmandu with a multimeter and a soldering iron."
+tags:
+  - hardware
+  - nepal
+  - career
+  - troubleshooting
+categories:
+  - Story
+cover: "/img/soldering.jpg"
+draft: false
+---
+
+My start in IT wasn't with network simulators or cloud dashboards. Before moving to Canada and passing the [CCNA](/blog/ccna-journey), I spent **8 to 10 months** in Kathmandu learning **chip-level laptop and mobile board repair** with a multimeter, a hot-air rework station, and a soldering iron.
+
+> **The baseline:** **8–10 months** at Kantipur Technical Institute · **Chip-level motherboard diagnostics** · **Live customer devices**, not practice boards
+
+## Prying open my first customer laptop was terrifying
+
+During the COVID-19 lockdowns, right after finishing school, I enrolled in a hands-on hardware program at [Kantipur Technical Institute](https://www.kantipurtechnical.com/training/chip-level-laptop-repairing-training/). Every morning, I woke up early and walked to the workshop in Kathmandu to spend the day at a repair bench.
+
+In the first few weeks, **just prying open a plastic laptop chassis felt like a high-stakes operation**. I was constantly worried about snapping a fragile keyboard ribbon cable or cracking a display hinge on a machine someone actually owned.
+
+![Soldering a circuit board at the repair bench in Kathmandu](/img/soldering.jpg)
+
+## We trained on dead customer motherboards, not dummy kits
+
+The curriculum moved fast from basic desktop assembly to component-level diagnostics across four areas:
+
+- **Chip-level laptop motherboard repair:** Desoldering shorted surface-mount capacitors, MOSFETs, and charging ICs.
+- **Android smartphone board repair:** Micro-soldering charging ports and power management chips.
+- **Desktop and laptop hardware triage:** Isolating bad RAM channels, failing drives, and thermal shutdowns.
+- **Foundational local networking:** Crimping RJ45 cables and setting up basic office LANs.
+
+Because we worked on **real customer laptops brought into the shop**, there was no answer key at the back of a lab manual. Either the board powered on and posted to BIOS, or it stayed dead on the mat.
+
+## Reading PDF circuit schematics changed how I troubleshoot everything
+
+The most useful skill I picked up at that bench had nothing to do with steady hands on a soldering iron. It was **reading motherboard PDF schematics and boardview files**.
+
+When a laptop has no power, you cannot guess which chip is bad by looking at the board. You have to look up the schematic, set your multimeter to DC voltage or continuity mode, and **trace the 19V main power rail step by step** until you find the exact component where the voltage drops to zero.
+
+That exact diagnostic habit still runs underneath everything I do today, whether I am isolating a broken VLAN trunk in my [Proxmox home lab](/docs/labs/my-homelab) or running high-volume hardware triage on the depot floor. You don't fix a broken system by guessing; you trace the signal from the source until you find where it stops.

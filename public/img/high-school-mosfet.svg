@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" width="100%" height="100%" style="background:#ffffff; font-family: var(--font-sans), var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <!-- Chalk / Crayon roughness filter for orange leads -->
+    <filter id="crayon-roughness" x="-15%" y="-20%" width="130%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.22" numOctaves="3" result="roughNoise" />
+      <feDisplacementMap in="SourceGraphic" in2="roughNoise" scale="3.2" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+      <feGaussianBlur in="displaced" stdDeviation="0.25" result="blurred" />
+      <feMerge>
+        <feMergeNode in="displaced" />
+        <feMergeNode in="blurred" opacity="0.45" />
+      </feMerge>
+    </filter>
+
+    <linearGradient id="orange-lead-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f97316" />
+      <stop offset="50%" stop-color="#ea580c" />
+      <stop offset="100%" stop-color="#fb923c" />
+    </linearGradient>
+  </defs>
+
+  <!-- 1. Transistor Outer Envelope (Circle) -->
+  <circle cx="375" cy="175" r="82" fill="none" stroke="#18181b" stroke-width="2.6" />
+
+  <!-- 2. Gate Terminal (Left) -->
+  <!-- Solid Vertical Gate Plate -->
+  <line x1="354" y1="125" x2="354" y2="225" stroke="#18181b" stroke-width="3.2" stroke-linecap="round" />
+  
+  <!-- Gate lead exiting bottom of plate -->
+  <line x1="354" y1="225" x2="310" y2="225" stroke="#18181b" stroke-width="2.8" stroke-linecap="round" />
+  <line x1="310" y1="225" x2="280" y2="225" stroke="#18181b" stroke-width="2.6" />
+
+  <!-- Orange Textured Chalk Lead for Gate (HARD WORK) -->
+  <g filter="url(#crayon-roughness)">
+    <line x1="280" y1="225" x2="188" y2="225" stroke="url(#orange-lead-grad)" stroke-width="4.8" stroke-linecap="round" />
+    <line x1="279" y1="224.5" x2="189" y2="225.5" stroke="#f97316" stroke-width="2.5" stroke-dasharray="4 2 8 3" opacity="0.85" />
+  </g>
+
+  <!-- Label "HARD WORK" -->
+  <text x="176" y="230" text-anchor="end" font-size="17" font-weight="700" letter-spacing="0.04em" fill="#1d4ed8">HARD WORK</text>
+
+  <!-- 3. Channel (3 Segments, N-Channel Enhancement Mode) -->
+  <!-- Top Segment (Drain contact) -->
+  <line x1="374" y1="125" x2="374" y2="150" stroke="#18181b" stroke-width="3.2" stroke-linecap="round" />
+  
+  <!-- Middle Segment (Bulk/Substrate) -->
+  <line x1="374" y1="163" x2="374" y2="188" stroke="#18181b" stroke-width="3.2" stroke-linecap="round" />
+  
+  <!-- Bottom Segment (Source contact) -->
+  <line x1="374" y1="200" x2="374" y2="225" stroke="#18181b" stroke-width="3.2" stroke-linecap="round" />
+
+  <!-- 4. Drain Terminal (Top) -->
+  <line x1="374" y1="137.5" x2="398" y2="137.5" stroke="#18181b" stroke-width="2.6" />
+  <line x1="398" y1="137.5" x2="398" y2="52" stroke="#18181b" stroke-width="2.6" />
+
+  <!-- Orange Textured Chalk Lead for Drain (SUCCESS) -->
+  <g filter="url(#crayon-roughness)">
+    <line x1="398" y1="52" x2="512" y2="52" stroke="url(#orange-lead-grad)" stroke-width="4.8" stroke-linecap="round" />
+    <line x1="399" y1="51.5" x2="511" y2="52.5" stroke="#f97316" stroke-width="2.5" stroke-dasharray="5 3 7 2" opacity="0.85" />
+  </g>
+
+  <!-- Label "SUCCESS" -->
+  <text x="524" y="57" text-anchor="start" font-size="17" font-weight="700" letter-spacing="0.04em" fill="#1d4ed8">SUCCESS</text>
+
+  <!-- 5. Substrate / Bulk Arrow (Middle) -->
+  <polygon points="375,175 387,169 387,181" fill="#18181b" />
+  <line x1="387" y1="175" x2="398" y2="175" stroke="#18181b" stroke-width="2.6" />
+
+  <!-- 6. Source Terminal (Bottom) -->
+  <line x1="374" y1="212.5" x2="398" y2="212.5" stroke="#18181b" stroke-width="2.6" />
+  <line x1="398" y1="175" x2="398" y2="296" stroke="#18181b" stroke-width="2.6" />
+
+  <!-- Orange Textured Chalk Lead for Source (LIFE) -->
+  <g filter="url(#crayon-roughness)">
+    <line x1="398" y1="296" x2="512" y2="296" stroke="url(#orange-lead-grad)" stroke-width="4.8" stroke-linecap="round" />
+    <line x1="399" y1="295.5" x2="511" y2="296.5" stroke="#f97316" stroke-width="2.5" stroke-dasharray="6 2 4 3" opacity="0.85" />
+  </g>
+
+  <!-- Label "LIFE" (Bold Red) -->
+  <text x="524" y="301" text-anchor="start" font-size="18" font-weight="800" letter-spacing="0.04em" fill="#dc2626">LIFE</text>
+</svg>

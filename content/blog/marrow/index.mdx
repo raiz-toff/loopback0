@@ -1,0 +1,89 @@
+---
+title: "Marrow: A Network Diagram Tool I Built for My Own Labs"
+date: 2026-07-23
+description: "Marrow compiles a description of your network into a self-contained, interactive HTML diagram you host yourself — no login wall, no drawing by hand. Here's what it does and why I built it."
+tags: ["Marrow", "Side Project", "Networking", "Documentation", "Open Source", "Diagrams"]
+categories: ["Projects"]
+cover: "/blog/covers/marrow.png"
+draft: false
+featured: true
+---
+
+**Marrow** is an open-source tool that compiles declarative network descriptions into interactive, self-contained HTML diagrams. These files can be embedded in documentation sites, wikis, or static hosts. For comprehensive technical details, consult the [documentation site](https://marrowdiagram.vercel.app) and the GitHub repository linked below.
+
+The following diagram demonstrates Marrow's compiled output. This topology was generated entirely from a text-based description without manual graphical placement:
+
+<Topology src="/projects/network-map/my-homelab.html" title="My home lab, compiled by Marrow" />
+
+The generated HTML file is fully self-contained. It supports panning, zooming, node inspection, search functionality, and exporting to PNG or SVG formats. It operates entirely offline without external API dependencies or authentication requirements.
+
+## Core problem and objectives
+
+Traditional network documentation relies on manual drawing tools (e.g., draw.io, Lucidchart) or Domain-Specific Languages (e.g., Graphviz, Mermaid). Manual tools require significant effort to update when topologies change. DSLs are easily version-controlled but output static, non-interactive images.
+
+Marrow addresses these limitations by allowing users to maintain text-based network descriptions in version control while generating dynamic, interactive diagrams.
+
+## Structural declaration over graphical layout
+
+Marrow operates on declarative principles. Users define the components and their relationships rather than their graphical coordinates.
+
+```yaml
+marrow: 2
+name: Small Office
+theme: dark
+
+zones:
+  - id: office
+    name: Office LAN
+
+devices:
+  - id: core-sw-01
+    name: Core Switch
+    icon: affinity/tile/switch-multilayer
+    tier: core
+    zone: office
+  - id: srv-01
+    name: File Server
+    icon: affinity/tile/server
+    tier: endpoint
+    zone: office
+
+links:
+  - from: core-sw-01:Gi1/0/1
+    to: srv-01:eno1
+    speed: 10G
+```
+
+By specifying a device's **zone** and **tier**, the rendering engine automatically computes the optimal layout (e.g., layered, hub-and-spoke, ring, or mesh). 
+
+The tool includes a built-in schema validator. It detects invalid references and syntax errors prior to compilation, providing specific line numbers and correction suggestions.
+
+## Portable and self-contained output
+
+The generated diagram artifacts are fully portable. The interactive HTML file operates independently of any hosting platform or proprietary viewer. 
+
+Users can author the required YAML configurations manually or generate them programmatically. Marrow includes a Claude Code skill, enabling AI agents to design and validate network topologies autonomously.
+
+## Project status and architecture
+
+Marrow is open-source software released under the MIT license. Key technical specifications include:
+
+- **Runtime:** Requires Node.js version 24 or higher.
+- **Iconography:** Includes over 1,120 built-in icons (Cisco-style, generic, and Kubernetes). Supports dynamic fetching for AWS, Azure, and GCP icon packs.
+- **Reliability:** Maintained with comprehensive test suites and CI pipelines.
+
+The official documentation site details the schema structure and architectural decisions.
+
+<div className="my-10 flex justify-center rounded-xl py-12" style={{ background: "#09090b", border: "1px solid rgba(255,255,255,0.08)" }}>
+  <img src="/img/marrow/wordmark-dark.svg" alt="Marrow" style={{ height: "44px", width: "auto" }} />
+</div>
+
+## Explore the project
+
+Review the documentation, CLI references, and design architecture:
+
+<LinkCard title="marrowdiagram.vercel.app" href="https://marrowdiagram.vercel.app" />
+
+Access the source code repository:
+
+<LinkCard title="github.com/raiz-toff/Marrow" href="https://github.com/raiz-toff/Marrow" />

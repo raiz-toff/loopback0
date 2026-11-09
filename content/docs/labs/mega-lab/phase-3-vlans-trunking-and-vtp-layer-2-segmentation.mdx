@@ -1,0 +1,82 @@
+---
+sidebar:
+  order: 3
+title: Phase 3 VLANs, Trunking, and VTP (Layer 2 Segmentation)
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+weight: 3
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+---
+## Lab objectives
+
+Configure Virtual LANs to isolate broadcast domains. Configure 802.1Q trunks for inter-switch links. Configure VTP for VLAN management.
+
+## Configuration steps
+
+1. Connect two Cisco 2960 switches (`SW1` and `SW2`) together using interface `Fa0/24`.
+2. Connect `PC0` and `PC1` to `SW1`. Connect `PC2` and `PC3` to `SW2`.
+3. Configure VTP on `SW1`.
+
+   ```bash
+   vtp domain CCNA_LAB
+   vtp mode server
+   vtp password secret
+   ```
+
+4. Configure VTP on `SW2`.
+
+   ```bash
+   vtp domain CCNA_LAB
+   vtp mode client
+   vtp password secret
+   ```
+
+5. Create `VLAN 10` and name it `HR` on `SW1`.
+6. Create `VLAN 20` and name it `IT` on `SW1`.
+7. Verify that the VLANs auto-propagate to `SW2`.
+
+   ```bash
+   show vlan brief
+   ```
+
+8. Assign `PC0` and `PC2` to `VLAN 10`.
+
+   ```bash
+   switchport access vlan 10
+   ```
+
+9. Assign `PC1` and `PC3` to `VLAN 20`.
+10. Update the IP addresses to match the VLAN subnets. Assign `192.168.10.10/24` to `PC0`. Assign `192.168.20.10/24` to `PC1`.
+11. Configure a trunk link on `Fa0/24` for both switches.
+
+    ```bash
+    interface Fa0/24
+     switchport mode trunk
+     switchport trunk native vlan 99
+     switchport trunk allowed vlan 10,20
+    ```
+
+12. Verify the trunk interface on both switches.
+
+    ```bash
+    show interfaces trunk
+    ```
+
+13. Verify network segmentation. Ping `PC2` from `PC0`. Ping `PC1` from `PC0`. Verify that cross-VLAN pings fail.
+14. Misconfigure the trunk as an access port on `SW1`. Verify that VLANs vanish on `SW2`. Restore the trunk configuration.
+15. Change `SW2` to VTP transparent mode. Observe the synchronization failure. Restore the VTP mode to client.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase3.pkt` for future reference.

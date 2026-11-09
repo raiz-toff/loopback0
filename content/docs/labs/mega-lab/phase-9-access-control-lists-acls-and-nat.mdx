@@ -1,0 +1,80 @@
+---
+sidebar:
+  order: 9
+sticker: emoji//1f530
+title: Phase 9  Access Control Lists (ACLs) and NAT
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 9
+---
+## Lab objectives
+
+Filter packets with standard and extended Access Control Lists (ACLs). Translate addresses with NAT and PAT. Configure internal networks to share a public IP address.
+
+## Configuration steps
+
+1. Configure a standard ACL on `R1` to block traffic from `VLAN 20` to `VLAN 10`.
+
+   ```bash
+   access-list 10 deny 192.168.20.0 0.0.0.255
+   access-list 10 permit any
+   interface GigabitEthernet0/0.10
+    ip access-group 10 in
+   ```
+
+2. Test the standard ACL. Ping a `VLAN 10` PC from a `VLAN 20` PC. Verify the ping is denied.
+3. Configure an extended ACL on `R1`. Block Telnet traffic from any source to `192.168.10.10`. Allow all other IP traffic.
+
+   ```bash
+   access-list 100 deny tcp any host 192.168.10.10 eq 23
+   access-list 100 permit ip any any
+   interface GigabitEthernet0/0.10
+    ip access-group 100 in
+   ```
+
+4. Verify the extended ACL. Attempt to establish a Telnet session to `192.168.10.10`. Verify the session is blocked.
+5. Configure NAT overload (PAT) on `R3`. Allow all `192.168.10.0/24` hosts to share the external interface IP.
+
+   ```bash
+   access-list 1 permit 192.168.10.0 0.0.0.255
+   interface GigabitEthernet0/1
+    ip nat inside
+    exit
+   interface Serial0/0
+    ip nat outside
+    exit
+   ip nat inside source list 1 interface Serial0/0 overload
+   ```
+
+6. Verify the active NAT translations. Ping an external Internet IP via `R3`. Ensure NAT translates the address successfully.
+
+   ```bash
+   show ip nat translations
+   show ip nat statistics
+   ```
+
+7. Verify the configured access lists.
+
+   ```bash
+   show access-lists
+   ```
+
+8. Remove the `permit ip any any` statement from the ACL. Observe all traffic drop. Restore the statement.
+9. Remove the `ip nat inside` command from the internal interface. Observe PAT failures. Reapply the command.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase9.pkt` for future reference.
+

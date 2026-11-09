@@ -1,0 +1,81 @@
+---
+sidebar:
+  order: 10
+sticker: emoji//1f530
+title: Phase 10 DHCP, DNS, SNMP and Other IP Services
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 10
+---
+## Lab objectives
+
+Configure essential network services. Configure DHCP for automated IP assignment. Configure DNS for name resolution. Configure NTP for time synchronization. Configure SNMP and Syslog for monitoring.
+
+## Configuration steps
+
+1. Configure DHCP pools on `R1`.
+
+   ```bash
+   ip dhcp excluded-address 192.168.10.1 192.168.10.5
+   ip dhcp pool VLAN10
+    network 192.168.10.0 255.255.255.0
+    default-router 192.168.10.1
+    dns-server 192.168.20.254
+   ```
+
+2. Repeat the DHCP configuration for the `VLAN 20` network.
+3. Configure the PCs to obtain an IPv4 address via DHCP. Verify the assigned IP, subnet mask, and gateway.
+4. Add a **Server** device in Packet Tracer. Enable the DNS service.
+5. Create a DNS hostname entry mapping `www.locallab.com` to `192.168.10.10`.
+6. Configure the PCs to use the DNS Server IP.
+7. Verify DNS resolution from a PC. Ensure the command returns the correct IP address.
+
+   ```bash
+   nslookup www.locallab.com
+   ```
+
+8. Configure the routers to use the Server IP for NTP synchronization.
+
+   ```bash
+   ntp server 192.168.20.254
+   ```
+
+9. Configure read-only SNMP on `R1`.
+
+   ```bash
+   snmp-server community public RO
+   ```
+
+10. Verify SNMP functionality.
+
+    ```bash
+    show snmp
+    ```
+
+11. Configure Syslog to send logs to the external server and the local buffer.
+
+    ```bash
+    logging host 192.168.20.254
+    logging buffered 4096
+    ```
+
+12. Generate a log event using the `reload in 1` command. Verify the logs appear on the server.
+13. Misconfigure the DHCP excluded range. Observe IP assignment failures. Restore the correct range.
+14. Attempt to resolve an unknown DNS hostname. Observe the failure. Correct the hostname typo to fix.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase10.pkt` for future reference.
+

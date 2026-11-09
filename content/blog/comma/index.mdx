@@ -1,0 +1,84 @@
+---
+title: "Comma: An Earnings Tracker I Built for Gig Workers"
+date: 2026-07-04
+description: "I built Comma, a privacy-first earnings tracker for delivery drivers. It tracks shifts, mileage, expenses, and taxes — and everything stays on your device. Here is the story behind it."
+tags: ["Comma", "Side Project", "Gig Economy", "Privacy", "PWA", "Mobile App"]
+categories: ["Projects"]
+draft: false
+cover: "/blog/covers/comma.png"
+---
+
+**Comma** is an earnings tracker designed for gig workers who deliver for platforms like DoorDash, Uber Eats, SkipTheDishes, and Instacart. This post outlines its features and technical architecture. For detailed technical documentation, refer to the [documentation site](https://comma-docs.vercel.app/) and the GitHub repositories linked at the end.
+
+## Core problem and objectives
+
+Gig workers who use multiple applications often struggle to calculate their true net earnings. Platform applications display gross earnings without accounting for fuel, vehicle maintenance, or tax liabilities. For example, a $200 gross day may result in only $130 of net income. Comma provides business-level accounting tools to calculate these hidden costs accurately.
+
+## Feature overview
+
+Comma records shift routes, distances, and duration automatically via GPS. Users manually log their gross earnings and expenses. The application processes this data to output the following metrics:
+
+- **Net hourly rate:** Calculates true earnings after deducting fuel, maintenance, and vehicle costs.
+- **Tax set-aside:** Estimates required tax withholdings based on regional tax rules.
+- **Tax-deductible expenses:** Flags eligible expenses automatically.
+- **Profitability analysis:** Compares profitability across different platforms and vehicles.
+
+<div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+
+![Dashboard showing weekly net earnings, shift time, distance driven and hourly rate](screenshots/dashboard.jpg)
+
+![Shift details with GPS route map, duration, hourly rate and distance](screenshots/shift-details.jpg)
+
+![Analytics stat cards: gross earnings, net take-home, average rate, tax set-aside](screenshots/analytics.jpg)
+
+</div>
+
+The application categorizes logged expenses and flags deductible items. It generates monthly financial reports and supports CSV exports. Users can manage multiple vehicles, including cars, scooters, and e-bikes.
+
+<div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+
+![Expenses screen with monthly total, weekly chart and tax-deductible transactions](screenshots/expenses.jpg)
+
+![Monthly report with gross revenue, net earnings, shifts and CSV export actions](screenshots/reports-export.jpg)
+
+![Vehicle list with a car, scooter and e-bike](screenshots/vehicles.jpg)
+
+</div>
+
+Comma includes gamification elements such as weekly goals, streaks, XP levels, and badges. These features encourage consistent data logging.
+
+<div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+
+![Weekly revenue goal thermometer with monthly and yearly goals](screenshots/goals.jpg)
+
+![Driver XP level, day streak ring and weekly challenges](screenshots/progress-xp.jpg)
+
+![Platform and vehicle switcher with DoorDash selected](screenshots/platform-switcher.jpg)
+
+</div>
+
+## Local-first architecture and privacy
+
+Comma uses a local-first architecture to ensure data privacy. Financial data never leaves the user's device. The application requires no user accounts, emails, or passwords. It does not use a central backend server to collect income history. Users can optionally enable encrypted backups to their personal Google Drive.
+
+> **Note:** Because Comma operates entirely offline, users are responsible for backing up their data to prevent loss in case of device failure.
+
+## Application architecture
+
+The project consists of two separate applications that share a compatible backup format:
+
+- **Comma PWA:** A Progressive Web App built with Vanilla JavaScript and IndexedDB. It works offline and runs entirely in the browser.
+- **Comma native:** A native Android application built with Expo and React Native. It includes background GPS tracking to record routes and mileage automatically.
+
+Both applications use identical data models. This ensures backups from one platform can be restored on the other.
+
+## Project status and availability
+
+Comma is open-source under the MIT license and contains no paywalls. The tax calculation engine currently supports rules for the US, Canada, UK, and Nepal. The regional system is modular, allowing developers to contribute new regions and platforms easily.
+
+## Explore the project
+
+Review the documentation for setup guides and architecture details: [comma-docs.vercel.app](https://comma-docs.vercel.app/)
+
+The Android app, the web app, and the docs live in one repository:
+<LinkCard title="github.com/raiz-toff/Comma" href="https://github.com/raiz-toff/Comma" />

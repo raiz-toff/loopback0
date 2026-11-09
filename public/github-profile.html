@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Profile README — Rajkumar Neupane</title>
+  <link rel="icon" href="/favicon-96x96.png" type="image/png" />
+  <style>
+    :root {
+      --page-bg: #09090b;
+      --chrome-border: #27272a;
+      --gh-canvas: #0d1117;
+      --gh-border: #30363d;
+      --gh-text: #e6edf3;
+      --gh-muted: #8b949e;
+      --gh-link: #58a6ff;
+      --gh-table-border: #30363d;
+      --gh-table-bg: #0d1117;
+    }
+
+    body.light {
+      --gh-canvas: #ffffff;
+      --gh-border: #d0d7de;
+      --gh-text: #1f2328;
+      --gh-muted: #656d76;
+      --gh-link: #0969da;
+      --gh-table-border: #d0d7de;
+      --gh-table-bg: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--page-bg);
+      color: #f4f4f5;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      padding: 36px 20px 64px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 896px;
+      margin: 0 auto;
+    }
+
+    header.toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--chrome-border);
+    }
+
+    header.toolbar h1 {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #f4f4f5;
+    }
+
+    header.toolbar p {
+      font-size: 12px;
+      color: #a1a1aa;
+      margin-top: 3px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-group {
+      display: flex;
+      gap: 4px;
+      background: #18181b;
+      border: 1px solid var(--chrome-border);
+      padding: 3px;
+      border-radius: 6px;
+    }
+
+    .toggle-btn {
+      background: transparent;
+      border: none;
+      color: #a1a1aa;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .toggle-btn.active {
+      background: #27272a;
+      color: #f4f4f5;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.14);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+
+    .btn:hover {
+      background: rgba(245, 158, 11, 0.24);
+    }
+
+    .btn.secondary {
+      background: #18181b;
+      color: #d4d4d8;
+      border-color: #27272a;
+    }
+
+    .btn.secondary:hover {
+      background: #27272a;
+    }
+
+    .btn.copied {
+      background: rgba(16, 185, 129, 0.16) !important;
+      border-color: rgba(16, 185, 129, 0.4) !important;
+      color: #34d399 !important;
+    }
+
+    .gh-box {
+      background-color: var(--gh-canvas);
+      border: 1px solid var(--gh-border);
+      border-radius: 6px;
+      padding: 24px;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .gh-box-header {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      color: var(--gh-text);
+      margin-bottom: 16px;
+    }
+
+    .gh-box-header .muted {
+      color: var(--gh-muted);
+    }
+
+    .markdown-body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--gh-text);
+      word-wrap: break-word;
+    }
+
+    .markdown-body a {
+      color: var(--gh-link);
+      text-decoration: none;
+    }
+
+    .markdown-body a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-body img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .markdown-body p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+
+    .markdown-body strong {
+      font-weight: 600;
+    }
+
+    .markdown-body table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      display: table;
+      width: 100%;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+
+    .markdown-body table tr {
+      background-color: var(--gh-table-bg);
+      border-top: 1px solid var(--gh-table-border);
+    }
+
+    .markdown-body table td {
+      padding: 12px 14px;
+      border: 1px solid var(--gh-table-border);
+      font-size: 14.5px;
+      line-height: 1.55;
+    }
+
+    .markdown-body ul {
+      padding-left: 20px;
+      margin-top: 8px;
+      margin-bottom: 0;
+    }
+
+    .markdown-body li {
+      margin-top: 4px;
+      font-size: 14px;
+    }
+
+    .markdown-body sub {
+      font-size: 12.5px;
+      color: var(--gh-muted);
+    }
+
+    .markdown-body p[align="center"] {
+      text-align: center;
+      margin-bottom: 0;
+    }
+
+    .setup-note {
+      margin-top: 22px;
+      padding: 14px 16px;
+      background: #111114;
+      border: 1px solid #27272a;
+      border-radius: 6px;
+      font-size: 11.5px;
+      color: #a1a1aa;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .setup-note code {
+      color: #e4e4e7;
+      background: #18181b;
+      padding: 2px 5px;
+      border-radius: 3px;
+      border: 1px solid #27272a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="toolbar">
+      <div>
+        <h1>github profile readme</h1>
+        <p>raiz-toff / README.md &middot; live preview</p>
+      </div>
+      <div class="controls">
+        <div class="toggle-group">
+          <button class="toggle-btn active" id="btnDark" onclick="setTheme('dark')">gh dark</button>
+          <button class="toggle-btn" id="btnLight" onclick="setTheme('light')">gh light</button>
+        </div>
+        <button class="btn" onclick="copyMarkdown(this)">
+          <span>copy README.md ↓</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="gh-box">
+      <div class="gh-box-header">
+        raiz-toff<span class="muted"> / </span>README<span class="muted">.md</span>
+      </div>
+
+      <article class="markdown-body">
+        <p>
+          <a href="https://www.rajkumarneupane.com" target="_blank" rel="noopener noreferrer">
+            <img id="bannerImg" src="github/banner-dark.svg?v=3" alt="Rajkumar Neupane · Network Support Technician in Toronto." width="100%" />
+          </a>
+        </p>
+
+        <p>
+          Before moving into networking, I learned how to repair dead laptop motherboards in Kathmandu with a multimeter, a soldering iron, and board schematics. Tracing power across circuits taught me to find where things actually fail instead of guessing, and that is still how I approach networks and software today.
+        </p>
+
+        <table>
+          <tr>
+            <td width="50%" valign="top">
+              <strong>from the notebook</strong><br />
+              <sub>plain-English notes &amp; labs · <a href="https://www.rajkumarneupane.com/docs" target="_blank">rajkumarneupane.com/docs</a></sub>
+              <ul>
+                <li><a href="https://www.rajkumarneupane.com/docs" target="_blank">Lab notebook</a> · routing, switching, and server setups tested at home</li>
+                <li><a href="https://www.rajkumarneupane.com/blog/proxmox-problems-and-solutions" target="_blank">Proxmox over laptop Wi-Fi</a> · getting a home server online without Ethernet</li>
+                <li><a href="https://www.rajkumarneupane.com/blog/ccna-journey" target="_blank">300+ labs in 19 days</a> · how I studied for and passed the CCNA</li>
+                <li><a href="https://www.rajkumarneupane.com/blog/computer-repairing-in-nepal" target="_blank">Board repair in Kathmandu</a> · where I got my start in hardware</li>
+              </ul>
+            </td>
+            <td width="50%" valign="top">
+              <strong>things I built</strong><br />
+              <sub>small tools made for real problems</sub>
+              <ul>
+                <li><a href="https://github.com/raiz-toff/Comma" target="_blank">Comma</a> · pay tracker for gig workers that keeps all data on your phone</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+
+        <p align="center" style="margin: 24px 0 16px;">
+          <img id="networkImg" src="github/network-dark.svg" alt="Network conduits and moving packet animation" width="100%" />
+        </p>
+
+        <p align="center">
+          <sub>
+            <a href="https://www.rajkumarneupane.com" target="_blank">rajkumarneupane.com</a>
+            &nbsp;&middot;&nbsp;
+            <a href="https://www.linkedin.com/in/rjneupane" target="_blank">linkedin</a>
+            &nbsp;&middot;&nbsp;
+            <a href="https://www.credly.com/users/rajkumarneupane" target="_blank">credly</a>
+            &nbsp;&middot;&nbsp;
+            <a href="https://www.rajkumarneupane.com/about" target="_blank">contact</a>
+          </sub>
+        </p>
+      </article>
+    </div>
+
+    <div class="setup-note">
+      <div>
+        Drop <code>banner-*.svg</code> &amp; <code>network-*.svg</code> into <code>raiz-toff/assets/</code> and paste <code>README.md</code>.
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <a class="btn secondary" href="github/banner-dark.svg" download="banner-dark.svg">banner-dark.svg ↓</a>
+        <a class="btn secondary" href="github/banner-light.svg" download="banner-light.svg">banner-light.svg ↓</a>
+        <a class="btn secondary" href="github/network-dark.svg" download="network-dark.svg">network-dark.svg ↓</a>
+        <a class="btn secondary" href="github/network-light.svg" download="network-light.svg">network-light.svg ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const readmeSource = `<a href="https://www.rajkumarneupane.com">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/banner-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="./assets/banner-light.svg" />
+    <img alt="Rajkumar Neupane · Network Support Technician in Toronto." src="./assets/banner-dark.svg" width="100%" />
+  </picture>
+</a>
+
+<br />
+
+Before moving into networking, I learned how to repair dead laptop motherboards in Kathmandu with a multimeter, a soldering iron, and board schematics. Tracing power across circuits taught me to find where things actually fail instead of guessing, and that is still how I approach networks and software today.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>from the notebook</strong><br />
+      <sub>plain-English notes &amp; labs · <a href="https://www.rajkumarneupane.com/docs">rajkumarneupane.com/docs</a></sub>
+      <ul>
+        <li><a href="https://www.rajkumarneupane.com/docs">Lab notebook</a> · routing, switching, and server setups tested at home</li>
+        <li><a href="https://www.rajkumarneupane.com/blog/proxmox-problems-and-solutions">Proxmox over laptop Wi-Fi</a> · getting a home server online without Ethernet</li>
+        <li><a href="https://www.rajkumarneupane.com/blog/ccna-journey">300+ labs in 19 days</a> · how I studied for and passed the CCNA</li>
+        <li><a href="https://www.rajkumarneupane.com/blog/computer-repairing-in-nepal">Board repair in Kathmandu</a> · where I got my start in hardware</li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <strong>things I built</strong><br />
+      <sub>small tools made for real problems</sub>
+      <ul>
+        <li><a href="https://github.com/raiz-toff/Comma">Comma</a> · pay tracker for gig workers that keeps all data on your phone</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/network-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="./assets/network-light.svg" />
+    <img alt="Network conduits and moving packet animation" src="./assets/network-dark.svg" width="100%" />
+  </picture>
+</p>
+
+<p align="center">
+  <sub>
+    <a href="https://www.rajkumarneupane.com">rajkumarneupane.com</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.linkedin.com/in/rjneupane">linkedin</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.credly.com/users/rajkumarneupane">credly</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.rajkumarneupane.com/about">contact</a>
+  </sub>
+</p>`;
+
+    function setTheme(mode) {
+      document.body.className = mode === 'light' ? 'light' : '';
+      document.getElementById('bannerImg').src =
+        mode === 'light' ? 'github/banner-light.svg?v=3' : 'github/banner-dark.svg?v=3';
+      const netImg = document.getElementById('networkImg');
+      if (netImg) {
+        netImg.src = mode === 'light' ? 'github/network-light.svg' : 'github/network-dark.svg';
+      }
+      document.getElementById('btnDark').className =
+        'toggle-btn' + (mode === 'dark' ? ' active' : '');
+      document.getElementById('btnLight').className =
+        'toggle-btn' + (mode === 'light' ? ' active' : '');
+    }
+
+    // Support direct linking to #light or ?theme=light
+    if (window.location.hash === '#light' || window.location.search.includes('theme=light')) {
+      setTheme('light');
+    }
+
+    async function copyMarkdown(btn) {
+      try {
+        await navigator.clipboard.writeText(readmeSource);
+        const span = btn.querySelector('span');
+        const orig = span.innerText;
+        btn.classList.add('copied');
+        span.innerText = 'copied ✓';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          span.innerText = orig;
+        }, 2000);
+      } catch (e) {
+        alert('Clipboard access failed. Copy directly from public/github/README.md');
+      }
+    }
+  </script>
+</body>
+</html>

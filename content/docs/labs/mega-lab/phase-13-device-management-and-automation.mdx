@@ -1,0 +1,88 @@
+---
+sidebar:
+  order: 13
+sticker: emoji//1f530
+title: Phase 13 Device Management and Automation
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 13
+---
+## Lab objectives
+
+Configure secure device management using SSH, SNMP, and syslog logging. Introduce basic network automation with Python scripting.
+
+## Configuration steps
+
+1. Configure SSH access on `R1`. Set the hostname, domain name, and generate RSA keys. Set a local username and password.
+
+   ```bash
+   hostname R1
+   ip domain-name local.lab
+   crypto key generate rsa
+   username admin privilege 15 password Pa$$w0rd
+   line vty 0 4
+    transport input ssh
+    login local
+   ```
+
+2. Establish an SSH connection from a PC to `R1` at `192.168.10.1`. Use the newly created administrator credentials. Verify that Telnet access is disabled.
+3. Configure read-only SNMP on `R1`.
+
+   ```bash
+   snmp-server community ciscoRO RO
+   ```
+
+4. Verify the SNMP community configuration on `R1`.
+
+   ```bash
+   show snmp community
+   ```
+
+5. Configure syslog logging. Specify the local buffer size and define an external syslog host.
+
+   ```bash
+   logging buffered 4096
+   logging host 192.168.20.254
+   ```
+
+6. Generate a test event, such as a failed login attempt. Verify the event records in the log.
+
+   ```bash
+   show logging
+   ```
+
+7. Write a Python automation script using Netmiko on a machine outside Packet Tracer.
+
+   ```python
+   from netmiko import ConnectHandler
+
+   device = {
+       'device_type': 'cisco_ios',
+       'host': '192.168.10.1',
+       'username': 'admin',
+       'password': 'Pa$$w0rd',
+   }
+
+   net_connect = ConnectHandler(**device)
+   output = net_connect.send_command("show ip interface brief")
+   print(output)
+   ```
+
+8. Execute the Python script against a live lab device. Verify the script outputs the interface brief information over SSH.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase13.pkt` for future reference.
+

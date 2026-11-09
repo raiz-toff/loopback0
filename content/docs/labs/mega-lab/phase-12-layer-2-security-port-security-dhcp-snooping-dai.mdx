@@ -1,0 +1,81 @@
+---
+sidebar:
+  order: 12
+sticker: emoji//1f530
+title: Phase 12 Layer-2 Security (Port-Security, DHCP Snooping, DAI)
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 12
+---
+## Lab objectives
+
+Configure switch security features. Defend against unauthorized devices and ARP spoofing attacks. Configure Port Security, DHCP Snooping, and Dynamic ARP Inspection (DAI).
+
+## Configuration steps
+
+1. Configure Port Security on an access port on `SW1`. Limit the interface to one sticky MAC address.
+
+   ```bash
+   interface Fa0/2
+    switchport port-security
+    switchport port-security maximum 1
+    switchport port-security mac-address sticky
+    exit
+   ```
+
+2. Test Port Security. Connect `PC0` to `Fa0/2` and ping. Connect a device with a different MAC address. Verify the port enters the err-disabled state.
+3. View the Port Security violation on the interface.
+
+   ```bash
+   show port-security interface Fa0/2
+   ```
+
+4. Enable DHCP Snooping globally and per VLAN. Configure the uplink to the DHCP server as a trusted port.
+
+   ```bash
+   ip dhcp snooping
+   ip dhcp snooping vlan 10,20
+   interface GigabitEthernet1/1
+    ip dhcp snooping trust
+   ```
+
+5. Verify the DHCP Snooping bindings. Issue a fake DHCP offer from an untrusted port to confirm the drop.
+
+   ```bash
+   show ip dhcp snooping binding
+   ```
+
+6. Enable Dynamic ARP Inspection (DAI) on `SW1`. Configure the uplink as a trusted port.
+
+   ```bash
+   ip arp inspection vlan 10,20
+   interface GigabitEthernet1/1
+    ip arp inspection trust
+   ```
+
+7. Verify DAI statistics. Manually assign an incorrect IP to a PC and observe the blocked ARP replies.
+
+   ```bash
+   show ip arp inspection statistics
+   ```
+
+8. Recover a port disabled by Port Security. Issue the `shutdown` and `no shutdown` commands on the interface.
+9. Send an ARP packet with an IP address not in the DHCP table. Verify that DAI blocks the packet.
+10. Remove the DHCP Snooping trust command from the correct port. Observe the resulting DHCP failures. Reapply the configuration.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase12.pkt` for future reference.
+

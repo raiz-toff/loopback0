@@ -1,0 +1,12 @@
+{
+  "title": "Projects",
+  "description": "Software & hardware project write-ups",
+  "icon": "Boxes",
+  "root": true,
+  "pages": [
+    "index",
+    "marrow",
+    "comma",
+    "..."
+  ]
+}

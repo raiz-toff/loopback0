@@ -1,0 +1,30 @@
+name: Content feedback
+description: Report a wrong step, broken link, typo, or outdated info on a page.
+labels: [content]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page URL
+      placeholder: https://rajkumarneupane.com/docs/labs/...
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong?
+      options:
+        - A lab step or command does not work
+        - Broken link or image
+        - Typo or unclear wording
+        - Outdated information
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What you expected, what happened, and your platform or IOS version if relevant.
+    validations:
+      required: true

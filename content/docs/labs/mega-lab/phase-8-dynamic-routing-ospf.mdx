@@ -1,0 +1,58 @@
+---
+sidebar:
+  order: 8
+sticker: emoji//1f530
+title: Phase 8, Dynamic Routing OSPF
+slug: ""
+date: 2026-01-25
+draft: true
+featured: false
+status: planning
+summary: ""
+description: ""
+cover: ""
+tags: []
+categories: []
+tech_stack: []
+github: ""
+demo: ""
+website: ""
+weight: 8
+---
+## Lab objectives
+
+Configure single-area OSPFv2 for fast convergence. Identify OSPF routing table entries. Compare OSPF behavior with static and RIP routing.
+
+## Configuration steps
+
+1. Enable OSPF on `R1`, `R2`, and `R3`. Add the directly connected networks to area 0.
+
+   ```bash
+   router ospf 1
+   network 192.168.10.0 0.0.0.255 area 0
+   network 192.168.20.0 0.0.0.255 area 0
+   network 192.168.30.0 0.0.0.255 area 0
+   network 172.16.0.0 0.0.0.3 area 0
+   network 172.16.0.4 0.0.0.3 area 0
+   ```
+
+2. Verify OSPF neighbor adjacencies. Ensure `R1` forms an adjacency with `R2`. Ensure `R2` forms an adjacency with `R3`.
+
+   ```bash
+   show ip ospf neighbor
+   ```
+
+3. Verify the routing tables. Ensure networks appear with the `O` OSPF tag. Ensure each router learns all remote networks.
+
+   ```bash
+   show ip route
+   ```
+
+4. Test network connectivity. Ping between all remote networks to verify successful routing.
+5. Disable OSPF on one router. Observe the routes disappear. Re-enable OSPF to restore the routes.
+6. Shut down a link. Observe the fast OSPF rerouting convergence.
+
+## Conclusion
+
+Save the Packet Tracer file as `Phase8.pkt` for future reference.
+

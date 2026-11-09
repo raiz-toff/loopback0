@@ -1,0 +1,229 @@
+---
+title: "Set Up Kiosk Mode on Fedora Server"
+cover: "/blog/covers/kiosk-mode-in-fedora-server.png"
+date: 2026-03-13
+description: "Walkthrough of how to set up a dedicated Kiosk Mode on Fedora Server using Openbox and Chromium for digital signage and dashboards."
+tags:
+  - Fedora
+  - Linux
+  - Kiosk
+  - Setup
+categories: []
+---
+
+## Overview
+
+Dedicated kiosk machines are useful for digital signage, dashboards, and single-purpose workstations. This guide outlines the deployment of a self-contained Kiosk Mode on a Fedora Server.
+
+The setup utilizes Openbox as a lightweight window manager and Chromium as the display browser. A complete bash script automates the entire process.
+
+## Kiosk mode setup script
+
+The following script automates the deployment. Save this to a file on the Fedora Server, make it executable, and execute it with root privileges. It automates user creation and systemd service configuration.
+
+```bash
+#!/bin/bash
+
+# ==========================================
+# Fedora Kiosk Setup Script (Final Version)
+# ==========================================
+
+# 1. FAIL-SAFE: Ensure script is run as root
+if [ "$EUID" -ne 0 ]; then
+  echo "❌ Error: Please run this script as root using sudo."
+  exit 1
+fi
+
+echo "=========================================="
+echo " Starting Kiosk Mode Setup for Fedora "
+echo "=========================================="
+
+# 2. INTERACTIVE: Confirm or change variables
+KIOSK_USER="kioskuser"
+KIOSK_UID=1001
+TARGET_URL="http://appli.lan:3000/"
+
+echo ""
+read -p "The default target URL is set to '$TARGET_URL'. Do you want to change it? (y/N): " change_url
+if [[ "$change_url" =~ ^[Yy]$ ]]; then
+    read -p "Enter the new URL (e.g., http://example.com): " TARGET_URL
+fi
+echo "✅ Target URL locked in as: $TARGET_URL"
+echo ""
+
+# 3. FAIL-SAFE & SETUP: User Creation
+echo "Step 1: Checking user '$KIOSK_USER'..."
+if id "$KIOSK_USER" &>/dev/null; then
+    echo "⚠️ User $KIOSK_USER already exists. Skipping creation."
+else
+    # Check if UID 1001 is already taken by someone else
+    if getent passwd "$KIOSK_UID" > /dev/null; then
+        echo "❌ Error: UID $KIOSK_UID is already in use by another user on this system."
+        exit 1
+    fi
+    
+    echo "Creating user $KIOSK_USER with UID $KIOSK_UID..."
+    useradd -m -u "$KIOSK_UID" -s /bin/bash "$KIOSK_USER" || { echo "❌ Error: Failed to create user. Exiting."; exit 1; }
+    echo "✅ User created successfully."
+fi
+echo ""
+
+# 4. FAIL-SAFE & SETUP: Install Dependencies
+echo "Step 2: Installing required packages..."
+read -p "Ready to install packages via dnf? (Y/n): " proceed_install
+if [[ ! "$proceed_install" =~ ^[Nn]$ ]]; then
+    # Using xset instead of xorg-x11-server-utils for Fedora 43+
+    dnf install -y xorg-x11-server-Xorg xset xorg-x11-xinit openbox chromium
+    
+    if [ $? -ne 0 ]; then
+        echo "❌ Error: Package installation failed."
+        exit 1
+    fi
+    echo "✅ Packages installed successfully."
+else
+    echo "⚠️ Skipping package installation."
+fi
+echo ""
+
+# 5. SETUP: Fix X Server Permissions for Systemd & Disable Mouse
+echo "Step 3: Configuring X server permissions and disabling mouse clicks..."
+mkdir -p /etc/X11
+echo "allowed_users=anybody" > /etc/X11/Xwrapper.config
+echo "needs_root_rights=yes" >> /etc/X11/Xwrapper.config
+echo "✅ Xwrapper configured to allow non-console users."
+
+# Prevent users from clicking by ignoring pointer inputs
+mkdir -p /etc/X11/xorg.conf.d
+cat <<'EOF' > /etc/X11/xorg.conf.d/99-disable-pointer.conf
+Section "InputClass"
+    Identifier "Disable all pointers"
+    MatchIsPointer "on"
+    Option "Ignore" "on"
+EndSection
+EOF
+echo "✅ Mouse inputs disabled globally in Xorg to prevent link clicking."
+echo ""
+
+# 6. SETUP: Configuring the Kiosk Environment
+echo "Step 4: Configuring Openbox and Chromium..."
+mkdir -p /home/$KIOSK_USER/.config/openbox
+
+# Create Openbox autostart script (Using chromium-browser)
+cat <<EOF > /home/$KIOSK_USER/.config/openbox/autostart
+# Disable screen blanking and power saving
+xset s off
+xset s noblank
+xset -dpms
+
+# Start Chromium in kiosk mode
+chromium-browser --kiosk --no-first-run --disable-infobars --disable-features=TranslateUI --window-position=0,0 --window-size=1920,1080 "$TARGET_URL" &
+EOF
+
+# Create .xinitrc
+echo "exec openbox-session" > /home/$KIOSK_USER/.xinitrc
+
+# Fix permissions
+chown -R $KIOSK_USER:$KIOSK_USER /home/$KIOSK_USER/.config /home/$KIOSK_USER/.xinitrc || { echo "❌ Error: Failed to set permissions."; exit 1; }
+echo "✅ Configuration files generated and permissions set."
+echo ""
+
+# 7. SETUP: Systemd Service
+echo "Step 5: Creating systemd service..."
+cat <<EOF > /etc/systemd/system/kiosk.service
+[Unit]
+Description=Start X and Chromium in Kiosk Mode
+After=network.target network-online.target systemd-user-sessions.service
+
+[Service]
+User=$KIOSK_USER
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/startx /home/$KIOSK_USER/.xinitrc -- -nocursor
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Reload daemon and enable
+systemctl daemon-reload
+systemctl enable kiosk.service || { echo "❌ Error: Failed to enable systemd service."; exit 1; }
+echo "✅ Systemd service created and enabled."
+echo ""
+
+# 8. INTERACTIVE: Final Action
+echo "=========================================="
+echo " Setup Complete! "
+echo "=========================================="
+read -p "Do you want to start the kiosk service right now? (Y/n): " start_now
+if [[ ! "$start_now" =~ ^[Nn]$ ]]; then
+    echo "Starting kiosk service..."
+    systemctl restart kiosk.service
+    
+    sleep 2
+    if systemctl is-active --quiet kiosk.service; then
+        echo "✅ Kiosk is running! The website should be on your screen."
+    else
+        echo "⚠️ Kiosk service failed to start. Run 'sudo journalctl -u kiosk.service -n 50' to check logs."
+    fi
+else
+    echo "✅ Kiosk service is enabled and will start automatically on the next reboot."
+fi
+```
+
+---
+
+## System requirements and preparation
+
+The script modifies system-level configurations and installs packages, requiring execution on a Fedora Server instance with root privileges.
+
+1. Transfer the script onto the target machine (e.g., as `setup-kiosk.sh`).
+2. Grant execution permissions:
+   ```bash
+   chmod +x setup-kiosk.sh
+   ```
+3. Execute the script using `sudo`:
+   ```bash
+   sudo ./setup-kiosk.sh
+   ```
+
+---
+
+## Script execution breakdown
+
+The script automates several core phases during execution:
+
+### User creation
+It generates a dedicated, unprivileged user (`kioskuser` with UID `1001`) to run the graphical session and browser. This isolates kiosk processes from administrative functions.
+
+### Dependency installation
+The script installs the minimum components required to bootstrap an X server environment:
+- `xorg-x11-server-Xorg` and `xorg-x11-xinit` for display management.
+- `xset` to disable power saving features and screensavers.
+- `openbox` for barebones window management.
+- `chromium` for rendering web content.
+
+### Xwrapper and mouse configuration
+By default, X runs only through active console users. The script modifies `/etc/X11/Xwrapper.config` with `allowed_users=anybody` and `needs_root_rights=yes`. This allows a systemd service to spawn the environment without requiring a terminal login.
+
+Additionally, it writes a custom configuration to `/etc/X11/xorg.conf.d/99-disable-pointer.conf`. This instructs the X window system to ignore all pointer inputs, effectively disabling mouse clicks for security.
+
+### Autostarting Chromium 
+Openbox executes components defined within `~/.config/openbox/autostart`. The script populates this file to:
+- Suppress screen blanks using `xset s off` and `xset -dpms`.
+- Start Chromium in kiosk mode, suppressing popups, translation prompts, and setup wizards.
+
+### Systemd service creation
+A dedicated `kiosk.service` is created to ensure the environment initializes upon system reboot. The service runs under the `kioskuser` account, hides the cursor (`-nocursor`), and automatically restarts upon failure.
+
+---
+
+## Final launch and configuration overrides
+
+Upon completion, the script prompts for a target URL definition. The default is `http://appli.lan:3000/`. After validation, it requests confirmation to start the `systemd` service immediately.
+
+To modify the URL subsequently, edit the target address inside `/home/kioskuser/.config/openbox/autostart` and restart the service:
+
+```bash
+sudo systemctl restart kiosk.service
+```

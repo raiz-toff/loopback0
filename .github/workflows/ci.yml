@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A new push to the same branch or PR cancels the run it replaces.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run types:check
+      - run: npm run lint
+      - run: npm test
+      # Fails when a committed image is over its size cap (scripts/optimize-images.mjs).
+      - name: Image size caps
+        run: npm run images:optimize -- --check
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://rajkumarneupane.com
+      # Performance budgets (lighthouserc.json): CLS, TBT, LCP, page weight.
+      - name: Lighthouse CI
+        run: npx --yes @lhci/cli@0.15.1 autorun
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+          if-no-files-found: ignore

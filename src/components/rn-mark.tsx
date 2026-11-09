@@ -1,0 +1,19 @@
+// Rajkumar's "RN" brand mark — the initials built from the 8 conductors
+// of a twisted pair in T568B pin order: wht/org, org, wht/grn, blu,
+// wht/blu, grn, wht/brn, brn. Striped conductors carry perpendicular
+// ring-bands like real ring-marked insulation; solids cross over them.
+// Generated geometry — regenerate via the brand script rather than
+// editing coordinates by hand.
+export default function RNMark(props: React.ComponentProps<"svg">) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 584 400"
+      aria-hidden
+      suppressHydrationWarning
+      {...props}
+    >
+      <clipPath id="crnm0"><polygon points="0,0 64,0 64,400 0,400"/></clipPath><g clipPath="url(#crnm0)"><polygon points="0,0 64,0 64,400 0,400" fill="#F1EBDE"/><polygon points="-32,106 96,106 96,148 -32,148" fill="#D9711F"/><polygon points="-32,190 96,190 96,232 -32,232" fill="#D9711F"/><polygon points="-32,274 96,274 96,316 -32,316" fill="#D9711F"/><polygon points="-32,358 96,358 96,400 -32,400" fill="#D9711F"/></g><polygon points="0,0 64,0 64,400 0,400" fill="none" stroke="#18181b" strokeOpacity="0.2" strokeWidth="3.5"/><clipPath id="crnm1"><polygon points="192,0 256,0 256,232 192,232"/></clipPath><g clipPath="url(#crnm1)"><polygon points="192,0 256,0 256,232 192,232" fill="#F1EBDE"/><polygon points="160,64 288,64 288,98.67 160,98.67" fill="#2E7D46"/><polygon points="160,133.33 288,133.33 288,168 160,168" fill="#2E7D46"/></g><polygon points="192,0 256,0 256,232 192,232" fill="none" stroke="#18181b" strokeOpacity="0.2" strokeWidth="3.5"/><clipPath id="crnm2"><polygon points="76.07,208 147.93,208 245.93,400 174.07,400"/></clipPath><g clipPath="url(#crnm2)"><polygon points="76.07,208 147.93,208 245.93,400 174.07,400" fill="#F1EBDE"/><polygon points="87.68,301.13 201.69,242.94 223.46,285.59 109.45,343.78" fill="#2B5799"/><polygon points="131.22,386.44 245.23,328.25 267,370.9 153,429.1" fill="#2B5799"/></g><polygon points="76.07,208 147.93,208 245.93,400 174.07,400" fill="none" stroke="#18181b" strokeOpacity="0.2" strokeWidth="3.5"/><polygon points="0,0 256,0 256,64 0,64" fill="#D9711F"/><polygon points="0,168 256,168 256,232 0,232" fill="#2B5799"/><polygon points="328,0 392,0 392,400 328,400" fill="#2E7D46"/><polygon points="520,0 584,0 584,400 520,400" fill="#63452E"/><clipPath id="crnm7"><polygon points="347.88,0 416.12,0 564.12,400 495.88,400"/></clipPath><g clipPath="url(#crnm7)"><polygon points="347.88,0 416.12,0 564.12,400 495.88,400" fill="#F1EBDE"/><polygon points="321.98,22.21 442.02,-22.21 458.47,22.24 338.42,66.65" fill="#63452E"/><polygon points="354.87,111.1 474.91,66.68 491.36,111.12 371.31,155.54" fill="#63452E"/><polygon points="387.75,199.99 507.8,155.57 524.25,200.01 404.2,244.43" fill="#63452E"/><polygon points="420.64,288.88 540.69,244.46 557.13,288.9 437.09,333.32" fill="#63452E"/><polygon points="453.53,377.76 573.58,333.35 590.02,377.79 469.98,422.21" fill="#63452E"/></g><polygon points="347.88,0 416.12,0 564.12,400 495.88,400" fill="none" stroke="#18181b" strokeOpacity="0.2" strokeWidth="3.5"/>
+    </svg>
+  );
+}

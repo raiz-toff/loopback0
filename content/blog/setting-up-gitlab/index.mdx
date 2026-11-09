@@ -1,0 +1,58 @@
+---
+title: "Setting Up a Local GitLab Server for Development"
+cover: "/blog/covers/setting-up-gitlab.png"
+date: 2026-05-25
+description: "Setting up Local Gitlab Server For Development"
+tags: ["gitlab", "git", "Homelab", "Proxmox", "LXC"]
+categories: ["DevOps", "Homelab"]
+featured: false
+draft: false
+---
+
+## Overview
+
+This post documents the deployment of a local GitLab server on a Proxmox VE host. The objective is to utilize dual Git remote repositories: a local GitLab instance for CI/CD pipeline development, and GitHub for production deployments.
+
+Hosting a local GitLab instance enables experimentation with pipelines, automation, and registry configurations without consuming cloud resources. 
+
+![Server running Proxmox VE](./images/server.jpg)
+![Proxmox Node Dashboard](images/image-1.png)
+
+## Architecture decision: VM vs. LXC
+
+Many community tutorials recommend deploying GitLab within a Proxmox LXC container to conserve resources. However, this approach often introduces systemd and permission complexities. 
+
+<Callout type="warn" title="Gotcha">
+**Goal:** Install GitLab inside a Proxmox LXC container.
+
+**Reality:** GitLab is highly resource-intensive. Running its omnibus package inside an unprivileged LXC container causes complex mounting and systemd failures.
+
+**Fix:** Deploying GitLab on a standard Virtual Machine (VM) provides a cleaner environment and resolves systemd integration issues natively.
+</Callout>
+
+## Hardware allocation
+
+GitLab documentation specifies a minimum requirement of 4GB RAM, 2 vCPUs, and 25GB of storage. To ensure stable operation for omnibus services, these allocations were doubled for this deployment.
+
+![Gitlab VM Specification](./images/image.png)
+
+> **Note:** GitLab requires a significant amount of time to execute initial startup and reconfiguration tasks. 
+
+## Network configuration
+
+For a persistent local server, relying on DHCP assignments creates instability for Git remotes.
+
+<Callout type="warn" title="Gotcha">
+**Goal:** Ensure persistent local domain resolution to the GitLab instance using a host file.
+
+**Reality:** DHCP assigned a new IP address upon reboot, breaking DNS resolution and server access.
+
+**Fix:** Assign a static IP address to the GitLab VM via Proxmox network interface settings and update local host files accordingly.
+</Callout>
+
+## Project migration and remotes
+
+Managing multiple Git remotes for a single repository requires a structured approach. Designate one remote as the primary upstream (e.g., `origin` pointing to the local GitLab server) and configure secondary remotes (e.g., `production` pointing to GitHub) for release deployments.
+
+![GitLab Dashboard after repository setup](images/image-3.png)
+![Git remotes configured for the Portfolio project](images/image-4.png)
