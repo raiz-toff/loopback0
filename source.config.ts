@@ -167,6 +167,11 @@ const customFrontmatter = pageSchema.extend({
   // Unfinished page: a hazard-framed notice at the top. `true` uses the default
   // message; a string replaces it.
   construction: z.union([z.boolean(), z.string()]).nullish(),
+  // Lab pages: what the lab covers, shown as a checklist above the topology.
+  covers: z.array(z.string()).nullish(),
+  // How-to posts: what the reader ends with, and what they need before step one.
+  outcome: z.string().nullish(),
+  needs: z.string().nullish(),
   timeline: z
     .array(
       z.object({

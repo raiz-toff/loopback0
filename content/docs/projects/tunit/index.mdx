@@ -1,0 +1,90 @@
+---
+title: tunit
+description: A single-binary system diagnostic, stress and load testing tool for Windows, Linux and macOS.
+sidebar:
+  order: 2
+---
+
+**tunit** is a single-binary diagnostic tool written in Go. It runs hardware quality-control checks, CPU thermal stress tests, network checks and HTTP load tests. It has no runtime dependencies and works on a repair bench or in a CI pipeline.
+
+<div class="not-content" style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.25rem 0 2rem;">
+  <LinkButton href="https://github.com/raiz-toff/tunit" icon="github" size="medium">Source Repository</LinkButton>
+  <LinkButton href="https://github.com/raiz-toff/tunit/releases/latest" variant="secondary" icon="external" size="medium">Latest Release</LinkButton>
+</div>
+
+---
+
+## Install
+
+Linux and macOS:
+
+```bash
+curl -fsSL https://github.com/raiz-toff/tunit/releases/latest/download/install.sh | bash
+```
+
+Windows (PowerShell, run as Administrator):
+
+```powershell
+irm https://github.com/raiz-toff/tunit/releases/latest/download/tunit.ps1 | iex
+```
+
+Run `tunit` with no arguments to open the interactive menu.
+
+---
+
+## Commands
+
+| Command | What it runs |
+|---|---|
+| `tunit` | Interactive guided menu |
+| `tunit qc` | Hardware QC: serial, CPU, RAM, BIOS, battery and S.M.A.R.T., then human checks for audio, webcam, keyboard, display and USB |
+| `tunit stress` | CPU thermal stress test with live temperature monitoring and throttle detection |
+| `tunit net` | Ping, DNS latency, TCP port probes and a bandwidth test |
+| `tunit load` | HTTP load test with rate control and latency percentiles |
+| `tunit report` | Lists the QC reports saved in the current directory |
+
+---
+
+## Hardware QC
+
+```bash
+tunit qc                            # full interactive QC
+tunit qc --auto                     # skip human checks (CI-safe)
+tunit qc --repaired battery         # add post-repair checks
+tunit qc --repaired screen --lookup # add a warranty lookup
+```
+
+| Flag | Description |
+|---|---|
+| `--auto` | Runs the automated checks only |
+| `--lookup` | Queries the Dell, HP or Lenovo API for warranty expiry |
+| `--repaired <type>` | Adds post-repair checks for `screen`, `motherboard`, `battery`, `storage` or `keyboard` |
+
+The command exits with code `0` on a pass and `2` on a fail.
+
+The `--repaired` flag targets faults that a repair can introduce elsewhere on the unit:
+
+| Repair type | Extra check |
+|---|---|
+| `screen` | Wi-Fi antenna signal, because the antenna cable runs through the hinge |
+| `motherboard` | Windows activation, which a board swap can deactivate |
+| `battery` | Charging circuit: AC adapter and battery charging state |
+
+---
+
+## Platforms
+
+| Platform | Binary |
+|---|---|
+| Linux x86-64 | `tunit-linux-amd64` |
+| Linux ARM64 | `tunit-linux-arm64` |
+| macOS Intel | `tunit-darwin-amd64` |
+| macOS Apple Silicon | `tunit-darwin-arm64` |
+| Windows x86-64 | `tunit-windows-amd64.exe` |
+
+To build from source, use Go 1.23 or later:
+
+```bash
+git clone https://github.com/raiz-toff/tunit && cd tunit
+go build -o tunit ./cmd/tunit
+```

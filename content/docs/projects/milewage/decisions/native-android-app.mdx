@@ -1,0 +1,54 @@
+---
+title: Native Android app without Google Play Services
+description: Decision record for replacing the Expo and React Native phone app with a native Kotlin app. Upstream ADR 0009.
+---
+
+## Title
+
+Native Android app without Google Play Services
+
+## Status
+
+Accepted on 2026-11-10. Supersedes the 2026-11-03 decision to build the phone app with Expo and React Native. Upstream record: ADR 0009.
+
+## Context
+
+- The phone app was built with Expo and React Native. Tracking, QR scanning and the network check were already three Kotlin modules behind a JavaScript bridge, so the app ran on two stacks.
+- `expo-notifications` always includes Firebase Cloud Messaging and Google's logging libraries.
+- The tracking module depended on Google's fused location provider and Activity Recognition. Phones without Google services were unsupported.
+- The track engine had to be verified on Hermes in addition to Node.
+- An iPhone app is planned and must share the engine and the core logic.
+
+## Decision
+
+- Build a native Android app in `apps/android` with Kotlin, Jetpack Compose and Material 3. Remove Expo and React Native.
+- Split the app into five Gradle modules. Keep `:engine` and `:core` as plain Kotlin with no `android.*`, `androidx.*`, `java.*` or `javax.*` imports, enforced by `ModuleRulesTest`.
+- Port the track engine to Kotlin so that it produces the same bytes as the TypeScript engine, including a port of V8's `sin`, `cos` and `atan2`.
+- Exclude Google Play Services, Firebase and ML Kit. Use `LocationManager` for location, ZXing on CameraX frames for QR codes, and platform notifications and alarms for reminders.
+- Enforce the exclusion in the build. `check<Variant>Policy` fails on a forbidden artifact or on a manifest permission outside `policyPermissions`.
+- Keep the application id `app.milewage.phone` and the upload key, so the new app installs over the old one.
+- Set `minSdk` to 26 (Android 8.0).
+
+Rejected options:
+
+- **Keep Expo and React Native.** Rejected for the two-stack build and the Firebase dependency.
+- **Kotlin Multiplatform from the start.** Deferred. No second platform uses it yet.
+- **Fused location provider and Activity Recognition.** Rejected. Both are Google Play Services.
+
+## Consequences
+
+Positive:
+
+- De-Googled phones are supported.
+- 854 packages left the lockfile with `apps/phone`.
+- `:engine` and `:core` can move to Kotlin Multiplatform `commonMain` as a build change.
+- `npm run verify` runs the Android unit tests, Android lint and the policy check, and CI has an `android` job.
+
+Negative:
+
+- The new app starts empty. Data that the old app had not sent to the server is lost on update, and the phone must be paired again.
+- Android 7 is no longer supported.
+- The request models are hand-written Kotlin and must be kept in step with `openapi.yaml`. `ContractDriftTest` detects drift.
+- The engine now exists in two languages. Each engine change requires regenerated conformance fixtures and a cross-check run.
+- The signed APK is built on the owner's machine only.
+- The app has not run on a physical phone. Every claim about on-device tracking is untested.

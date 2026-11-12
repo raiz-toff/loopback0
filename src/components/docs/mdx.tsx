@@ -18,6 +18,11 @@ import { CcnaTopology } from './ccna-topology';
 import { DeviceLink } from './device-link';
 import { CableBadge } from './cable-badge';
 import { MdxCodeBlock } from './mdx-code-block';
+import { ProjectGrid } from './project-grid';
+import { LabsOverview } from './labs-overview';
+import { CcnaOverview } from './ccna-overview';
+import { MileWageOverview } from './milewage-overview';
+import { CommaOverview } from './comma-overview';
 
 export function getMDXComponents(components?: MDXComponents) {
   return {
@@ -42,6 +47,12 @@ export function getMDXComponents(components?: MDXComponents) {
     CcnaTopology,
     DeviceLink,
     CableBadge,
+    // Overview pages: one designed component per page (see AGENTS.md).
+    ProjectGrid,
+    LabsOverview,
+    CcnaOverview,
+    MileWageOverview,
+    CommaOverview,
     ...components,
   } satisfies MDXComponents;
 }

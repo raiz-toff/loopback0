@@ -1,0 +1,121 @@
+---
+title: "MileWage: I Retired Comma and Rebuilt It Around a Server I Own"
+date: 2026-11-11
+description: "Comma kept a delivery driver's data on the phone. MileWage moves it to a home server reached over Tailscale. Here is what broke in Comma, what I changed in eight days and about 450 commits, and what is still untested."
+tags: ["MileWage", "Comma", "Side Project", "Self-Hosted", "Android", "Tailscale", "Gig Economy"]
+categories: ["Projects"]
+cover: "/blog/covers/milewage.png"
+draft: false
+---
+
+**MileWage** is a self-hosted mileage tracker for delivery and ride-hail drivers. An Android app records the shift, and a server on a machine I own keeps the miles and the money. It replaces [Comma](/blog/comma), which I archived this week.
+
+Version 0.3.0 is public under the AGPL. It has **not recorded a real shift on a real road yet**, and that caveat is in the README as well.
+
+- Source: [github.com/raiz-toff/Milewage](https://github.com/raiz-toff/Milewage)
+- Project page: [MileWage](/docs/projects/milewage)
+
+## Comma hit a wall that a browser cannot get past
+
+Through 2025 I logged every DoorDash week in a Google Sheet: hours, deliveries, pay, tips. The sheet did the sums, but it only knew what I typed in.
+
+I turned the sheet into a small site called Macadam, with a server and a database. Then I rebuilt it to run entirely in the browser with no account. Macadam became Comma.
+
+As a web app, Comma could not track a shift. **A browser cannot record GPS in the background**, so the phone stopped logging when the screen turned off. I rebuilt Comma as a web app plus a phone app and got sync working between them.
+
+I used that version for more than six months and kept a list of what was good and what was bad. MileWage is built from that list.
+
+## The server is now the single source of truth
+
+Comma treated the phone as the home of the data and synced copies around it. MileWage reverses that.
+
+| | Comma | MileWage |
+|---|---|---|
+| Where the data lives | On the phone | On a server you own |
+| Phone app | Expo and React Native | Native Kotlin, Jetpack Compose |
+| How the phone connects | Optional encrypted backup to Google Drive | Tailscale to your own machine |
+| Needs Google services | Yes, for backup | No |
+| Accounts | None | One driver per server |
+
+The server runs in Docker on a home server or a Raspberry Pi. Nothing is opened on the router, because the phone reaches the server over the owner's Tailscale network.
+
+I did not write an importer from Comma. That was decided on 3 November, the first day, and my own Comma history stays in Comma.
+
+## Twenty spec documents came before the first commit
+
+On 3 November 2026 I started a new repository instead of refactoring Comma. I wrote about twenty spec documents and set four review gates, each one signed off by me.
+
+**AI agents did the build under those gates.** I am stating that plainly because the commit count makes no sense otherwise. The first commit landed on 4 November. Eight days and about 450 commits later, 0.3.0 was out.
+
+Every feature had to pass one rule. It must do at least one of these, or it goes:
+
+1. Save a driver tax money.
+2. Capture miles accurately.
+3. Protect the battery.
+4. Protect privacy.
+
+## The look changed three times in five days
+
+1. **6 November: Comma's styling.** I ported it and rejected it the same day.
+2. **6 November: shadcn/ui.** It replaced the port, with a MileWage palette on top.
+3. **10 November: Material Design 3.** One colour scheme, generated from a lane yellow, now drives both the web app and the Android app.
+
+The third change happened because the phone app was about to become native. Two design systems on two platforms would have meant maintaining every colour twice.
+
+## I replaced the Expo app with native Kotlin on day seven
+
+The phone app began as an Expo app with Comma's tracking module copied in and trimmed. That was the fast route, and it carried Comma's assumptions with it.
+
+On 10 November I dropped Expo and React Native for a native Android app in Kotlin and Jetpack Compose. **854 packages left the lockfile.** The changes that came with it:
+
+- Tracking uses Android's own `LocationManager` and stores a fix every 5 seconds. There is no fused location provider, so a de-Googled phone works.
+- Comma's floating pill over other apps became an ordinary shift notification. That removed the `SYSTEM_ALERT_WINDOW` permission.
+- The minimum Android version moved from 7.0 to 8.0.
+- The new app installs over the old one but starts empty. Anything the old app had not sent to the server is lost on update.
+
+The engine that turns GPS fixes into trips and distances now exists twice, once in TypeScript on the server and once in Kotlin on the phone. I checked them against each other with 2,000 and 5,000 random shifts and got **0 differences**. That check ran on x86-64 only, not on a phone's ARM processor.
+
+## I cut eleven features in one day
+
+On 5 November I had brought Comma's extras back as toggleable modules: goals, a schedule, analytics, notifications, imports and more. Six days later most of them failed the four-point rule.
+
+On 11 November these went, along with others:
+
+- **Progress**: XP, levels, streaks, weekly challenges and badges.
+- **Schedule**: planned shifts, repeating templates and off days.
+- **The AI assistant endpoint**: an MCP server with its own tokens and OAuth flow. It had been on by default since 0.2.0.
+- **The notifications inbox**: the bell, the unread count and four alert switches.
+- **Goals and imports.**
+
+The live map had already gone on 7 November. Removing the assistant endpoint alone dropped three dependencies and four database tables.
+
+> **Note:** Upgrading to 0.3.0 deletes the tables behind the removed modules. The changelog lists each one.
+
+## What 0.3.0 does today
+
+- Records a shift with the screen off and keeps working offline for weeks.
+- Derives shifts, trips and stops from the GPS track, with active and deadhead miles as an estimate.
+- Stores earnings, expenses with receipt photos, vehicles, odometer readings, parking and tolls.
+- Calculates mileage deductions for Canada, the United States and Great Britain, or a rate you set in one or two steps.
+- Produces a PDF report and CSV files for an accountant.
+- Runs nightly encrypted backups with a recovery key that the server shows once.
+
+Installing the server takes two commands on a host with Docker and Tailscale:
+
+```bash
+git clone https://github.com/raiz-toff/Milewage.git milewage && cd milewage
+infra/install.sh
+```
+
+## What has not been verified
+
+Everything in 0.3.0 was tested on a computer: unit tests, and screens drawn by Robolectric in light and dark. The list of what that does not cover is long.
+
+- The Android app has **never run on a real phone**.
+- GPS waking up after a stop, recording through a tunnel, and recovery after a reboot or a force stop.
+- Battery use over a long shift.
+- Battery savers from Samsung, Xiaomi and Huawei that stop background apps.
+- The QR scanner on a real camera.
+- Canada's 2027 CPP rate and whether its per-km rates cover motorcycles. Canada and the United Kingdom keep an "unverified" notice in the app.
+
+The next step is one real shift, recorded over a real Tailscale network. The field test is the first item in the repository's `TODO.md`.

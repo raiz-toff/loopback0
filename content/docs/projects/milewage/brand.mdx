@@ -1,0 +1,115 @@
+---
+title: Brand
+description: The MileWage Coin Road mark, its colour tokens and usage rules, and the ten logo concepts that were not chosen.
+---
+
+<style>{`
+  .mw-swatches, .mw-marks, .mw-concepts { display: grid; gap: 1rem; margin: 1.25rem 0 2rem; }
+  .mw-swatches { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .mw-marks { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .mw-concepts { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .mw-tile { border: 1px solid var(--color-fd-border); border-radius: 12px; overflow: hidden; background: var(--color-fd-card); }
+  .mw-tile-art { display: flex; align-items: center; justify-content: center; height: 120px; padding: 1.25rem; }
+  .mw-tile-art img { max-height: 100%; max-width: 100%; margin: 0; }
+  .mw-on-light { background: #ffffff; }
+  .mw-on-dark { background: #101214; }
+  .mw-tile-label { padding: .6rem .8rem; font-size: .78rem; line-height: 1.4; border-top: 1px solid var(--color-fd-border); color: var(--color-fd-muted-foreground); }
+  .mw-tile-label strong { display: block; color: var(--color-fd-foreground); font-weight: 600; }
+  .mw-chip { height: 72px; }
+`}</style>
+
+The MileWage mark is **Coin Road**: a coin crossed by a climbing road with a dashed centre line. The coin stands for the wage and the road for the mile. The mark carries no currency sign, so it works in every country.
+
+The decision was made on 2026-11-08.
+
+## Marks
+
+<div className="mw-marks not-prose">
+  <div className="mw-tile">
+    <div className="mw-tile-art mw-on-light"><img src="/img/milewage/lockup.svg" alt="MileWage lockup on a light background" /></div>
+    <div className="mw-tile-label"><strong>Lockup</strong>Light backgrounds. Minimum width 120 px.</div>
+  </div>
+  <div className="mw-tile">
+    <div className="mw-tile-art mw-on-dark"><img src="/img/milewage/lockup-reverse.svg" alt="MileWage lockup on a dark background" /></div>
+    <div className="mw-tile-label"><strong>Lockup, reversed</strong>Dark backgrounds and the Asphalt tile.</div>
+  </div>
+  <div className="mw-tile">
+    <div className="mw-tile-art mw-on-light"><img src="/img/milewage/symbol.svg" alt="MileWage symbol" /></div>
+    <div className="mw-tile-label"><strong>Symbol</strong>24 px and larger.</div>
+  </div>
+  <div className="mw-tile">
+    <div className="mw-tile-art mw-on-light"><img src="/img/milewage/symbol-small.svg" alt="MileWage small symbol" /></div>
+    <div className="mw-tile-label"><strong>Symbol, small</strong>Below 24 px: favicon and notification icon.</div>
+  </div>
+  <div className="mw-tile">
+    <div className="mw-tile-art mw-on-light"><img src="/img/milewage/symbol-mono.svg" alt="MileWage one-colour symbol" /></div>
+    <div className="mw-tile-label"><strong>Symbol, one colour</strong>Print and single-ink use.</div>
+  </div>
+  <div className="mw-tile">
+    <div className="mw-tile-art mw-on-light"><img src="/img/milewage/app-icon.svg" alt="MileWage app icon" /></div>
+    <div className="mw-tile-label"><strong>App icon</strong>1024 × 1024, opaque, artwork at about 57% of the canvas.</div>
+  </div>
+</div>
+
+## Colour tokens
+
+<div className="mw-swatches not-prose">
+  <div className="mw-tile">
+    <div className="mw-chip" style={{ background: "#FFC21F" }} />
+    <div className="mw-tile-label"><strong>Lane yellow</strong>#FFC21F · brand, scheme seed</div>
+  </div>
+  <div className="mw-tile">
+    <div className="mw-chip" style={{ background: "#101214" }} />
+    <div className="mw-tile-label"><strong>Asphalt</strong>#101214 · ink, icon tile</div>
+  </div>
+  <div className="mw-tile">
+    <div className="mw-chip" style={{ background: "#ECEEF0" }} />
+    <div className="mw-tile-label"><strong>Off-white</strong>#ECEEF0 · wordmark on dark</div>
+  </div>
+</div>
+
+Lane yellow seeds the Material Design 3 colour scheme for both the web app and the Android app. In that scheme it holds the `primary-container` role.
+
+Yellow on white has a contrast ratio of about 1.6:1. On light backgrounds, Asphalt is the main colour and yellow appears only inside the mark.
+
+Earned green and Spent red are reserved for money values in the app. Neither appears in a logo. Blue is unassigned.
+
+## Typography
+
+The wordmark is Geist Bold (700), upper case, with 0.2 em tracking, converted to outlines. The SVG files do not need the font installed.
+
+Geist is used only in the artwork. The web app sets text in Roboto Flex, and the Android app uses the system font.
+
+## Usage rules
+
+| Rule | Value |
+|---|---|
+| Clear space | One quarter of the symbol height on every side |
+| Minimum size, symbol | 16 px with the small variant |
+| Minimum size, lockup | 120 px wide |
+| Adaptive icon | Artwork at 56 dp inside the 66 dp safe zone |
+| Notification icon | One colour with transparency |
+
+Do not stretch, rotate or outline the mark. Do not add shadows or gradients. Do not place the colour version on a photograph. Do not set the wordmark in another font.
+
+## Concepts not chosen
+
+Two rounds produced eleven concepts. Round 1 explored a route, a map pin, a road in perspective, a coin and a receipt. Round 2 kept the coin idea and tested six variations of it.
+
+<div className="mw-concepts not-prose">
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/rise.svg" alt="Rise concept" /></div><div className="mw-tile-label"><strong>Rise</strong>Too detailed below 24 px.</div></div>
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/pin.svg" alt="Pin M concept" /></div><div className="mw-tile-label"><strong>Pin M</strong>A map pin is a common shape.</div></div>
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/horizon.svg" alt="Horizon concept" /></div><div className="mw-tile-label"><strong>Horizon</strong>Reads as a road-works sign.</div></div>
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/coin.svg" alt="Coin Road, first version" /></div><div className="mw-tile-label"><strong>Coin Road, v1</strong>Refined into the final mark.</div></div>
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/receipt.svg" alt="Receipt concept" /></div><div className="mw-tile-label"><strong>Receipt</strong>Detail disappears below 32 px.</div></div>
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/climb.svg" alt="Coin Climb concept" /></div><div className="mw-tile-label"><strong>Coin Climb</strong>A generic "growth" icon.</div></div>
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/tag.svg" alt="Tag Road concept" /></div><div className="mw-tile-label"><strong>Tag Road</strong>Leans to "pricing".</div></div>
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/wheel.svg" alt="Wheel Coin concept" /></div><div className="mw-tile-label"><strong>Wheel Coin</strong>A steering wheel first, a coin second.</div></div>
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/meter.svg" alt="Meter Coin concept" /></div><div className="mw-tile-label"><strong>Meter Coin</strong>Reads as a gauge.</div></div>
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/coinpin.svg" alt="Coin Pin concept" /></div><div className="mw-tile-label"><strong>Coin Pin</strong>The road reads as an S when small.</div></div>
+  <div className="mw-tile"><div className="mw-tile-art mw-on-light"><img src="/img/milewage/concepts/range.svg" alt="Range concept" /></div><div className="mw-tile-label"><strong>Range</strong>No road; resembles a traffic light.</div></div>
+</div>
+
+The Round 1 recommendation was Rise, with Coin Road suggested only as a badge for earnings screens. The owner chose Coin Road because it joins two meanings in one flat shape.
+
+All source files are in the repository's [`branding/`](https://github.com/raiz-toff/Milewage/tree/main/branding) folder.

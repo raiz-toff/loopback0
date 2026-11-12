@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTheme } from 'next-themes';
-import Link from 'next/link';
 import { ArrowRight, Maximize2, Minimize2, ExternalLink, Waypoints } from 'lucide-react';
 import { GitHubIcon } from '@/components/icons';
 import { cn } from '@/lib/cn';
 import Tooltip from '@/components/tooltip';
+import { PixelText } from '@/components/covers';
+import { MarrowMark } from '@/components/marrow-mark';
 
 // One switch for the "Curious how this diagram was made?" Marrow note.
 // false: only pages with `marrowNote: true` in frontmatter show it.
@@ -141,22 +142,18 @@ export function Topology({
 
       {showMarrowNote && (
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-fd-border bg-fd-muted/40 px-3 py-2 text-xs text-fd-muted-foreground">
+          <MarrowMark className="h-[18px] w-auto shrink-0" />
+          <PixelText text="Marrow" color="currentColor" aria-hidden className="h-[14px] w-auto shrink-0 text-fd-foreground" />
           <span>Curious how this diagram was made?</span>
-          <Link
-            href="/docs/projects/marrow"
-            className="group inline-flex items-center gap-1 font-medium text-fd-foreground underline-offset-4 hover:underline"
-          >
-            It&apos;s compiled from YAML with Marrow
-            <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
-          </Link>
           <a
             href="https://github.com/raiz-toff/Marrow"
             target="_blank"
             rel="noreferrer noopener"
-            className="ml-auto inline-flex items-center gap-1.5 transition-colors hover:text-fd-foreground"
+            className="group inline-flex items-center gap-1.5 font-medium text-fd-foreground underline-offset-4 hover:underline"
           >
             <GitHubIcon className="size-3.5" aria-hidden />
-            Source
+            It&apos;s compiled from YAML with Marrow
+            <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
           </a>
         </div>
       )}

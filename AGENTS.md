@@ -28,6 +28,33 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - This repo is PUBLIC. Never commit phone numbers, home address, resumes, or secrets. Personal files live in the gitignored `/private/` folder.
 - `gitConfig` in `src/lib/shared.ts` drives every "Edit on GitHub" / "Report an issue" link.
 
+# Landing pages: the first screen is the pitch
+
+Links shared on social sites open on the shared URL, usually in a phone's in-app browser. The home page (`/`) is not shared, so it is not a landing page.
+
+- Landing pages: the project list (`/docs/projects`), the blog list (`/blog`), each project's overview page (`/docs/projects/<name>`), and every blog post.
+- On these pages the first screen must carry, in order: what it is in one line, a visual of the real thing (screenshot, recording, live embed), then the actions.
+- On a blog post, the first section decides whether the reader stays. Open with the result or the problem, not background.
+- Check every change to these pages at phone width.
+- Mock up changes to these pages in the unlinked `/demo-lab` route first. Apply them to the real pages only after the user approves.
+
+# Overview pages: the front door of every section
+
+The main page of a section or project (the page that lists what is inside it) is its front door. Examples: `/docs/projects`, `/docs/labs`, `/docs/ccna-labs`, and a project's own `index.mdx`.
+
+- Always label it **Overview** in the sidebar. Never repeat the section name there (not "Projects" inside Projects).
+  - This applies at every level: inside a project or lab folder too. Under MileWage the first item is "Overview", not a second "MileWage".
+  - Exception: a folder with only one page keeps its own name (Marrow, tunit). There is no second page for "Overview" to sit beside.
+  - Section root (`root: true`): in the folder's `meta.json`, list `"[Overview](/docs/<section>)"` and `"!index"` in place of `"index"`.
+  - Folder inside a section: in its `meta.json`, list `"[Overview](/docs/<section>/<folder>)"` in place of `"index"`.
+  - The page title (`title:` in frontmatter) stays descriptive. Only the sidebar label is "Overview".
+- Always design it. An overview page is never ordinary Markdown or MDX prose: no paragraphs, bullet lists or tables as the body.
+  - Build the body as a React component and place it in the `.mdx` file as a single tag. Pattern: `<ProjectGrid />` in `content/docs/projects/index.mdx`, built in `src/components/docs/project-grid.tsx` and registered in `src/components/docs/mdx.tsx`.
+  - Keep the `.mdx` file to frontmatter plus that tag. Do not put inline `<style>` blocks or hand-written HTML cards in it.
+  - Each item gets a picture, what it does for the reader in one line, and one supporting sentence.
+- A new section or project is not finished until its overview page exists and meets these rules.
+- It is a landing page, so the rules in the section above apply.
+
 # Branding: offer it, don't impose it
 
 Whenever you write or add something (a page, section, component, README part, image, banner, OG/social card, email, diagram, docs page), check whether that spot could carry the brand. If it could, end your reply with ONE line offering it, for example:

@@ -1,28 +1,9 @@
 ---
 title: Comma
-description: A privacy-first earnings tracker for gig workers.
+description: Retired. A local-first earnings tracker for gig workers, with an Android app and a PWA. Replaced by MileWage.
 sidebar:
+  label: Overview
   order: 1
 ---
 
-Comma is a **privacy-first earnings tracker**. I built it for gig workers. This includes people who deliver for DoorDash, Uber Eats, and similar services. 
-
-Comma has the following functions:
-- It tracks your shifts with live GPS.
-- It separates your active delivery miles from dead miles.
-- It logs your expenses.
-- It calculates tax set-asides for your market. (Supported markets: US, Canada, UK, and Nepal).
-
-The application operates locally. It requires no user account. It uses no backend server. Your data stays on your device. You can choose to back up your data to Google Drive with encryption.
-
-Comma has two versions. Both live in the same [repository](https://github.com/raiz-toff/Comma) and use the same backup format:
-
-- **Web app** (`web/`): The original Progressive Web App (PWA). It works offline. It uses Vanilla JavaScript and IndexedDB. It runs only in your web browser.
-- **Phone app** (repository root): The native Android application. I built it with Expo and React Native. It includes GPS shift tracking, multi-vehicle support, analytics, and reports.
-
-Comma has a separate documentation site. You can find the architecture, changelog, and guides to add countries and platforms there:
-
-<div class="not-content" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem;">
-  <LinkButton href="https://comma-docs.vercel.app/" icon="external" size="large">Documentation</LinkButton>
-  <LinkButton href="https://github.com/raiz-toff/Comma" variant="secondary" icon="github" size="large">GitHub (raiz-toff/Comma)</LinkButton>
-</div>
+<CommaOverview />

@@ -6,6 +6,7 @@
 // (no date-fns / react-markdown / radix deps).
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 import type { ExperienceCompany, ExperiencePosition } from "@/data/profile";
@@ -252,6 +253,43 @@ function PositionItem({ position }: { position: ExperiencePosition }) {
           </ul>
         </div>
       </div>
+
+      {position.projects && position.projects.length > 0 && (
+        // What the role produced: one small card per project, picture first.
+        <ul className="grid gap-2 pt-3 pl-9 sm:grid-cols-2">
+          {position.projects.map((project) => (
+            <li key={project.href}>
+              <Link
+                href={project.href}
+                className="group/project flex h-full items-center gap-3 rounded-lg border border-line bg-background p-1.5 pr-3 transition-colors hover:border-border hover:bg-muted/50"
+              >
+                <Image
+                  src={project.image}
+                  alt=""
+                  width={192}
+                  height={108}
+                  sizes="96px"
+                  className="aspect-video w-24 shrink-0 rounded-md border border-line object-cover"
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="flex items-center gap-1.5 text-sm font-medium text-foreground">
+                    {project.name}
+                    {project.status && (
+                      <span className="rounded-full border border-line px-1.5 py-px text-[10px] font-normal text-muted-foreground">
+                        {project.status}
+                      </span>
+                    )}
+                  </span>
+                  <span className="mt-0.5 block text-xs leading-snug text-muted-foreground">{project.blurb}</span>
+                </span>
+                <span aria-hidden className="text-muted-foreground transition-transform group-hover/project:translate-x-0.5">
+                  →
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {position.skills && position.skills.length > 0 && (
         <ul className="flex flex-wrap gap-1.5 pt-3 pl-9">

@@ -1,0 +1,54 @@
+---
+title: Accuracy-gated minimum move
+description: Decision record for scaling the track engine's minimum move with reported GPS accuracy. Upstream ADR 0006.
+---
+
+## Title
+
+Accuracy-gated minimum move
+
+## Status
+
+Accepted on 2026-11-10. Implemented in track engine version 4. Upstream record: ADR 0006.
+
+## Context
+
+- Through engine version 3, the gate counted a fix once it lay at least 20 m from the anchor. The anchor is the last accepted fix.
+- A parked phone with poor GPS drifts further than 20 m. At 30 to 50 m accuracy, the fixed threshold added about 290 m of phantom distance per 10 minutes on synthetic tracks.
+- The accuracy filter keeps only fixes with an accuracy of 50 m or better.
+- The engine uses integer arithmetic so that the Kotlin and TypeScript ports produce identical results. A rule that needs a square root requires an integer square root in every port.
+- The requirement was to remove most phantom distance without removing real distance.
+
+## Decision
+
+Set the minimum move for each step to the larger of 20 m and the worse reported accuracy of the anchor and the fix:
+
+```text
+minimumMoveDm = max(200, 10 * max(anchor.accuracyM, fix.accuracyM))
+```
+
+The value is in whole decimetres. Because the accuracy filter caps accuracy at 50 m, the minimum move is between 20 m and 50 m.
+
+The gate measures each step as the chord from the anchor. The anchor moves only when a fix is accepted, so a held-back fix adds its distance to the next accepted step.
+
+Rejected options:
+
+- **Fix accuracy alone.** Rejected. It misses a poor anchor: a car that stopped on a 35 m fix and then receives 5 m fixes 30 m away would count 30 m that was not driven.
+- **Root-sum-square of the two accuracies.** Rejected. It reaches 71 m, raises the loss on a slow ride to 3.9%, and needs an integer square root.
+- **Sum of the two accuracies.** Rejected. It reaches 100 m and raises the loss on a slow ride to 6.0%.
+
+## Consequences
+
+Positive:
+
+- Phantom distance for a parked phone falls from about 290 m to about 116 m per 10 minutes on synthetic tracks.
+- A track whose fixes all report 20 m or better produces the version 3 result bit for bit. Every existing golden fixture is such a track.
+- On a straight road the total is unchanged.
+
+Negative:
+
+- Loss on a slow, poor-accuracy city ride rises from 0.8% to 2.5% of the true length. The lost distance is the curve between two counted fixes and the final stretch of the shift.
+- A whole-shift total is not guaranteed to be at or below the version 3 total. In 20,000 short random tracks it was higher in about 12% of cases, by at most 39 m.
+- A phone whose fixes drift further than their own reported accuracy still adds distance.
+- Phone and server must run the same engine version. A shift computed with different versions is flagged as differing.
+- The measurements come from synthetic tracks. Field data may justify the root-sum-square rule later.

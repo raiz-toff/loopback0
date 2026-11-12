@@ -1,0 +1,74 @@
+---
+title: Sync engine
+description: Comma's serverless sync over Google Drive, the interoperability defects found between the phone and web apps, and the simplification audit that was never implemented.
+---
+
+Comma synchronises a phone and a browser without a server. Each device reads and writes encrypted files in the driver's own Google Drive `appDataFolder`.
+
+## Model
+
+| Element | Implementation |
+|---|---|
+| Transport | Google Drive `appDataFolder`, one private folder per app |
+| Merge rule | Per-row last-write-wins on `syncUpdatedAt` |
+| Deletes | Soft deletes with `syncDeletedAt` tombstones |
+| Change format | One delta change log per push: `comma-cl-{device}-{ts}.cmlog` |
+| Compaction | A snapshot (`.cmsnap`) after 30 logs, then deletion of the logs it covers |
+| Cursor | A set of applied log names, not a single watermark |
+| Encryption | AES-256-GCM with a password-derived key |
+
+The protocol is implemented twice: `src/services/sync/` in TypeScript for the phone and `web/src/services/sync/` in JavaScript for the web. The two implementations must stay byte-compatible.
+
+## Interoperability audit, 2026-07-03
+
+An audit on 2026-07-03 checked whether the two apps could sync through the shared Drive folder. It found that they could not. The two codebases had grown different column names and value types for the same records.
+
+| Finding | Cause |
+|---|---|
+| OAuth project mismatch | The web app and the phone app used different Google OAuth clients, so each saw a different `appDataFolder`. |
+| Shift platform key | The web wrote `platformId`. The phone required a `NOT NULL` column named `platform`. |
+| Goals | The two apps stored goals in different models. |
+| Vehicles | The web used `nickname` and `active`. The phone used `name` and `isActive`. |
+| Merchants | Both apps minted their own ids. `merchants.name` was `UNIQUE`, so a same-name merchant from the other device aborted the whole apply transaction. |
+| Poison logs | A bad row in an immutable log failed on every sync and blocked every log behind it. |
+| Timestamps | The phone wrote ISO strings. The web expected epoch milliseconds. |
+| Full-row writes | The web's `put()` replaced the row and erased web-only fields. |
+| Shift platform rows | The phone hard-deleted rows, so removals never reached the other device. |
+| Platform activation | Web platform rows carried no `syncUpdatedAt` and were never pushed. |
+
+Two further defects appeared during the fixes:
+
+- **Historical data never synced.** Rows created before the sync columns existed had `syncUpdatedAt = 0`. Push collected only rows above the cursor, which was also 0.
+- **Seed rows could overwrite real data.** A new browser stamped its default platform rows with `Date.now()`. Under last-write-wins, those defaults would replace the phone's settings.
+
+All findings were fixed the same day. The fix made the phone's schema canonical and made every web row carry both key sets, through a translation layer in `interopShape.js`.
+
+## Simplification audit, 2026-07-12
+
+A second audit reviewed the engine after the fixes. Its verdict: the core model was correct, and the engine was oversized for the data.
+
+| Measure | Value |
+|---|---|
+| Phone implementation | About 1,830 lines |
+| Web implementation | About 1,300 lines |
+| Largest real vault tested | 185 shifts |
+| Expected data size | Single-digit megabytes |
+
+The audit proposed these changes:
+
+| Finding | Proposal |
+|---|---|
+| Two byte-compatible implementations | One platform-agnostic core with injected adapters |
+| Delta logs, compaction and an applied-set cursor | One full-state file per device |
+| Poison-log quarantine | Removed by the full-state design, which re-evaluates each row on every sync |
+| Dual-key interop layer | One canonical wire format |
+| Independently minted merchant ids | Deterministic ids derived from content |
+| Overwrite audit log for financial rows | Dropped or downgraded |
+
+The audit status was "proposal, nothing implemented yet". The proposal was not implemented before Comma was retired.
+
+## Outcome in MileWage
+
+MileWage does not sync between peers. The server holds the only copy of the records, and the phone sends raw fixes to it. There is one schema, one merge point and no change log.
+
+The trade-off is recorded in [Decision: retire Comma](/docs/projects/comma/decisions/retire-comma).

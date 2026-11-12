@@ -21,7 +21,7 @@ import {
 } from '@/components/blog';
 
 // Blog post on the fumadocs.dev blog design: header card with back link,
-// title, description, author, tags and date; prose body; newer / older
+// title, description and date; author and tags at the end; prose body; newer / older
 // navigation; floating table-of-contents and share panel.
 
 export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
@@ -68,15 +68,6 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
           </div>
           <BlogTitle className="text-xl tracking-tight text-balance sm:text-2xl">{post.title}</BlogTitle>
           <BlogDescription className="text-sm text-pretty">{post.description}</BlogDescription>
-          <div className="flex w-full flex-wrap items-center gap-x-3 gap-y-2 pt-1">
-            {post.authors.map((a) => (
-              <a key={a.name} href={a.url} className="inline-flex items-center gap-2 text-xs transition-colors hover:text-fd-primary">
-                {a.image && <Image src={a.image} alt="" width={20} height={20} className="size-5 rounded-full object-cover" />}
-                <span className="font-medium">{a.name}</span>
-              </a>
-            ))}
-            <BlogTags tags={post.tags} className="ms-auto" />
-          </div>
         </BlogHeader>
 
         {post.image ? (
@@ -95,13 +86,38 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
           </div>
         ) : null}
 
+        {page.data.outcome ? (
+          // how-to posts: what the reader ends with, before step one
+          <dl className="grid gap-x-6 gap-y-3 rounded-xl border bg-fd-card px-4 py-3.5 text-sm sm:grid-cols-[auto_1fr]">
+            <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-fd-muted-foreground sm:pt-0.5">You end with</dt>
+            <dd className="text-fd-foreground">{page.data.outcome}</dd>
+            {page.data.needs ? (
+              <>
+                <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-fd-muted-foreground sm:pt-0.5">You need</dt>
+                <dd className="text-fd-foreground">{page.data.needs}</dd>
+              </>
+            ) : null}
+          </dl>
+        ) : null}
+
         <BlogBody>
           <Lightbox>
             <MDX components={getMDXComponents()} />
           </Lightbox>
         </BlogBody>
 
-        <p className="flex flex-wrap gap-x-5 gap-y-2 border-t border-fd-border pt-6 font-mono text-[11.5px] uppercase tracking-[0.14em] text-fd-muted-foreground">
+        {/* author and tags close the post, so the header stays short */}
+        <div className="flex w-full flex-wrap items-center gap-x-3 gap-y-2 border-t border-fd-border pt-6">
+          {post.authors.map((a) => (
+            <a key={a.name} href={a.url} className="inline-flex items-center gap-2 text-xs transition-colors hover:text-fd-primary">
+              {a.image && <Image src={a.image} alt="" width={20} height={20} className="size-5 rounded-full object-cover" />}
+              <span className="font-medium">{a.name}</span>
+            </a>
+          ))}
+          <BlogTags tags={post.tags} className="ms-auto" />
+        </div>
+
+        <p className="flex flex-wrap gap-x-5 gap-y-2 pt-2 font-mono text-[11.5px] uppercase tracking-[0.14em] text-fd-muted-foreground">
           <a href={githubFileUrl(`content/blog/${page.path}`, 'edit')} target="_blank" rel="noreferrer noopener" className="transition-colors hover:text-fd-foreground">
             Edit on GitHub
           </a>

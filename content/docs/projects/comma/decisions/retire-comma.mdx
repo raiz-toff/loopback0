@@ -1,0 +1,53 @@
+---
+title: Retirement of Comma in favour of MileWage
+description: Decision record for ending Comma development and starting MileWage as a separate, self-hosted project.
+---
+
+## Title
+
+Retirement of Comma in favour of MileWage
+
+## Status
+
+Accepted. The MileWage repository was started on 2026-11-03. The Comma repository was archived on 2026-11-11.
+
+## Context
+
+- Comma stored all data on the phone and synced peers through Google Drive. The sync protocol existed in two implementations that had to stay byte-compatible.
+- An audit on 2026-07-03 found ten interoperability defects between the phone app and the web app. A second audit on 2026-07-12 proposed a redesign that was not implemented.
+- The web app could not record GPS in the background.
+- The phone tracker depended on Google's fused location provider and Activity Recognition.
+- Cloud sync depended on a Google account.
+- The author used Comma for more than six months and kept a list of defects and strengths.
+- The feature set had grown to include XP, streaks, challenges, badges, goals and a schedule.
+
+## Decision
+
+- Stop Comma development. Publish a retirement notice and archive the repository.
+- Start MileWage in a new repository. Leave the Comma code untouched.
+- Make a self-hosted server the single source of truth. Reach it from the phone over Tailscale.
+- Provide no import from Comma.
+- Keep the final Comma release available for download.
+
+Rejected options:
+
+- **Refactor Comma in place.** Rejected. Moving the source of truth from the phone to a server changes every data path.
+- **Implement the 2026-07-12 sync redesign.** Rejected. It kept peer sync and the dependency on Google Drive.
+- **Write a Comma importer.** Rejected on 2026-11-03. The two data models differ, and an importer would carry Comma's schema into MileWage.
+
+## Consequences
+
+Positive:
+
+- There is one schema and one merge point. The peer-sync engine and its translation layer are gone.
+- Location history is stored only on hardware the driver owns.
+- The server recomputes every shift, so a phone-side arithmetic error is detected.
+- No Google account or Google Play Services is required.
+
+Negative:
+
+- MileWage requires a host with Docker and a Tailscale account. Comma required only a phone.
+- Existing Comma data cannot be moved. A driver who switches starts with an empty history.
+- Drivers who want no server have no maintained option. Comma remains usable but receives no fixes.
+- The Comma web app, its documentation site and three branches of work are no longer developed.
+- MileWage 0.3.0 has not been field-tested. Comma was used on real shifts for more than six months.

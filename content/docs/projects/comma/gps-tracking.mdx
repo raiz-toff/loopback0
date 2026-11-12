@@ -1,0 +1,68 @@
+---
+title: GPS tracking
+description: How Comma's browser tracker and native Android tracker record distance, and how their filters compare with MileWage's track engine.
+---
+
+Comma has two GPS trackers. The web app uses the browser's Geolocation API. The phone app uses a native Kotlin foreground service.
+
+## Web tracker
+
+`GPSTracker` in `web/src/core/gps-tracker.js` runs `navigator.geolocation.watchPosition` in high-accuracy mode while a shift is active.
+
+| Filter | Threshold |
+|---|---|
+| Accuracy | Fixes worse than 25 m are discarded. |
+| Stationary jitter | Movements under 10 m are discarded. |
+| Speed | Jumps above 150 km/h are discarded. |
+| Route length | A route is capped at 2,000 points. |
+
+The tracker stores its running totals in `localStorage`, so a page reload does not reset the distance.
+
+| Key | Contents |
+|---|---|
+| `comma_active_gps_distance` | Total distance in kilometres |
+| `comma_active_gps_dead_distance` | Dead distance in kilometres |
+| `comma_active_gps_active_distance` | Active distance in kilometres |
+| `comma_active_gps_first_order` | Whether **Got First Order** was tapped |
+| `comma_active_gps_last_coord` | The last coordinate, for the next Haversine step |
+
+**Limitation:** the tracker runs only while the tab is open and in the foreground. A browser cannot record GPS in the background, so a locked phone stops the recording. This limitation led to the native phone app.
+
+## Phone tracker
+
+The `comma-tracker` module is a Kotlin foreground service.
+
+| Behaviour | Detail |
+|---|---|
+| Sampling | A fix about every 10 seconds or every 20 m |
+| Speed guard | Fixes that imply more than about 150 km/h are discarded. |
+| Movement check | Speeds under 5 km/h are classified as not driving. |
+| Route simplification | Ramer-Douglas-Peucker at about 10 m |
+| Location source | Google's fused location provider with Activity Recognition |
+
+## Active and dead distance
+
+Comma splits distance in two ways at once:
+
+- By the **Got First Order** tap. Distance before the tap is dead, and distance after it is active.
+- By speed. Movement below 5 km/h is not counted as driving.
+
+The split depends on the driver tapping the button during the shift.
+
+## Comparison with MileWage
+
+MileWage replaced both trackers with one engine. The differences follow from six months of using Comma on real shifts.
+
+| | Comma (phone) | MileWage |
+|---|---|---|
+| Location source | Fused provider, Google Play Services | Platform `LocationManager`, GNSS only |
+| Cadence | 10 s or 20 m | 5 s, no distance filter |
+| Accuracy filter | 25 m on the web tracker | 50 m on the phone and the server |
+| Minimum move | 20 m distance filter | 20 to 50 m, scaled with reported accuracy |
+| Stored points | Simplified route | Every raw fix |
+| Active and dead split | Manual tap | Estimated from stops, correctable on the web |
+| Where the total is computed | On the device | On the phone and again on the server |
+| Arithmetic | Floating point | Integer decimetres |
+| Shift indicator | Floating overlay (`SYSTEM_ALERT_WINDOW`) | Standard notification |
+
+The MileWage rules are documented in [Mileage engine](/docs/projects/milewage/mileage-engine).

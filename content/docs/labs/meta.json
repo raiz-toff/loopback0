@@ -4,7 +4,8 @@
   "icon": "FlaskConical",
   "root": true,
   "pages": [
-    "index",
+    "[Overview](/docs/labs)",
+    "!index",
     "multi-vendor",
     "office-setup",
     "vlan-labs",

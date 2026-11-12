@@ -1,0 +1,4 @@
+{
+  "title": "MileWage",
+  "pages": ["[Overview](/docs/projects/milewage)", "install", "architecture", "mileage-engine", "brand", "decisions"]
+}

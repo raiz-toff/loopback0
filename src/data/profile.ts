@@ -94,6 +94,18 @@ export const socialLinks: { name: string; handle: string; href: string }[] = [
 // ── Experience, oldest chapter last ─────────────────────────────────────
 // Structured company → positions, styled after chanhdai.com's WorkExperience.
 // `kind` maps to an icon inside the WorkExperience component (data stays JSX-free).
+export type ExperienceProject = {
+  name: string;
+  /** Overview page of the project. */
+  href: string;
+  /** What it is, in a few words. */
+  blurb: string;
+  /** Root-absolute thumbnail, 16:9 or wider. */
+  image: string;
+  /** Short status shown after the name, such as "retired". */
+  status?: string;
+};
+
 export type ExperiencePosition = {
   title: string;
   /** Shown verbatim, so the narrative periods stay intact. */
@@ -102,6 +114,8 @@ export type ExperiencePosition = {
   kind: "server" | "grad" | "briefcase" | "wrench" | "tester";
   notes: string[];
   skills?: string[];
+  /** Projects that came out of this role, linked to their overview page. */
+  projects?: ExperienceProject[];
   /** Start expanded on load. */
   expanded?: boolean;
 };
@@ -165,6 +179,14 @@ export const experience: ExperienceCompany[] = [
           "Proxmox VE hosting EVE-NG, Cisco CML, GitLab, and Zabbix/Grafana — broken, rebuilt, and documented daily.",
           "Lab configs versioned in a local GitLab instance with CI/CD pipelines.",
         ],
+        projects: [
+          {
+            name: "Marrow",
+            href: "/docs/projects/marrow",
+            blurb: "Compiles a YAML description into an interactive network diagram.",
+            image: "/blog/covers/marrow.png",
+          },
+        ],
         skills: [
           "Proxmox VE",
           "EVE-NG",
@@ -188,9 +210,25 @@ export const experience: ExperienceCompany[] = [
         kind: "briefcase",
         notes: [
           "Completed 8,000+ deliveries across the GTA while job-searching after graduation.",
-          "Built Comma to replace spreadsheet tracking of shifts, dead miles, expenses, and HST set-asides.",
+          "Built Comma to replace spreadsheet tracking of shifts, dead miles, expenses, and HST set-asides; used it daily for six months.",
+          "Rebuilt it as MileWage: a native Android app that records the shift and a self-hosted server, reached over Tailscale, that keeps the data.",
         ],
-        skills: ["Comma", "React Native", "TypeScript", "SQLite"],
+        projects: [
+          {
+            name: "MileWage",
+            href: "/docs/projects/milewage",
+            blurb: "Mileage tracker that keeps the data on a server you own.",
+            image: "/blog/covers/milewage.png",
+          },
+          {
+            name: "Comma",
+            href: "/docs/projects/comma",
+            blurb: "Offline earnings tracker for gig workers.",
+            image: "/blog/covers/comma.png",
+            status: "retired",
+          },
+        ],
+        skills: ["Kotlin", "React Native", "TypeScript", "Docker", "Tailscale", "SQLite"],
       },
     ],
   },
@@ -491,11 +529,21 @@ export const projects: Project[] = [
     docs: "/docs/projects/marrow",
   },
   {
-    name: "Comma",
+    name: "MileWage",
     kind: "app",
-    stack: "pwa · indexeddb · android",
+    stack: "kotlin · typescript · docker · tailscale",
     description:
-      "An offline-first earnings tracker for gig workers. Runs entirely in the browser — no server, all data stays on the device.",
-    source: "https://github.com/raiz-toff/Comma",
+      "Self-hosted mileage tracking for gig riders and drivers. A native Android app records the shift; a server you own keeps the miles and the money. Successor to Comma.",
+    source: "https://github.com/raiz-toff/Milewage",
+    docs: "/docs/projects/milewage",
+  },
+  {
+    name: "tunit",
+    kind: "tool",
+    stack: "go · single binary",
+    description:
+      "A system diagnostic, stress and load testing tool for Windows, Linux and macOS. Hardware QC, CPU thermal tests, network checks and HTTP load tests, with no dependencies.",
+    source: "https://github.com/raiz-toff/tunit",
+    docs: "/docs/projects/tunit",
   },
 ];

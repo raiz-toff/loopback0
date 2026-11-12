@@ -2,18 +2,59 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { TagIcon } from 'lucide-react';
 import { getPostsWithMinutes, getTags } from '@/lib/blog-posts';
-import { BlogCards, BlogFeaturedCard, BrandStripe } from '@/components/blog';
+import Image from 'next/image';
+import { BlogFeaturedCard, BrandStripe } from '@/components/blog';
+import RNMark from '@/components/rn-mark';
+import type { BlogPost } from '@/lib/blog-posts';
 import SiteFooter from '@/components/site-footer';
 
-// Blog index: the editorial header and mono meta line of the original page,
-// the fumadocs.dev card grid (cover, description, author, date) with tags and
-// reading time added, a featured slot for the newest post, and a tag strip
-// that leads to the tag pages.
+// Blog index: the editorial header and mono meta line, a tag strip that
+// leads to the tag pages, a featured slot for the newest post, then every
+// earlier post as a compact row (thumbnail, title, description, date) so a
+// reader can skim the whole list.
+
+const description = 'Stories, field notes, and the occasional detour.';
 
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Stories, field notes, and the occasional detour — the human side of the lab.',
+  alternates: { canonical: '/blog' },
+  openGraph: { title: 'Blog', description, url: '/blog', images: '/og/blog/index' },
+  twitter: { card: 'summary_large_image', title: 'Blog', description, images: '/og/blog/index' },
 };
+
+const rowDate = (d?: Date) => (d ? `${MONTHS[d.getMonth()]} ${d.getFullYear()}` : '');
+
+// One earlier post as a row: thumbnail, title, one line of description, date.
+function PostRow({ post }: { post: BlogPost }) {
+  return (
+    <li className="border-b border-fd-border last:border-b-0">
+      <Link href={post.url} className="group grid grid-cols-[96px_1fr] items-center gap-4 px-3 py-3 transition-colors hover:bg-fd-accent/50 sm:grid-cols-[152px_1fr] sm:gap-5 sm:px-4">
+        <div className="relative aspect-video overflow-hidden rounded-md border border-fd-border bg-[#E8E4DA]">
+          {post.image ? (
+            <Image src={post.image} alt="" fill sizes="152px" unoptimized={post.image.startsWith('http')} className="object-cover" />
+          ) : (
+            // no cover yet: the RN mark on paper
+            <span className="absolute inset-0 flex items-center justify-center">
+              <RNMark className="h-auto w-[38%]" />
+            </span>
+          )}
+        </div>
+        <div className="min-w-0">
+          <h3 className="text-[15px]/snug font-semibold tracking-tight text-balance text-fd-foreground group-hover:text-fd-primary sm:text-base/snug">
+            {post.title}
+          </h3>
+          <p className="mt-1 hidden truncate text-sm text-fd-muted-foreground sm:block">{post.description}</p>
+          <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.12em] text-fd-muted-foreground">
+            {rowDate(post.date)}
+            {post.minutes ? <span className="mx-1.5 text-fd-muted-foreground/40">/</span> : null}
+            {post.minutes ? `${post.minutes} min` : null}
+          </p>
+        </div>
+      </Link>
+    </li>
+  );
+}
 
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 const updatedDate = (d: Date) => `${d.getDate()} ${MONTHS[d.getMonth()].toUpperCase()} ${d.getFullYear()}`;
@@ -107,7 +148,11 @@ export default async function BlogIndexPage() {
                   <DottedLeader />
                   <span>{rest.length} posts</span>
                 </div>
-                <BlogCards posts={rest} className="mt-4 gap-3 sm:grid-cols-2 lg:grid-cols-3" />
+                <ul className="mt-4 overflow-hidden rounded-xl border border-fd-border bg-fd-card">
+                  {rest.map((post) => (
+                    <PostRow key={post.url} post={post} />
+                  ))}
+                </ul>
               </>
             )}
           </>

@@ -1,0 +1,53 @@
+---
+title: Tracking on the platform location service
+description: Decision record for recording shifts with Android's LocationManager and a custom stillness monitor. Upstream ADR 0011.
+---
+
+## Title
+
+Tracking on the platform location service
+
+## Status
+
+Accepted on 2026-11-10. Supersedes the 2026-11-03 decision to copy and trim Comma's native tracking module. Amended on 2026-11-11: the opt-in drive prompt was removed. Upstream record: ADR 0011.
+
+## Context
+
+- The Expo app recorded with a module copied from Comma. The module used Google's fused location provider and Activity Recognition.
+- The module sampled every 10 seconds with a 20 m distance filter. The filter dropped the fixes that stop detection needs while the phone is still.
+- The 2026-11-03 rules excluded a boot receiver. A reboot or an overnight update during a shift ended the recording.
+- The native app must run without Google Play Services. See [Native Android app without Google Play Services](/docs/projects/milewage/decisions/native-android-app).
+- A shift is the driver's working time and the tax record. Recording private driving as work is a data error.
+
+## Decision
+
+- Request location from the platform `LocationManager` with the `gps` provider, every 5 seconds, with no distance filter.
+- Store only fixes from the recording provider. Use network positions to detect movement, and never store or count them.
+- Implement stillness detection in `StillnessMonitor`. After 150 seconds within `max(40 m, the two accuracies)`, reduce to one fix every 60 seconds and watch the significant-motion sensor.
+- Return to the full rate on a fix outside the radius, a fix at 9 km/h, or a sensor event.
+- Resume a running shift after a process kill or a reboot with `START_STICKY`, a restart alarm and a boot receiver. Record the gap as an interruption.
+- Start a shift only from **Start shift**. Send one "Still on shift?" reminder per still period after 30 minutes. The reminder never ends a shift.
+
+Rejected options:
+
+- **Keep the fused provider and Activity Recognition.** Rejected with Google Play Services.
+- **Start and end shifts automatically.** Rejected. A wrong automatic start records private driving as work.
+- **Keep the 10-second cadence with a 20 m filter.** Rejected. A 5-second cadence follows city turns more closely.
+- **No boot receiver.** Reversed. The receiver resumes only a shift that the driver started.
+
+## Consequences
+
+Positive:
+
+- Tracking works on phones without Google services.
+- Stop detection receives the fixes recorded during a dwell.
+- A shift survives a reboot. Distance across the gap is flagged and never invented.
+- The manifest requests no `SYSTEM_ALERT_WINDOW` and no activity recognition permission.
+
+Negative:
+
+- The 5-second cadence costs more battery than the previous configuration. The stillness logic offsets part of the cost.
+- The manifest requests `RECEIVE_BOOT_COMPLETED` and `ACCESS_BACKGROUND_LOCATION`.
+- On Android 14 and later, a background restart fails without **Allow all the time**. The driver receives a "Your shift is not recording" notification.
+- A late wake-up after a stop counts the missed distance as a straight line, up to about one minute of travel.
+- None of this has run on a physical phone. GPS wake-up time, battery use, tunnels, force stops and manufacturer battery savers require a field test.

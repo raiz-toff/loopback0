@@ -4,8 +4,11 @@
   "icon": "Boxes",
   "root": true,
   "pages": [
-    "index",
+    "[Overview](/docs/projects)",
+    "!index",
+    "milewage",
     "marrow",
+    "tunit",
     "comma",
     "..."
   ]

@@ -1,31 +1,23 @@
 import { blog } from '@/lib/blog';
 import { notFound } from 'next/navigation';
 import { ImageResponse } from 'next/og';
-import { generate as DefaultImage } from '@fumadocs/base-ui/og';
+import { ogCard } from '@/lib/og-card';
 
 export const revalidate = false;
 
-// Social card for posts without a `cover` — violet to match the blog accent.
+/** Slug that stands for the blog list page (/blog) instead of a post. */
+const LIST = 'index';
+
+// Share card for the blog list and for posts without a `cover`.
 export async function GET(_req: Request, { params }: RouteContext<'/og/blog/[slug]'>) {
   const { slug } = await params;
-  const page = blog.getPage([slug]);
-  if (!page) notFound();
+  const page = slug === LIST ? null : blog.getPage([slug]);
+  if (slug !== LIST && !page) notFound();
 
-  return new ImageResponse(
-    <DefaultImage
-      title={page.data.title}
-      description={page.data.description}
-      site="Rajkumar's Blog"
-      primaryColor="#7c3aed"
-      primaryTextColor="#a78bfa"
-    />,
-    {
-      width: 1200,
-      height: 630,
-    },
-  );
+  const line = page ? page.data.title : 'Stories, field notes, and the occasional detour.';
+  return new ImageResponse(ogCard({ name: 'Blog', line }), { width: 1200, height: 630 });
 }
 
 export function generateStaticParams() {
-  return blog.getPages().map((page) => ({ slug: page.slugs[0] }));
+  return [{ slug: LIST }, ...blog.getPages().map((page) => ({ slug: page.slugs[0] }))];
 }
