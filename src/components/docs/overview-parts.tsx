@@ -180,17 +180,17 @@ export function OverviewPages({ items }: { items: { title: string; description: 
  * Opening of a project overview: identity, one paragraph, the picture, the actions, an optional status note.
  *
  * @param identity - Logo or wordmark.
- * @param lead - What the project is, in a few sentences.
+ * @param lead - Facts the page description does not already state. Omit rather than repeat the description.
  * @param visual - Picture of the real thing.
  * @param actions - Link buttons.
  * @param note - Status that a visitor must know before reading on.
  * @returns The hero block, isolated from prose styles.
  */
-export function OverviewHero({ identity, lead, visual, actions, note }: { identity?: ReactNode; lead: ReactNode; visual?: ReactNode; actions?: ReactNode; note?: ReactNode }) {
+export function OverviewHero({ identity, lead, visual, actions, note }: { identity?: ReactNode; lead?: ReactNode; visual?: ReactNode; actions?: ReactNode; note?: ReactNode }) {
   return (
     <div className="not-prose">
       {identity ? <div className="mb-4">{identity}</div> : null}
-      <p className="text-[15px] leading-relaxed text-fd-foreground">{lead}</p>
+      {lead ? <p className="text-[15px] leading-relaxed text-fd-foreground">{lead}</p> : null}
       {visual ? <div className="mt-5 overflow-hidden rounded-xl border border-fd-border">{visual}</div> : null}
       {actions ? <div className="mt-5 flex flex-wrap gap-3">{actions}</div> : null}
       {note ? (
@@ -199,5 +199,53 @@ export function OverviewHero({ identity, lead, visual, actions, note }: { identi
         </p>
       ) : null}
     </div>
+  );
+}
+
+/** One line of a "Long story short" block. */
+export interface OverviewStoryStep {
+  /** What happened, in one short sentence. */
+  text: ReactNode;
+  /** Page that tells this part in full. */
+  href?: string;
+  /** Name of that page, shown on the link. */
+  page?: string;
+}
+
+/**
+ * "Long story short": the whole section told in three to five numbered lines, each linking to the page that covers it.
+ * Place it after the hero and before the detail sections.
+ *
+ * @param steps - Problem, what was built, what broke, where it stands. Three to five lines.
+ * @returns An ordered list in a card, isolated from prose styles.
+ */
+export function OverviewStory({ steps }: { steps: OverviewStoryStep[] }) {
+  return (
+    <section aria-labelledby="long-story-short" className="not-prose mt-8 rounded-xl border border-fd-border bg-fd-card p-5">
+      <h2 id="long-story-short" className="font-mono text-xs font-medium tracking-[0.12em] text-fd-muted-foreground uppercase">
+        Long story short
+      </h2>
+      <ol className="mt-3 list-none p-0">
+        {steps.map((step, i) => (
+          <li key={i} className="grid grid-cols-[1.75rem_1fr] gap-x-2 border-t border-fd-border py-3 first:border-t-0 first:pt-1 last:pb-0">
+            <span aria-hidden className="pt-px font-mono text-sm font-semibold text-fd-primary">
+              {i + 1}
+            </span>
+            <div className="sm:flex sm:items-baseline sm:justify-between sm:gap-4">
+              <p className="text-[15px] leading-relaxed text-fd-card-foreground">{step.text}</p>
+              {step.href ? (
+                <Link
+                  href={step.href}
+                  className="mt-1 inline-flex shrink-0 items-center gap-1 text-sm font-medium whitespace-nowrap text-fd-primary underline-offset-4 hover:underline sm:mt-0"
+                >
+                  {step.page}
+                  <span aria-hidden>→</span>
+                </Link>
+              ) : null}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }

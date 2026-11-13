@@ -23,6 +23,8 @@ import { LabsOverview } from './labs-overview';
 import { CcnaOverview } from './ccna-overview';
 import { MileWageOverview } from './milewage-overview';
 import { CommaOverview } from './comma-overview';
+import { VlanLabsOverview } from './vlan-labs-overview';
+import { WindowsLabsOverview } from './windows-labs-overview';
 
 export function getMDXComponents(components?: MDXComponents) {
   return {
@@ -53,6 +55,8 @@ export function getMDXComponents(components?: MDXComponents) {
     CcnaOverview,
     MileWageOverview,
     CommaOverview,
+    VlanLabsOverview,
+    WindowsLabsOverview,
     ...components,
   } satisfies MDXComponents;
 }

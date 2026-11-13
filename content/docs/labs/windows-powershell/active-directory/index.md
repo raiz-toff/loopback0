@@ -1,15 +1,11 @@
 ---
 title: Active Directory Services & User Creation
-description: A step-by-step walkthrough of installing Active Directory Domain Services (AD DS), promoting the server to a Domain Controller, and provisioning user accounts in a custom Organizational Unit (OU).
+description: "Install AD DS on Windows Server, promote the server to a domain controller, and add users in a custom OU."
 sidebar:
   label: Active Directory & Users
   order: 2
 ---
 
-
-## Lab objectives
-
-Install the AD DS role on Windows Server. Promote the server to a domain controller. Create a custom Organizational Unit (OU). Provision user accounts in Active Directory.
 
 ![Lab Overview Banner](images/ad-lab-page00-1.png)
 

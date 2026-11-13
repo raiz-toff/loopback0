@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from 'next/image';
 import Link from 'next/link';
-import { OverviewFacts, OverviewHeading, OverviewHero, OverviewPages, OverviewPoints } from './overview-parts';
+import { OverviewFacts, OverviewHeading, OverviewHero, OverviewPages, OverviewPoints, OverviewStory } from './overview-parts';
 import { StarlightLinkButton as LinkButton } from './starlight-compat';
 
 // Overview of /docs/projects/comma (retired).
@@ -44,6 +44,13 @@ const BRANCHES = [
   { label: 'native-android', value: 'Comma Simple, a Kotlin and Jetpack Compose rewrite with shifts, expenses, reports and Google Drive backup.' },
 ];
 
+const STORY = [
+  { text: 'Comma started in the browser with no account. A browser cannot record GPS in the background, so a native Kotlin tracker followed.', href: '/docs/projects/comma/gps-tracking', page: 'GPS tracking' },
+  { text: 'The phone app and the web app each kept their own database and synced through Google Drive, with the sync protocol written twice.', href: '/docs/projects/comma/architecture', page: 'Architecture' },
+  { text: 'An audit in July 2026 found the two apps could not sync at all. The defects were fixed that day; the redesign that followed was never built.', href: '/docs/projects/comma/sync-engine', page: 'Sync engine' },
+  { text: 'In November 2026 Comma was archived and MileWage started over, with a home server as the single source of truth.', href: '/docs/projects/comma/decisions/retire-comma', page: 'Decision' },
+];
+
 const PAGES = [
   { title: 'Architecture', description: 'Two apps, one data model, and the registries for countries and platforms.', href: '/docs/projects/comma/architecture' },
   { title: 'GPS tracking', description: 'The browser tracker, the native tracker, and how both differ from MileWage.', href: '/docs/projects/comma/gps-tracking' },
@@ -69,7 +76,7 @@ export function CommaOverview() {
         }
         lead={
           <>
-            <strong>Comma</strong> is a local-first earnings tracker for gig workers who deliver for DoorDash, Uber Eats, SkipTheDishes, Instacart and Amazon Flex. It records shifts with GPS, splits active and dead distance, logs expenses and estimates tax set-asides. It has no account and no server.
+            Built for drivers on DoorDash, Uber Eats, SkipTheDishes, Instacart and Amazon Flex. It recorded shifts with GPS, split active and dead distance, logged expenses and estimated tax set-asides, with no account and no server.
           </>
         }
         actions={
@@ -88,6 +95,7 @@ export function CommaOverview() {
             </li>
           ))}
         </ul>
+        <OverviewStory steps={STORY} />
         <OverviewHeading>What it does</OverviewHeading>
         <OverviewPoints items={FEATURES} />
         <OverviewHeading>Facts</OverviewHeading>

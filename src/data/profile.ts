@@ -33,35 +33,35 @@ export const story: StoryChapter[] = [
     id: "foundation",
     title: "The Foundation",
     paragraphs: [
-      "My start in IT wasn't with simulators. It was with a multimeter and a soldering iron back in Kathmandu. I spent 10 months at Kantipur Technical Institute learning chip-level repair. I'll be honest, at first, just prying open a customer's laptop case was terrifying. I was always worried about snapping a ribbon cable.",
-      "Diagnosing a dead board meant relying entirely on PDF schematics. You can't just guess how power flows through a circuit; you have to physically trace the voltage drops to isolate the fault.",
-      "It wasn't a glamorous environment at all. But dealing with hardware at the component level taught me the absolute baseline of troubleshooting: finding the exact point of failure.",
+      "My start in IT wasn't with simulators. It was with a multimeter and a soldering iron in Kathmandu, where I spent 10 months at Kantipur Technical Institute learning chip-level repair. At first, just prying open a customer's laptop case scared me. I was always worried about snapping a ribbon cable.",
+      "Diagnosing a dead board meant relying entirely on PDF schematics. You can't guess how power flows through a circuit; you trace the voltage with a multimeter until you find the point where it drops.",
+      "We worked on real customer laptops, not practice kits. After a repair, either the board powered on, or it stayed dead on the mat.",
     ],
   },
   {
     id: "detour",
-    title: "The Detour That Mattered",
+    title: "A Year in Logistics",
     paragraphs: [
-      "Before I ever touched a router, I worked in logistics and supply chain ops at Nepamed Healthcare. I didn't actually plan on leaving logistics, but watching an entire warehouse grind to a halt just because a system went down makes you realize who really runs the building.",
-      "That environment basically proved to me that infrastructure is only valuable if it moves data reliably. Throwing expensive tech at a wall without solving a real operational problem is just generating noise.",
+      "Before I ever touched a router, I worked in logistics and supply chain operations at Nepamed Healthcare. I hadn't planned to leave logistics. Then I watched an entire warehouse grind to a halt because one system went down.",
+      "A year later, I left for Canada to study networking.",
     ],
   },
   {
     id: "now",
     title: "Now",
     paragraphs: [
-      "Eventually, I packed up and relocated to Toronto for the Computer Systems Networking diploma at Canadore College. The coursework gave me the theory, but I knew I needed brute-force repetition to actually pass the CCNA.",
-      "Since I definitely couldn't afford physical Catalyst switches, I deployed Proxmox on an old decommissioned desktop. Over one month, I ran 19 consecutive 10-hour study sessions and completed over 300 hands-on lab topologies. Nowadays, my home lab runs Proxmox hosting EVE-NG, Cisco CML, and GitLab. I intentionally break, rebuild, and document things daily just so the CLI syntax stays in my muscle memory.",
-      "By day, I work the depot floor at Geek Squad City in Brampton. It's a lot of high-volume hardware triage. I run diagnostics across Windows, macOS, and mobile, and make sure devices meet strict QA standards before they get recertified.",
+      "In September 2023 I moved to Toronto for the networking diploma at Canadore College. The coursework gave me the theory, but I knew I needed brute-force repetition to pass the CCNA.",
+      "I couldn't afford physical Catalyst switches back then, so I installed Proxmox on an old decommissioned desktop and ran everything virtually. For the CCNA I studied 19 days straight, 10 to 12 hours a day, and completed over 300 lab topologies. I passed on the first attempt.",
+      "The lab has grown since. A MikroTik hAP ax2 and a Cisco Catalyst 3560-CX now sit in front of the Proxmox host, which runs EVE-NG, Cisco CML, GitLab, and Zabbix with Grafana. I break and rebuild topologies on it, and the ones I finish writing up go into my lab notes.",
+      "By day, I work the depot floor at Geek Squad City in Brampton as a product tester. It's high-volume hardware triage: diagnostics across Windows, macOS, Android and iOS, then QA checks before a device is recertified.",
     ],
   },
   {
     id: "off-the-clock",
     title: "Off the Clock",
     paragraphs: [
-      "When I'm away from the routing tables, I still use Photoshop and Lightroom for photography.",
-      "But motorcycles are my main hobby right now. I'm specifically into adventure (ADV) riding and touring, and I do all the maintenance myself. The habit actually started back in Nepal, where I'd maintain and customize my own mountain bike, welding and grinding parts by hand.",
-      "Turns out, taking a physical machine apart to figure out how it ticks uses the exact same diagnostic mindset as isolating a network fault. You learn the boundaries of a system by breaking it, and then forcing yourself to put it back together.",
+      "Away from the lab, I still use Photoshop and Lightroom for photography.",
+      "Motorcycles are my main hobby right now. I'm into adventure (ADV) riding and touring, and I do all the maintenance myself. The habit started in Nepal, where I maintained and customized my own mountain bike, welding and grinding parts by hand.",
     ],
   },
 ];
@@ -166,7 +166,7 @@ export const experience: ExperienceCompany[] = [
   },
   {
     id: "home-lab",
-    org: "Self-Hosted Enterprise Lab",
+    org: "Home Lab",
     where: "Toronto",
     current: true,
     positions: [
@@ -177,7 +177,7 @@ export const experience: ExperienceCompany[] = [
         kind: "server",
         expanded: false,
         notes: [
-          "Proxmox VE hosting EVE-NG, Cisco CML, GitLab, and Zabbix/Grafana — broken, rebuilt, and documented daily.",
+          "Proxmox VE host running EVE-NG, Cisco CML, GitLab, and Zabbix with Grafana, behind a MikroTik hAP ax2 and a Cisco Catalyst 3560-CX.",
           "Lab configs versioned in a local GitLab instance with CI/CD pipelines.",
         ],
         projects: [
@@ -282,8 +282,7 @@ export const experience: ExperienceCompany[] = [
         employmentType: "Full-time",
         kind: "briefcase",
         notes: [
-          "Managed regional logistics and supply chain workflows.",
-          "Oversaw daily operational infrastructure and mitigated inventory bottlenecks.",
+          "Coordinated regional logistics and supply chain workflows.",
         ],
         skills: ["Logistics", "Supply Chain", "Operations"],
       },
@@ -303,7 +302,7 @@ export const experience: ExperienceCompany[] = [
         kind: "wrench",
         notes: [
           "Performed component-level soldering and hardware diagnostics on dead motherboards.",
-          "Utilized PDF schematics to trace voltage drops and isolate power faults across circuits.",
+          "Used PDF schematics to trace voltage drops and isolate power faults across circuits.",
         ],
         skills: ["Soldering", "Schematics", "Board Repair"],
       },
@@ -419,9 +418,9 @@ export type TopoLink = {
 export const topoNodes: TopoNode[] = [
   { id: "wan", label: "ISP / WAN", kind: "cloud", detail: "External internet connectivity", x: 60, y: 150 },
   { id: "fw", label: "Edge Router", kind: "firewall", detail: "MikroTik hAP ax2 — NAT, firewall rules, trunk to the core switch", x: 235, y: 150 },
-  { id: "sw", label: "Core Switch", kind: "switch", detail: "VLANs, trunking, inter-VLAN routing", x: 410, y: 150 },
+  { id: "sw", label: "Core Switch", kind: "switch", detail: "Cisco Catalyst 3560-CX — VLANs, trunking, inter-VLAN routing", x: 410, y: 150 },
   { id: "pve", label: "Proxmox VE", kind: "host", detail: "Type-1 hypervisor hosting virtual infrastructure", x: 610, y: 150 },
-  { id: "eve", label: "EVE-NG", kind: "vm", detail: "Multi-vendor topologies, daily practice", x: 800, y: 48 },
+  { id: "eve", label: "EVE-NG", kind: "vm", detail: "Multi-vendor topologies", x: 800, y: 48 },
   { id: "cml", label: "Cisco CML", kind: "vm", detail: "CCNA prep, automated provisioning", x: 820, y: 150 },
   { id: "git", label: "GitLab", kind: "vm", detail: "Local CI/CD, lab configs as code", x: 800, y: 252 },
   { id: "mon", label: "Zabbix + Grafana", kind: "endpoint", detail: "Infrastructure monitoring and alerting", x: 610, y: 268 },

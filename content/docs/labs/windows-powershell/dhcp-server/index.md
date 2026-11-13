@@ -1,15 +1,11 @@
 ---
 title: DHCP Server Installation & Configuration
-description: A step-by-step guide to installing the DHCP Server role on Windows Server, setting up IP scopes and exclusion ranges, and configuring dynamic IP leasing on a Windows 10 host client.
+description: "Install the DHCP Server role on Windows Server, configure a scope with exclusion ranges, and verify leases on a Windows 10 client."
 sidebar:
   label: DHCP Server Installation
   order: 3
 ---
 
-
-## Lab objectives
-
-Install the DHCP Server role on Windows Server. Configure a DHCP IP address scope and exclusion ranges. Verify dynamic IP leasing on a Windows 10 client.
 
 ![DHCP Lab Cover](images/Lab-1-Rajkumar-Neupane.pdf-0-1.png)
 

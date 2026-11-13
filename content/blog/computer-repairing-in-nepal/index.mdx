@@ -1,7 +1,7 @@
 ---
 title: "Where It All Started: Fixing Dead Motherboards in Kathmandu"
 date: 2024-01-01
-description: "Before networking certifications and Canadian winters, my start in IT was an 8-to-10-month chip-level repair course in Kathmandu with a multimeter and a soldering iron."
+description: "My start in IT, before the CCNA and Canadian winters: 10 months in Kathmandu learning chip-level laptop and mobile board repair with a multimeter, a hot-air rework station and a soldering iron."
 tags:
   - hardware
   - nepal
@@ -13,9 +13,7 @@ cover: "/img/soldering.jpg"
 draft: false
 ---
 
-My start in IT wasn't with network simulators or cloud dashboards. Before moving to Canada and passing the [CCNA](/blog/ccna-journey), I spent **8 to 10 months** in Kathmandu learning **chip-level laptop and mobile board repair** with a multimeter, a hot-air rework station, and a soldering iron.
-
-> **The baseline:** **8–10 months** at Kantipur Technical Institute · **Chip-level motherboard diagnostics** · **Live customer devices**, not practice boards
+> **The baseline:** **10 months** at Kantipur Technical Institute · **Chip-level motherboard diagnostics** · **Live customer devices**, not practice boards
 
 ## Prying open my first customer laptop was terrifying
 
@@ -42,4 +40,4 @@ The most useful skill I picked up at that bench had nothing to do with steady ha
 
 When a laptop has no power, you cannot guess which chip is bad by looking at the board. You have to look up the schematic, set your multimeter to DC voltage or continuity mode, and **trace the 19V main power rail step by step** until you find the exact component where the voltage drops to zero.
 
-That exact diagnostic habit still runs underneath everything I do today, whether I am isolating a broken VLAN trunk in my [Proxmox home lab](/docs/labs/my-homelab) or running high-volume hardware triage on the depot floor. You don't fix a broken system by guessing; you trace the signal from the source until you find where it stops.
+I still work the same way. When a VLAN trunk breaks in my [home lab](/projects/network-map/my-homelab.html), I start at the source and check each hop until the traffic stops.

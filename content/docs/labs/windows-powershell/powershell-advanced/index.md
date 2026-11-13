@@ -7,10 +7,6 @@ sidebar:
 ---
 
 
-## Lab objectives
-
-Create an advanced interactive PowerShell administration script. Use functions and switch statements to automate comprehensive Active Directory tasks. Provision and manage users and security groups. Manage group memberships, password resets, and account states.
-
 ## Administration script
 
 1. Execute the `directory_admin_advanced.ps1` script to launch the interactive menu. Ensure you run the script in an elevated session on the Domain Controller.

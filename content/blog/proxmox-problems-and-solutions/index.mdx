@@ -1,7 +1,7 @@
 ---
 title: "Proxmox VE Networking: Sharing a Host Wi-Fi Connection via Linux NAT"
 date: 2026-03-12
-description: "How to provide internet connectivity to a Proxmox VE server over a direct Ethernet link using Linux IP forwarding and iptables NAT masquerading."
+description: "Give a headless Proxmox VE server internet access through a laptop's Wi-Fi over one Ethernet cable, using IP forwarding and iptables NAT."
 tags:
   - Proxmox
   - Linux
@@ -16,7 +16,7 @@ featured: false
 draft: false
 ---
 
-Connecting a headless Proxmox VE server directly to a Linux laptop via Ethernet allows local management when no physical switch port is available. To provide the Proxmox node with internet access through the laptop's Wi-Fi adapter, configure the laptop as a Layer 3 NAT router rather than a Layer 2 bridge.
+Use this when no switch port is free. The laptop acts as a Layer 3 NAT router, not a Layer 2 bridge.
 
 ## Prerequisites
 

@@ -38,6 +38,21 @@ Links shared on social sites open on the shared URL, usually in a phone's in-app
 - Check every change to these pages at phone width.
 - Mock up changes to these pages in the unlinked `/demo-lab` route first. Apply them to the real pages only after the user approves.
 
+# Page intro: the description is the only one
+
+The page layout prints the frontmatter `description` under the title, on every docs page and blog post. The same field also feeds meta tags, share cards, RSS, search and the project cards.
+
+- The description is the page's only intro. Never open the body with a paragraph that restates it.
+- If the body's opening has a fact the description lacks, move that fact into the description. Then delete the repeat.
+- Start the body with something new: the first step, the result, the problem, or the visual.
+- Never put an H1 in the body. The layout already prints the title.
+- Never leave a description empty or vague ("A guide to fix X problem"). Write it to the standard of the page type:
+  - Lab guide: one imperative line. Example: "Configure VLANs on a Cisco 2960 switch and assign access ports to them."
+  - Blog post: the result or the problem.
+  - Project: what it is and who it is for.
+- Lab guides: a "Lab objectives" section only lists steps the description does not cover, as a bullet list. If it would only repeat the description, leave it out.
+- Overview components: `OverviewHero`'s `lead` holds only facts the description does not state. Omit `lead` rather than repeat the description.
+
 # Overview pages: the front door of every section
 
 The main page of a section or project (the page that lists what is inside it) is its front door. Examples: `/docs/projects`, `/docs/labs`, `/docs/ccna-labs`, and a project's own `index.mdx`.
@@ -52,6 +67,13 @@ The main page of a section or project (the page that lists what is inside it) is
   - Build the body as a React component and place it in the `.mdx` file as a single tag. Pattern: `<ProjectGrid />` in `content/docs/projects/index.mdx`, built in `src/components/docs/project-grid.tsx` and registered in `src/components/docs/mdx.tsx`.
   - Keep the `.mdx` file to frontmatter plus that tag. Do not put inline `<style>` blocks or hand-written HTML cards in it.
   - Each item gets a picture, what it does for the reader in one line, and one supporting sentence.
+- When the section or project has more than one page, add a **Long story short** block with `<OverviewStory steps={…} />` from `src/components/docs/overview-parts.tsx`.
+  - It applies to a project or lab series whose pages tell one story (MileWage, Comma, VLAN labs, Windows labs). It does not apply to section roots that list unrelated items (`/docs/projects`, `/docs/labs`, `/docs/ccna-labs`). It also does not apply to a CCNA domain until it has more than one finished lab.
+  - Place it after the hero (picture, actions, note) and before the detail sections.
+  - Write 3 to 5 steps that tell the whole story in order: the problem, what was built, what broke, where it stands now. For a lab series: what each lab achieves, in order.
+  - Keep each step to one or two short sentences. Use only facts the sub-pages state.
+  - Link each step to the sub-page that tells that part in full (`href`), with that page's short name (`page`).
+  - It is one numbered list in a card. Not a paragraph, not a table.
 - A new section or project is not finished until its overview page exists and meets these rules.
 - It is a landing page, so the rules in the section above apply.
 

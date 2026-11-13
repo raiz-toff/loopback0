@@ -1,14 +1,10 @@
 ---
 title: Group Policy Management & GPO Creation
-description: An introduction to Group Policy in Windows Server Active Directory, with step-by-step guides on GPO creation, administrative template configuration, and workstation policy enforcement.
+description: "Create a Group Policy Object that removes power options for users, link it to an OU, and verify it on a client workstation."
 sidebar:
   label: Group Policy Management
   order: 4
 ---
-
-## Lab objectives
-
-Create and enforce a Group Policy Object (GPO). Restrict specific user actions on client computers. Configure user administrative templates to remove system power options. Link the GPO to the `CST170` Organizational Unit. Verify policy enforcement on a client workstation.
 
 ![Lab Cover Image](images/LAB-2-Rajkumar-Neupane.pdf-0-1.png)
 

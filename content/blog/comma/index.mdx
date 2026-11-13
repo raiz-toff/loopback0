@@ -8,7 +8,7 @@ draft: false
 cover: "/blog/covers/comma.png"
 ---
 
-> **Note:** Comma was retired in November 2026 and its repository is archived. [MileWage](/blog/milewage) replaces it. This post is kept as written.
+> **Note:** Comma was retired in November 2026 and its repository is archived. [MileWage](/blog/milewage) replaces it. This post is kept as written, except for two claims corrected in November 2026.
 
 **Comma** is an earnings tracker designed for gig workers who deliver for platforms like DoorDash, Uber Eats, SkipTheDishes, and Instacart. This post outlines its features and technical architecture. For detailed technical documentation, refer to the [documentation site](https://comma-docs.vercel.app/) and the GitHub repositories linked at the end.
 
@@ -61,7 +61,7 @@ Comma includes gamification elements such as weekly goals, streaks, XP levels, a
 
 ## Local-first architecture and privacy
 
-Comma uses a local-first architecture to ensure data privacy. Financial data never leaves the user's device. The application requires no user accounts, emails, or passwords. It does not use a central backend server to collect income history. Users can optionally enable encrypted backups to their personal Google Drive.
+Comma uses a local-first architecture to ensure data privacy. Financial data stays on the device unless the driver turns on encrypted backup to their own Google Drive. The application requires no user accounts, emails, or passwords. It does not use a central backend server to collect income history. Users can optionally enable encrypted backups to their personal Google Drive.
 
 > **Note:** Because Comma operates entirely offline, users are responsible for backing up their data to prevent loss in case of device failure.
 
@@ -72,7 +72,7 @@ The project consists of two separate applications that share a compatible backup
 - **Comma PWA:** A Progressive Web App built with Vanilla JavaScript and IndexedDB. It works offline and runs entirely in the browser.
 - **Comma native:** A native Android application built with Expo and React Native. It includes background GPS tracking to record routes and mileage automatically.
 
-Both applications use identical data models. This ensures backups from one platform can be restored on the other.
+Both applications were meant to share one data model, so a backup from one could be restored on the other. An audit in July 2026 found the two had drifted apart; see [Sync engine](/docs/projects/comma/sync-engine).
 
 ## Project status and availability
 

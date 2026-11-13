@@ -1,15 +1,11 @@
 ---
 title: Centralized Software Deployment
-description: Automating software installation and remote management from a Domain Controller to member servers using PowerShell remoting, administrative shares, and silent installers.
+description: "Deploy software from a domain controller to member workstations with PowerShell remoting, administrative shares and silent installers."
 sidebar:
   label: Centralized Deployment
   order: 5
 ---
 
-
-## Lab objectives
-
-Configure a centralized software deployment system in Active Directory. Deploy applications from the Domain Controller to member workstations. Use PowerShell remoting and silent installers to automate deployment.
 
 ![Network Layout Diagram](images/image1.png)
 

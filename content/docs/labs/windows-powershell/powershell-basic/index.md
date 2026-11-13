@@ -6,10 +6,6 @@ sidebar:
   order: 7
 ---
 
-## Lab objectives
-
-Create an interactive PowerShell administration script. Use functions, loops, and switch statements to automate Active Directory tasks. Provision users, create security groups, and install server roles.
-
 ## Administration script
 
 1. Execute the `directory_admin_basic.ps1` script to launch the interactive menu. Ensure you run the script in an elevated session.

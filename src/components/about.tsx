@@ -15,20 +15,20 @@ export default function About({ className }: { className?: string } = {}) {
       <PanelContent className="space-y-4">
         <ul className="list-disc space-y-3.5 pl-4 sm:pl-5 text-pretty text-base leading-relaxed text-foreground/90 marker:text-muted-foreground/60">
           <li className="pl-1">
-            I’m Rajkumar Neupane — a Network Support Technician in Toronto, CCNA &amp; CCST certified, focused on bulletproof infrastructure reliability and Layer 1–3 troubleshooting.
+            I’m Rajkumar Neupane, a CCNA- and CCST-certified networking graduate in Toronto, looking for a network support or NOC role.
           </li>
           <li className="pl-1">
-            Hardware triage technician at Geek Squad City by day; home-lab builder configuring and breaking routing topologies across Proxmox, EVE-NG, and Cisco CML by night.
+            Product tester at Geek Squad City by day, doing hardware diagnostics and QA. By night, I build and break routing topologies on a MikroTik and Cisco Catalyst home lab with Proxmox, EVE-NG and Cisco CML.
           </li>
           <li className="pl-1">
-            Drilled 300+ hands-on network lab simulations into CLI muscle memory, documented in my labs at{" "}
+            Passed the CCNA on the first attempt after 300+ practice labs in 19 days. The ones I’ve written up are at{" "}
             <Link
               href="/docs"
               className="font-medium underline decoration-border underline-offset-3 transition-colors hover:text-foreground hover:decoration-foreground"
             >
               /docs
             </Link>
-            , grounded in 10 months of chip-level board repair with a <SolderingIronText /> in Kathmandu.
+            . Before networking, I spent 10 months on chip-level board repair with a <SolderingIronText /> in Kathmandu.
           </li>
         </ul>
 
@@ -37,7 +37,7 @@ export default function About({ className }: { className?: string } = {}) {
             href="/about"
             className="link-underline inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
           >
-            Read the full story
+            Read my story
             <span aria-hidden>→</span>
           </Link>
         </div>

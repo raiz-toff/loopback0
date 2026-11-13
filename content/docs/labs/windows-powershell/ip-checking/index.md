@@ -1,15 +1,11 @@
 ---
 title: PowerShell IPv4 Address Validator
-description: A PowerShell utility script designed to parse, validate, and verify the formatting and range bounds of IPv4 addresses.
+description: "A PowerShell script that checks whether a string is a valid IPv4 address: four numeric octets, each between 0 and 255."
 sidebar:
   label: IPv4 Validator Script
   order: 8
 ---
 
-
-## Lab objectives
-
-Create a PowerShell validation script. Verify if an input string is a valid IPv4 address. Ensure the input contains four numeric octets. Verify each octet is between `0` and `255`.
 
 ## Validation script
 

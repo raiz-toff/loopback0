@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import { OverviewFacts, OverviewHeading, OverviewHero, OverviewPages, OverviewPicture, OverviewPoints } from './overview-parts';
+import { OverviewFacts, OverviewHeading, OverviewHero, OverviewPages, OverviewPicture, OverviewPoints, OverviewStory } from './overview-parts';
 import { StarlightLinkButton as LinkButton } from './starlight-compat';
 
 // Overview of /docs/projects/milewage.
@@ -31,6 +31,14 @@ const FACTS = [
   },
 ];
 
+const STORY = [
+  { text: 'Comma kept the data on the phone and synced it through Google Drive. The phone and web apps kept disagreeing.', href: '/docs/projects/comma/sync-engine', page: 'Comma sync' },
+  { text: 'MileWage makes a home server the single source of truth. The phone only records and sends.', href: '/docs/projects/milewage/architecture', page: 'Architecture' },
+  { text: 'The same GPS filter runs in Kotlin on the phone and TypeScript on the server, so both get the same miles.', href: '/docs/projects/milewage/mileage-engine', page: 'Mileage engine' },
+  { text: 'On day seven the Expo app was replaced with native Kotlin, with no Google Play Services.', href: '/docs/projects/milewage/decisions/native-android-app', page: 'Decision' },
+  { text: 'Version 0.3.0 runs in Docker on a tailnet. It has not recorded a real shift on the road yet.', href: '/docs/projects/milewage/install', page: 'Install' },
+];
+
 const PAGES = [
   { title: 'Install on a home server', description: 'Start the Docker stack, publish it on a tailnet and pair the phone.', href: '/docs/projects/milewage/install' },
   { title: 'Architecture', description: 'The server, the web app, the Android app and the engine they share.', href: '/docs/projects/milewage/architecture' },
@@ -50,11 +58,6 @@ export function MileWageOverview() {
             <img className="hidden h-16 w-auto dark:block" src="/img/milewage/lockup-reverse.svg" alt="MileWage" />
           </>
         }
-        lead={
-          <>
-            <strong>MileWage</strong> is a self-hosted mileage and earnings tracker for delivery and ride-hail drivers. A native Android app records the shift. A server on a machine you own stores the miles and the money. The phone reaches the server over Tailscale, and no location history is stored on a third-party service.
-          </>
-        }
         visual={<OverviewPicture src="/blog/covers/milewage.png" alt="A phone sends shift data over a private Tailscale link to a server at home" />}
         actions={
           <>
@@ -69,6 +72,7 @@ export function MileWageOverview() {
           </>
         }
       />
+      <OverviewStory steps={STORY} />
       <div className="not-prose">
         <OverviewHeading>What it does</OverviewHeading>
         <OverviewPoints items={FEATURES} />
