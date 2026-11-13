@@ -147,7 +147,7 @@ export function login(request: Request): NextResponse {
  * `GET /api/comments/oauth/callback` — exchanges the code for a token and stores it.
  *
  * @param request - Incoming request from GitHub's redirect.
- * @returns A redirect back to the page the reader started on; `400` on a bad state, `502` when GitHub fails.
+ * @returns A redirect back to the page the reader started on; `400` on a bad state, `500` when GitHub fails.
  */
 export async function callback(request: Request): Promise<NextResponse> {
   const self = origin(request);
@@ -194,7 +194,8 @@ export async function callback(request: Request): Promise<NextResponse> {
   } catch (error) {
     // GitHub's error code only (e.g. incorrect_client_credentials); never the secret or the code.
     console.error('[comments] GitHub token exchange failed:', error instanceof Error ? error.message : error);
-    return NextResponse.json({ message: 'GitHub sign-in failed' }, { status: 502 });
+    // 500, not 502: Cloudflare replaces origin 502s with its own "Bad gateway" page.
+    return NextResponse.json({ message: 'GitHub sign-in failed' }, { status: 500 });
   }
 
   const response = NextResponse.redirect(returnUrl);
