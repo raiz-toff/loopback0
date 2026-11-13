@@ -3,6 +3,8 @@
 @import "@fumadocs/base-ui/css/generated/spacious.css";
 @import "@fumadocs/base-ui/css/black.css";
 @import "@fumadocs/base-ui/css/preset.css";
+/* fuma-comment widget (blog posts + labs); its colours are mapped to fd tokens at the end of this file */
+@import "@fuma-comment/react/preset.css";
 
 /*
   Design system adapted from chanhdai.com (MIT, © Chánh Đại).
@@ -850,4 +852,24 @@ a.seg-node:hover {
   #resume-paper h2 {
     break-after: avoid;
   }
+}
+
+/* fuma-comment: use the site's zinc tokens instead of the widget's own greys.
+   Unlayered and after the preset's `.dark` block, so these win in both themes. */
+:root,
+.dark {
+  --color-fc-background: var(--color-fd-background);
+  --color-fc-foreground: var(--color-fd-foreground);
+  --color-fc-muted: var(--color-fd-muted);
+  --color-fc-muted-foreground: var(--color-fd-muted-foreground);
+  --color-fc-popover: var(--color-fd-popover);
+  --color-fc-popover-foreground: var(--color-fd-popover-foreground);
+  --color-fc-card: var(--color-fd-card);
+  --color-fc-card-foreground: var(--color-fd-card-foreground);
+  --color-fc-border: var(--color-fd-border);
+  --color-fc-primary: var(--color-fd-primary);
+  --color-fc-primary-foreground: var(--color-fd-primary-foreground);
+  --color-fc-accent: var(--color-fd-accent);
+  --color-fc-accent-foreground: var(--color-fd-accent-foreground);
+  --color-fc-ring: var(--color-fd-ring);
 }

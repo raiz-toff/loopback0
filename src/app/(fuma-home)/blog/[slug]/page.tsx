@@ -7,6 +7,7 @@ import { getMDXComponents } from '@/components/docs/mdx';
 import { Lightbox } from '@fumadocs/base-ui/components/image-zoom';
 import { author, githubFileUrl, githubIssueUrl, siteUrl } from '@/lib/shared';
 import SiteFooter from '@/components/site-footer';
+import { PageComments } from '@/components/comments/page-comments';
 import {
   BlogBackLink,
   BlogBody,
@@ -125,6 +126,8 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
             Report an issue
           </a>
         </p>
+
+        <PageComments page={page.url} className="w-full border-t border-fd-border pt-8" />
 
         <BlogPostNav newer={newer} older={older} />
       </BlogPage>

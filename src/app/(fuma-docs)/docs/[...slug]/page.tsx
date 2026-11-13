@@ -18,6 +18,7 @@ import { githubFileUrl, githubIssueUrl } from '@/lib/shared';
 import { Topology } from '@/components/docs/topology';
 import { CautionFrame } from '@/components/docs/hazard';
 import { Lightbox } from '@fumadocs/base-ui/components/image-zoom';
+import { PageComments } from '@/components/comments/page-comments';
 export default async function Page(props: PageProps<'/docs/[...slug]'>) {
   const params = await props.params;
   const page = source.getPage(params.slug);
@@ -101,6 +102,7 @@ export default async function Page(props: PageProps<'/docs/[...slug]'>) {
           Report an issue
         </a>
       </div>
+      {isLab ? <PageComments page={page.url} className="mt-10" /> : null}
     </DocsPage>
   );
 }

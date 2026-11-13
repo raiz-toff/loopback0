@@ -18,6 +18,9 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
+    "@fuma-comment/github-discussions": "^1.6.0",
+    "@fuma-comment/react": "^1.6.0",
+    "@fuma-comment/server": "^1.6.0",
     "@fumadocs/base-ui": "^16.18.3",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.1.0",
