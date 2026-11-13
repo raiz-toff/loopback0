@@ -5,7 +5,8 @@ import { blog, postDate, readingMinutes } from '@/lib/blog';
 import { findPost, getPosts } from '@/lib/blog-posts';
 import { getMDXComponents } from '@/components/docs/mdx';
 import { Lightbox } from '@fumadocs/base-ui/components/image-zoom';
-import { author, githubFileUrl, githubIssueUrl, siteUrl } from '@/lib/shared';
+import { author, siteUrl } from '@/lib/shared';
+import { WEBSITE_ID, jsonLd as toJsonLd, personRef } from '@/lib/person-schema';
 import SiteFooter from '@/components/site-footer';
 import { PageComments } from '@/components/comments/page-comments';
 import {
@@ -44,8 +45,13 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
     url: new URL(page.url, siteUrl).toString(),
     image: new URL(post.image ?? `/og/blog/${slug}`, siteUrl).toString(),
     datePublished: date?.toISOString(),
+    // last git commit to the post (fumadocs lastModified plugin), never earlier than publishing
+    dateModified: (page.data.lastModified && date && page.data.lastModified > date ? page.data.lastModified : date)?.toISOString(),
     keywords: post.tags.length > 0 ? post.tags.map((t) => t.name).join(', ') : undefined,
-    author: { '@type': 'Person', name: author.name, url: author.url },
+    author: personRef,
+    publisher: personRef,
+    mainEntityOfPage: new URL(page.url, siteUrl).toString(),
+    isPartOf: { '@id': WEBSITE_ID },
   };
 
   return (
@@ -53,7 +59,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
       <BlogPage toc={page.data.toc}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+          dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
         />
         <BlogHeader className="gap-2 overflow-hidden px-4 pt-0 pb-4">
           <BrandStripe className="-mx-4 mb-2 w-[calc(100%+2rem)]" />
@@ -118,18 +124,9 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
           <BlogTags tags={post.tags} className="ms-auto" />
         </div>
 
-        <p className="flex flex-wrap gap-x-5 gap-y-2 pt-2 font-mono text-[11.5px] uppercase tracking-[0.14em] text-fd-muted-foreground">
-          <a href={githubFileUrl(`content/blog/${page.path}`, 'edit')} target="_blank" rel="noreferrer noopener" className="transition-colors hover:text-fd-foreground">
-            Edit on GitHub
-          </a>
-          <a href={githubIssueUrl(page.data.title, page.url)} target="_blank" rel="noreferrer noopener" className="transition-colors hover:text-fd-foreground">
-            Report an issue
-          </a>
-        </p>
-
-        <PageComments page={page.url} className="w-full border-t border-fd-border pt-8" />
-
         <BlogPostNav newer={newer} older={older} />
+
+        <PageComments page={page.url} className="w-full border-t border-fd-border pt-6" />
       </BlogPage>
       <SiteFooter />
     </>

@@ -14,7 +14,8 @@ import { getMDXComponents } from '@/components/docs/mdx';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { createRelativeLink } from '@fumadocs/base-ui/mdx';
-import { githubFileUrl, githubIssueUrl } from '@/lib/shared';
+import { githubFileUrl, githubIssueUrl, siteUrl } from '@/lib/shared';
+import { WEBSITE_ID, jsonLd, personRef } from '@/lib/person-schema';
 import { Topology } from '@/components/docs/topology';
 import { CautionFrame } from '@/components/docs/hazard';
 import { Lightbox } from '@fumadocs/base-ui/components/image-zoom';
@@ -36,8 +37,42 @@ export default async function Page(props: PageProps<'/docs/[...slug]'>) {
     ? new Date(page.data.date).toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
     : null;
 
+  // TechArticle + BreadcrumbList, authored by the site's one Person (lib/person-schema.ts).
+  const abs = (path: string) => new URL(path, siteUrl).toString();
+  const published = page.data.date ? new Date(page.data.date) : undefined;
+  const modified = page.data.lastModified ?? published;
+  const trail = params.slug
+    .map((_, i) => source.getPage(params.slug.slice(0, i + 1)))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const docJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'TechArticle',
+        headline: page.data.title,
+        description: page.data.description ?? undefined,
+        url: abs(page.url),
+        mainEntityOfPage: abs(page.url),
+        image: abs(getPageImage(page).url),
+        datePublished: published?.toISOString(),
+        dateModified: modified?.toISOString(),
+        keywords: tags.length > 0 ? tags.join(', ') : undefined,
+        author: personRef,
+        publisher: personRef,
+        isPartOf: { '@id': WEBSITE_ID },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [{ name: 'Docs', url: '/docs' }, ...trail.map((p) => ({ name: p.data.title, url: p.url }))].map(
+          (crumb, i) => ({ '@type': 'ListItem', position: i + 1, name: crumb.name, item: abs(crumb.url) }),
+        ),
+      },
+    ],
+  };
+
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(docJsonLd) }} />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
       {isLab && (built || tags.length > 0) ? (

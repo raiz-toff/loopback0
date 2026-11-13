@@ -7,16 +7,37 @@ import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import { PublishBottomNav } from "@/components/bottom-nav/context";
 import { ProtectedEmail } from "@/components/protected-contact";
+import { WEBSITE_ID, jsonLd, personNode } from "@/lib/person-schema";
+import { siteOpenGraph } from "@/lib/site-metadata";
+import { siteUrl } from "@/lib/shared";
 
+const description =
+  "From a chip-level repair bench in Kathmandu to a home lab in Toronto — the whole story, chapter by chapter.";
+
+// The layout's title template adds " · Rajkumar Neupane"; don't repeat the name here.
 export const metadata: Metadata = {
-  title: "The Story — Rajkumar Neupane",
-  description:
-    "From a chip-level repair bench in Kathmandu to a home lab in Toronto — the whole story, chapter by chapter.",
+  title: "My Story",
+  description,
+  alternates: { canonical: "/about" },
+  openGraph: { ...siteOpenGraph, title: "My Story · Rajkumar Neupane", description, url: "/about" },
+};
+
+// ProfilePage: this page is about the site's one Person entity (lib/person-schema.ts).
+const profileJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": new URL("/about#profile", siteUrl).toString(),
+  url: new URL("/about", siteUrl).toString(),
+  name: "My Story · Rajkumar Neupane",
+  description,
+  isPartOf: { "@id": WEBSITE_ID },
+  mainEntity: personNode,
 };
 
 export default function StoryPage() {
   return (
     <div className="relative isolate flex-1">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(profileJsonLd) }} />
       <SiteHeader />
       <PublishBottomNav
         sections={{
@@ -40,7 +61,7 @@ export default function StoryPage() {
 
               <div>
                 <h1 className="text-3xl font-medium tracking-tight text-balance">
-                  The Story
+                  My Story
                 </h1>
               </div>
             </PanelContent>

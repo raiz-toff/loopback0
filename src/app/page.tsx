@@ -14,24 +14,23 @@ import SocialLinks from "@/components/social-links";
 import TechStack from "@/components/tech-stack";
 import { PublishBottomNav } from "@/components/bottom-nav/context";
 import { HOME_SECTIONS } from "@/components/bottom-nav/home-sections";
-import { identity, links } from "@/data/profile";
-import { author, siteDescription, siteUrl } from "@/lib/shared";
+import type { Metadata } from "next";
+import { personNode, websiteNode, jsonLd } from "@/lib/person-schema";
+import { siteOpenGraph } from "@/lib/site-metadata";
 import { ConductorStripe } from "@/components/conductor-stripe";
 
-// Person schema for the front page: name, role, location and the profiles
-// that corroborate it. Blog posts carry their own Article JSON-LD.
-const personJsonLd = {
+// Person + WebSite for the front page, from the shared entity in
+// lib/person-schema.ts (no jobTitle there, on purpose: see that file).
+const homeJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: identity.name,
-  url: siteUrl.toString(),
-  image: new URL("/img/portrait.jpg", siteUrl).toString(),
-  jobTitle: identity.role,
-  description: siteDescription,
-  address: { "@type": "PostalAddress", addressLocality: "Toronto", addressRegion: "ON", addressCountry: "CA" },
-  alumniOf: { "@type": "CollegeOrUniversity", name: "Canadore College" },
-  knowsAbout: ["Cisco IOS", "Routing and switching", "Network troubleshooting", "Proxmox VE", "Windows Server"],
-  sameAs: [links.github, author.linkedin, links.credly],
+  "@graph": [personNode, websiteNode],
+};
+
+// The home page's own canonical and og:url. A page's openGraph replaces the
+// layout's, so it spreads the shared defaults and adds the url.
+export const metadata: Metadata = {
+  alternates: { canonical: "/", types: { "application/rss+xml": "/rss.xml" } },
+  openGraph: { ...siteOpenGraph, url: "/" },
 };
 
 export default function Home() {
@@ -39,7 +38,7 @@ export default function Home() {
     <div id="top" className="relative isolate flex-1">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(homeJsonLd) }}
       />
       <SiteHeader />
       <SectionNav />

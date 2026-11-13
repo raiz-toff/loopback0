@@ -15,8 +15,8 @@ export const siteUrl = new URL(
 
 // One sentence used by <meta name="description">, Open Graph and the Person JSON-LD.
 export const siteDescription =
-  'Network Support Technician in Toronto. CCNA & CCST certified. ' +
-  'Built from the board up — labs every day in Proxmox, EVE-NG, and Cisco CML.';
+  'CCNA- and CCST-certified networking graduate in Toronto, looking for a network support or NOC role. ' +
+  'Home lab on MikroTik, Cisco Catalyst, Proxmox, EVE-NG and Cisco CML.';
 
 export const author = {
   name: 'Rajkumar Neupane',

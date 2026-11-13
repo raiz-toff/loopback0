@@ -3,7 +3,8 @@
 
 export const identity = {
   name: "Rajkumar Neupane",
-  role: "Network Support Technician",
+  // A headline (target role plus the credential behind it), not a job title held.
+  role: "CCNA · Network Support & NOC",
   location: "Toronto, Canada",
   origin: "Kathmandu, Nepal",
   timeZone: "America/Toronto",
@@ -184,7 +185,7 @@ export const experience: ExperienceCompany[] = [
             name: "Marrow",
             href: "/docs/projects/marrow",
             blurb: "Compiles a YAML description into an interactive network diagram.",
-            image: "/blog/covers/marrow.png",
+            image: "/blog/covers/marrow-bottle.png",
           },
         ],
         skills: [

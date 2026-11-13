@@ -4,6 +4,7 @@ import { Provider } from "@/components/docs/provider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { author, siteUrl, siteDescription } from "@/lib/shared";
+import { siteOpenGraph, siteTitle } from "@/lib/site-metadata";
 import SiteBottomNav from "@/components/site-bottom-nav";
 import { BottomNavProvider } from "@/components/bottom-nav/context";
 import { getNavGroups } from "@/lib/nav-data";
@@ -34,29 +35,16 @@ const description = siteDescription;
 export const metadata: Metadata = {
   metadataBase: siteUrl,
   title: {
-    default: "Rajkumar Neupane — Network Support Technician",
+    default: siteTitle,
     template: "%s · Rajkumar Neupane",
   },
   description,
   authors: [{ name: author.name, url: author.url }],
   creator: author.name,
-  openGraph: {
-    type: "website",
-    siteName: "Rajkumar Neupane",
-    title: "Rajkumar Neupane — Network Support Technician",
-    description,
-    images: [
-      {
-        url: "/social.png",
-        width: 2848,
-        height: 1504,
-        alt: "RN monogram built from the 8 twisted-pair conductors in T568B order — Rajkumar Neupane, Network Support Technician",
-      },
-    ],
-  },
+  openGraph: siteOpenGraph,
   twitter: {
     card: "summary_large_image",
-    title: "Rajkumar Neupane — Network Support Technician",
+    title: siteTitle,
     description,
     images: "/social.png",
   },

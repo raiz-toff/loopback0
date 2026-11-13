@@ -96,6 +96,9 @@ const G = {
   O: ["01110","10001","10001","10001","10001","10001","01110"],
   G: ["01110","10001","10000","10111","10001","10001","01110"],
   I: ["11111","00100","00100","00100","00100","00100","11111"],
+  C: ["01110","10001","10000","10000","10000","10001","01110"],
+  S: ["01111","10000","10000","01110","00001","00001","11110"],
+  "·": ["00000","00000","00000","00100","00000","00000","00000"],
   " ": ["00000","00000","00000","00000","00000","00000","00000"],
 };
 function pixelText(text, x, y, cell, fill) {
@@ -118,7 +121,8 @@ const social =
   pixelText("RAJKUMAR", 648, 228, 14, C.ink) +
   pixelText("NEUPANE", 648, 352, 14, C.ink) +
   `<rect x="648" y="482" width="560" height="2" fill="#18181b" opacity="0.18"/>` +
-  pixelText("NETWORK ENGINEER", 648, 508, 6, "#77705f") +
+  // The role he is aiming for, led by the credential that backs it: a headline, not a job title held.
+  pixelText("CCNA · NETWORK SUPPORT", 648, 510, 5, "#77705f") +
   // bottom edge: the cable cross-section — 8 conductors in T568B pin
   // order; striped pins rendered as cream-over-color split pairs.
   [C.orange, C.orange, C.green, C.blue, C.blue, C.green, C.brown, C.brown]

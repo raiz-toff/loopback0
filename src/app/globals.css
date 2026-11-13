@@ -873,3 +873,11 @@ a.seg-node:hover {
   --color-fc-accent-foreground: var(--color-fd-accent-foreground);
   --color-fc-ring: var(--color-fd-ring);
 }
+
+/* Compact comments: the formatting buttons (bold … emoji) stay hidden until the
+   reader uses the editor: focused, has text, or a link/emoji popup is open.
+   The Sign In / send button lives in the same row and always stays. */
+.rn-comments form:not(:focus-within):not(:has([aria-expanded="true"])):has(.is-editor-empty)
+  :is(button[aria-label^="Toggle"], button[aria-label="Add emoji"], .w-px) {
+  display: none;
+}

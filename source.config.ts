@@ -1,4 +1,5 @@
 import { defineConfig, defineDocs } from 'fumadocs-mdx/config';
+import lastModified from 'fumadocs-mdx/plugins/last-modified';
 import { rehypeCodeDefaultOptions } from 'fumadocs-core/mdx-plugins';
 import type { ShikiTransformer } from 'shiki';
 import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
@@ -224,6 +225,9 @@ const transformerLang: ShikiTransformer = {
 };
 
 export default defineConfig({
+  // page.data.lastModified from git (sitemap lastmod, dateModified in JSON-LD).
+  // Vercel needs VERCEL_DEEP_CLONE=true, or a shallow clone dates every file wrong.
+  plugins: [lastModified()],
   mdxOptions: {
     remarkPlugins: [remarkMermaid, remarkFixJsxHtml, remarkStyleStringToObject],
     rehypeCodeOptions: {

@@ -13,9 +13,6 @@ export function PageComments({ page, className }: { page: string; className?: st
 
   return (
     <section id="comments" aria-labelledby="comments-heading" className={className}>
-      <h2 id="comments-heading" className="mb-4 text-lg font-semibold tracking-tight">
-        Comments
-      </h2>
       <CommentsClient page={toPageKey(page)} discussionsUrl={`${githubRepoUrl}/discussions/categories/comments`} />
     </section>
   );
