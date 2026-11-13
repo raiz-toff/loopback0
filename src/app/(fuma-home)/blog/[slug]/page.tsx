@@ -9,6 +9,9 @@ import { author, siteUrl } from '@/lib/shared';
 import { WEBSITE_ID, jsonLd as toJsonLd, personRef } from '@/lib/person-schema';
 import SiteFooter from '@/components/site-footer';
 import { PageComments } from '@/components/comments/page-comments';
+import { RelatedPages } from '@/components/related-pages';
+import { isRealUpdate, relatedPages } from '@/lib/related';
+import { HISTORY_START, relatedCandidates } from '@/lib/related-data';
 import {
   BlogBackLink,
   BlogBody,
@@ -36,6 +39,10 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   const MDX = page.data.body;
   const text = await page.data.getText('processed');
   const date = postDate(page.data.date);
+  // "Updated" only for a real edit (see isRealUpdate); git dates come from the lastModified plugin
+  const showUpdated = isRealUpdate(date ?? undefined, page.data.lastModified, HISTORY_START);
+  const candidates = relatedCandidates();
+  const related = relatedPages(candidates.find((c) => c.url === page.url)!, candidates);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -67,8 +74,16 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
             <BlogBackLink href="/blog" className="font-mono text-[11px] uppercase tracking-[0.14em]">
               blog
             </BlogBackLink>
-            <span className="flex items-center gap-2">
+            <span className="flex flex-wrap items-center justify-end gap-x-2 gap-y-1">
               {post.date && <BlogDate date={post.date} />}
+              {showUpdated && page.data.lastModified ? (
+                <>
+                  <span aria-hidden className="text-fd-muted-foreground/40">·</span>
+                  <span className="text-fd-foreground">
+                    Updated <BlogDate date={page.data.lastModified} />
+                  </span>
+                </>
+              ) : null}
               <span aria-hidden className="text-fd-muted-foreground/40">·</span>
               <span>{readingMinutes(text)} min read</span>
             </span>
@@ -123,6 +138,8 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
           ))}
           <BlogTags tags={post.tags} className="ms-auto" />
         </div>
+
+        <RelatedPages items={related} className="w-full" />
 
         <BlogPostNav newer={newer} older={older} />
 

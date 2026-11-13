@@ -20,6 +20,9 @@ import { Topology } from '@/components/docs/topology';
 import { CautionFrame } from '@/components/docs/hazard';
 import { Lightbox } from '@fumadocs/base-ui/components/image-zoom';
 import { PageComments } from '@/components/comments/page-comments';
+import { RelatedPages } from '@/components/related-pages';
+import { isRealUpdate, relatedPages } from '@/lib/related';
+import { HISTORY_START, relatedCandidates } from '@/lib/related-data';
 export default async function Page(props: PageProps<'/docs/[...slug]'>) {
   const params = await props.params;
   const page = source.getPage(params.slug);
@@ -36,6 +39,15 @@ export default async function Page(props: PageProps<'/docs/[...slug]'>) {
   const built = page.data.date
     ? new Date(page.data.date).toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
     : null;
+
+  // "Updated" only for a real edit after the public history began (lib/related.ts).
+  const updated =
+    isLab && isRealUpdate(page.data.date ? new Date(page.data.date) : undefined, page.data.lastModified, HISTORY_START) && page.data.lastModified
+      ? page.data.lastModified.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
+      : null;
+  const candidates = isLab ? relatedCandidates() : [];
+  const self = candidates.find((c) => c.url === page.url);
+  const related = self ? relatedPages(self, candidates) : [];
 
   // TechArticle + BreadcrumbList, authored by the site's one Person (lib/person-schema.ts).
   const abs = (path: string) => new URL(path, siteUrl).toString();
@@ -75,10 +87,11 @@ export default async function Page(props: PageProps<'/docs/[...slug]'>) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(docJsonLd) }} />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
-      {isLab && (built || tags.length > 0) ? (
+      {isLab && (built || updated || tags.length > 0) ? (
         // facts line: when the lab was built and what it touches
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs text-fd-muted-foreground">
           {built ? <span>Built {built}</span> : null}
+          {updated ? <span className="text-fd-foreground">· Updated {updated}</span> : null}
           {tags.map((tag) => (
             <span key={tag} className="rounded-md border border-fd-border bg-fd-card px-2 py-0.5 font-mono text-[11px]">
               {tag}
@@ -137,6 +150,7 @@ export default async function Page(props: PageProps<'/docs/[...slug]'>) {
           Report an issue
         </a>
       </div>
+      {isLab ? <RelatedPages items={related} className="mt-10" /> : null}
       {isLab ? <PageComments page={page.url} className="mt-10" /> : null}
     </DocsPage>
   );
